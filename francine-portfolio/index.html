@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Francine Omadlao | Portfolio</title>
     
+    <!-- Website Tab Icon (Favicon) -->
+    <link rel="icon" type="image/png" href="francine%20portfoliio.png">
+    
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -127,8 +130,8 @@
         <nav class="fixed top-6 left-1/2 -translate-x-1/2 z-50 glass-nav dark:bg-[#1e1e1e]/80 dark:border-white/10 rounded-2xl px-6 py-3 flex items-center gap-8 shadow-sm transition-colors">
             <!-- Click this FO block 5 times to trigger admin -->
             <div id="admin-trigger" class="font-bold text-xl tracking-tighter bg-black text-brand-yellow px-2 py-1 rounded cursor-pointer hover:scale-105 transition-transform flex items-center justify-center overflow-hidden w-10 h-10">
-                <span id="nav-logo-default">FO</span>
-                <img id="nav-logo-img" src="" class="hidden w-full h-full object-cover">
+                <span id="nav-logo-default" class="hidden">FO</span>
+                <img id="nav-logo-img" src="francine%20portfoliio.png" class="w-full h-full object-cover">
             </div>
             
             <div class="hidden md:flex gap-6 text-sm font-oswald font-bold uppercase tracking-wide">
@@ -137,7 +140,7 @@
                 <a href="#about" class="hover:text-brand-accent transition-colors">About</a>
             </div>
             
-            <button id="theme-toggle" class="hover:text-brand-accent transition-colors">
+            <button id="theme-toggle" onclick="toggleTheme()" class="hover:text-brand-accent transition-colors">
                 <i data-feather="moon" class="w-5 h-5 dark:hidden block"></i>
                 <i data-feather="sun" class="w-5 h-5 hidden dark:block"></i>
             </button>
@@ -347,7 +350,7 @@
                 <div class="flex flex-col md:items-end justify-center gap-6">
                     <div class="text-left md:text-right mt-8 md:mt-0">
                         <h4 class="font-oswald font-black tracking-widest uppercase mb-4 text-sm text-black/50 dark:text-white/50">Say Hello</h4>
-                        <a href="mailto:design.francineomadlao@gmail.com" class="font-instrument italic text-4xl md:text-[3rem] text-[#1a1a1a] dark:text-[#f4f3ec] hover:text-brand-accent dark:hover:text-brand-accent transition-colors block leading-none">
+                        <a id="footer-email-text" href="mailto:design.francineomadlao@gmail.com" class="font-instrument italic text-4xl md:text-[3rem] text-[#1a1a1a] dark:text-[#f4f3ec] hover:text-brand-accent dark:hover:text-brand-accent transition-colors block leading-none">
                             design.francineomadlao@gmail.com
                         </a>
                     </div>
@@ -375,7 +378,7 @@
         
         <!-- Sticky Navigation: Home & Mode Toggle -->
         <div class="fixed top-6 right-6 z-[200] flex items-center gap-6 mix-blend-difference">
-            <button id="pd-theme-toggle" class="text-white hover:opacity-70 transition-opacity" title="Toggle Dark/Light Mode">
+            <button id="pd-theme-toggle" onclick="toggleTheme()" class="text-white hover:opacity-70 transition-opacity" title="Toggle Dark/Light Mode">
                 <i data-feather="moon" class="w-5 h-5 dark:hidden block"></i>
                 <i data-feather="sun" class="w-5 h-5 hidden dark:block"></i>
             </button>
@@ -445,6 +448,7 @@
                         <optgroup label="Global Texts">
                             <option value="hero">Hero Section Texts</option>
                             <option value="about-texts">About Section Texts</option>
+                            <option value="footer-email">Footer Contact Email</option>
                         </optgroup>
                         <optgroup label="Global Media">
                             <option value="about">About Section Photo</option>
