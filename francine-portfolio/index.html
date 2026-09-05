@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Francine Omadlao | Portfolio</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Oswald:wght@300;400;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Feather Icons for fallback/reliable rendering -->
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'oswald': ['Oswald', 'sans-serif'],
+                        'vinasans': ['Oswald', 'sans-serif'],
+                        'instrument': ['"Instrument Serif"', 'serif'],
+                    },
+                    colors: {
+                        brand: {
+                            accent: '#ff6b4a', 
+                            yellow: '#ffde59'
+                        }
+                    },
+                    animation: {
+                        'marquee-bg': 'marquee-bg 30s linear infinite',
+                        'marquee-fast': 'marquee-fast 15s linear infinite',
+                    },
+                    keyframes: {
+                        'marquee-bg': {
+                            '0%': { transform: 'translateX(0)' },
+                            '100%': { transform: 'translateX(-33.33%)' },
+                        },
+                        'marquee-fast': {
+                            '0%': { transform: 'translateX(0)' },
+                            '100%': { transform: 'translateX(-50%)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #f5f5f0;
+            overflow-x: hidden;
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+
+        /* Hide scrollbar for sliders but keep functionality */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Navbar Glass Effect */
+        .glass-nav {
+            background: rgba(245, 245, 240, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* 3D Card Hover Base */
+        .work-card {
+            transition: transform 0.2s ease-out, filter 0.4s ease;
+            transform-style: preserve-3d;
+            will-change: transform;
+        }
+
+        /* Active/Inactive states applied dynamically via JS */
+        .work-card[data-state="active"] { filter: grayscale(0%); }
+        .work-card[data-state="inactive"] { filter: grayscale(100%) opacity(0.8); }
+
+        /* Scroll Reveal Animations */
+        .zoom-reveal {
+            opacity: 0;
+            transform: scale(0.85) translateY(60px); 
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), 
+                        transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform, opacity;
+        }
+        .zoom-reveal.in-view { opacity: 1; transform: scale(1) translateY(0); }
+
+        .reveal-up {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .reveal-up.in-view { opacity: 1; transform: translateY(0); }
+
+        /* Admin Modal Shake Animation */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+        }
+        .animate-shake { animation: shake 0.4s ease-in-out; }
+
+        /* View Transition Animation */
+        .fade-in-view { animation: fadeIn 0.5s ease-out forwards; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="relative min-h-screen text-[#1a1a1a] dark:bg-[#121212] dark:text-[#f4f3ec] transition-colors duration-300">
+
+    <!-- ========================================== -->
+    <!-- MAIN PORTFOLIO VIEW -->
+    <!-- ========================================== -->
+    <div id="main-portfolio-view">
+        
+        <!-- Navigation -->
+        <nav class="fixed top-6 left-1/2 -translate-x-1/2 z-50 glass-nav dark:bg-[#1e1e1e]/80 dark:border-white/10 rounded-2xl px-6 py-3 flex items-center gap-8 shadow-sm transition-colors">
+            <!-- Click this FO block 5 times to trigger admin -->
+            <div id="admin-trigger" class="font-bold text-xl tracking-tighter bg-black text-brand-yellow px-2 py-1 rounded cursor-pointer hover:scale-105 transition-transform flex items-center justify-center overflow-hidden w-10 h-10">
+                <span id="nav-logo-default">FO</span>
+                <img id="nav-logo-img" src="" class="hidden w-full h-full object-cover">
+            </div>
+            
+            <div class="hidden md:flex gap-6 text-sm font-oswald font-bold uppercase tracking-wide">
+                <a href="#services" class="hover:text-brand-accent transition-colors">Services</a>
+                <a href="#work" class="hover:text-brand-accent transition-colors">Work</a>
+                <a href="#about" class="hover:text-brand-accent transition-colors">About</a>
+            </div>
+            
+            <button id="theme-toggle" class="hover:text-brand-accent transition-colors">
+                <i data-feather="moon" class="w-5 h-5 dark:hidden block"></i>
+                <i data-feather="sun" class="w-5 h-5 hidden dark:block"></i>
+            </button>
+            
+            <a href="#contact" class="bg-brand-accent text-white px-6 py-2 rounded-xl font-oswald font-bold uppercase text-sm tracking-wide hover:bg-[#ff5733] transition-colors">
+                Contact
+            </a>
+        </nav>
+
+        <!-- Hero Section -->
+        <section class="relative pt-40 pb-20 overflow-hidden">
+            <div class="max-w-7xl mx-auto px-6 relative z-10">
+                <div class="relative w-full flex items-center justify-center h-[350px]">
+                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200vw] flex z-0 pointer-events-none">
+                        <div class="animate-marquee-bg flex whitespace-nowrap">
+                            <span id="edit-hero-name-1" class="font-oswald font-black text-[5rem] md:text-[8rem] lg:text-[10rem] leading-none text-[#2a2a2a] dark:text-[#e0e0e0] px-10 tracking-wide uppercase">OMADLAO FRANCINE</span>
+                            <span id="edit-hero-name-2" class="font-oswald font-black text-[5rem] md:text-[8rem] lg:text-[10rem] leading-none text-[#2a2a2a] dark:text-[#e0e0e0] px-10 tracking-wide uppercase">OMADLAO FRANCINE</span>
+                            <span id="edit-hero-name-3" class="font-oswald font-black text-[5rem] md:text-[8rem] lg:text-[10rem] leading-none text-[#2a2a2a] dark:text-[#e0e0e0] px-10 tracking-wide uppercase">OMADLAO FRANCINE</span>
+                        </div>
+                    </div>
+
+                    <div class="relative z-10 flex flex-col items-center justify-center w-[200px] h-[200px] md:w-[260px] md:h-[260px] reveal-up" id="parallax-group">
+                        <div class="hero-glow absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280%] h-[280%] bg-[radial-gradient(circle,rgba(255,107,74,0.8)_0%,rgba(255,107,74,0.3)_40%,rgba(255,107,74,0)_75%)] rounded-[32px] z-0 pointer-events-none transition-transform duration-[50ms] ease-out mix-blend-multiply dark:mix-blend-screen filter blur-md"></div>
+                        <img id="hero-profile-img" src="https://images.unsplash.com/photo-1616781296181-4357df843702?q=80&w=600&auto=format&fit=crop" 
+                             alt="Francine Omadlao" 
+                             class="hero-img absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full object-cover rounded-full md:rounded-[32px] shadow-[0_15px_40px_rgba(0,0,0,0.4)] z-20 transition-transform duration-[50ms] ease-out filter sepia-[0.1] contrast-[1.15]">
+                    </div>
+                </div>
+                
+                <div class="relative z-20 mt-12 md:mt-16 text-center reveal-up" style="transition-delay: 200ms;">
+                    <h2 id="edit-hero-subtitle" class="font-oswald font-black text-[1.75rem] md:text-[3rem] tracking-widest text-[#2a2a2a] dark:text-[#e0e0e0] leading-[0.9] uppercase">
+                        VIDEO EDITOR &<br>LAYOUT DESIGNER
+                    </h2>
+                </div>
+            </div>
+        </section>
+
+        <!-- First Scrolling Banner -->
+        <div class="w-full bg-[#1a1a1a] text-white dark:bg-white dark:text-[#1a1a1a] py-5 overflow-hidden relative z-20 transition-colors">
+            <div class="w-[200vw] flex whitespace-nowrap">
+                <div class="animate-marquee-fast flex items-center gap-16 text-3xl md:text-4xl lg:text-[2.75rem] transition-colors duration-500">
+                    <div class="flex items-center space-x-3">
+                        <span class="font-oswald font-bold tracking-tight">Things</span>
+                        <span class="font-instrument italic font-light tracking-wide">I've Designed.</span>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <span class="font-oswald font-bold tracking-tight">What I can</span>
+                        <span class="font-instrument italic font-light lowercase tracking-wide">help</span>
+                        <span class="font-oswald font-bold tracking-tight">with.</span>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <span class="font-oswald font-bold tracking-tight">Things</span>
+                        <span class="font-instrument italic font-light tracking-wide">I've Designed.</span>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <span class="font-oswald font-bold tracking-tight">What I can</span>
+                        <span class="font-instrument italic font-light lowercase tracking-wide">help</span>
+                        <span class="font-oswald font-bold tracking-tight">with.</span>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <span class="font-oswald font-bold tracking-tight">Things</span>
+                        <span class="font-instrument italic font-light tracking-wide">I've Designed.</span>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <span class="font-oswald font-bold tracking-tight">What I can</span>
+                        <span class="font-instrument italic font-light lowercase tracking-wide">help</span>
+                        <span class="font-oswald font-bold tracking-tight">with.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Services/Work Grid Section -->
+        <section id="work" class="w-full max-w-7xl mx-auto px-6 py-24">
+            <div class="work-section grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 relative" id="work-container">
+                
+                <!-- Card 1 (Click opens project details) -->
+                <div class="flex flex-col h-full group zoom-reveal" onclick="openProject(1)">
+                    <div class="work-card relative rounded-[40px] overflow-hidden flex flex-col items-center justify-center text-center h-[500px] mb-6 shadow-xl cursor-pointer bg-brand-yellow filter grayscale transition-all duration-500 ease-out" data-state="inactive">
+                        <img id="edit-img-1" src="image_1ce1f4.png" class="w-full h-full object-cover">
+                    </div>
+                    <div class="text-center w-full mt-auto">
+                        <h4 class="font-oswald text-[26px] font-black uppercase mb-1 tracking-wider text-[#1a1a1a] dark:text-white"><span id="edit-title-1">Layout Designs</span> <span class="text-brand-accent ml-1 text-xl align-middle">■</span></h4>
+                        <p id="edit-desc-1" class="font-instrument text-[22px] text-gray-500 dark:text-gray-400">Publication Design, T-Shirt, Logo & Web Page Designs</p>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="flex flex-col h-full group zoom-reveal" style="transition-delay: 150ms;" onclick="openProject(2)">
+                    <div class="work-card relative rounded-[40px] overflow-hidden flex flex-col items-center justify-center text-center h-[500px] mb-6 shadow-xl cursor-pointer bg-brand-yellow filter grayscale transition-all duration-500 ease-out" data-state="inactive">
+                        <img id="edit-img-2" src="image_1ce1f1.jpg" class="w-full h-full object-cover">
+                    </div>
+                    <div class="text-center w-full mt-auto">
+                        <h4 class="font-oswald text-[26px] font-black uppercase mb-1 tracking-wider text-[#1a1a1a] dark:text-white"><span id="edit-title-2">Video Edits</span> <span class="text-brand-accent ml-1 text-xl align-middle">■</span></h4>
+                        <p id="edit-desc-2" class="font-instrument text-[22px] text-gray-500 dark:text-gray-400">School Publication and Commissions</p>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="flex flex-col h-full group zoom-reveal" style="transition-delay: 300ms;" onclick="openProject(3)">
+                    <div class="work-card relative rounded-[40px] overflow-hidden flex flex-col items-center justify-center text-center h-[500px] mb-6 shadow-xl cursor-pointer bg-brand-yellow filter grayscale transition-all duration-500 ease-out" data-state="inactive">
+                        <img id="edit-img-3" src="https://placehold.co/600x800/ffd54f/1a1a1a?text=Website+Designs" class="w-full h-full object-cover">
+                    </div>
+                    <div class="text-center w-full mt-auto">
+                        <h4 class="font-oswald text-[26px] font-black uppercase mb-1 tracking-wider text-[#1a1a1a] dark:text-white"><span id="edit-title-3">Website Designs</span> <span class="text-brand-accent ml-1 text-xl align-middle">■</span></h4>
+                        <p id="edit-desc-3" class="font-instrument text-[22px] text-gray-500 dark:text-gray-400">Business Painting Mood, Cat Strays, Citucore Record Office</p>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="flex flex-col h-full group zoom-reveal" style="transition-delay: 450ms;" onclick="openProject(4)">
+                    <div class="work-card relative rounded-[40px] overflow-hidden flex flex-col items-center justify-center text-center h-[500px] mb-6 shadow-xl cursor-pointer bg-brand-yellow filter grayscale transition-all duration-500 ease-out" data-state="inactive">
+                        <img id="edit-img-4" src="https://images.unsplash.com/photo-1499636136210-6f4ee915583e?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover">
+                    </div>
+                    <div class="text-center w-full mt-auto">
+                        <h4 class="font-oswald text-[26px] font-black uppercase mb-1 tracking-wider text-[#1a1a1a] dark:text-white"><span id="edit-title-4">Other Hobbies</span> <span class="text-brand-accent ml-1 text-xl align-middle">■</span></h4>
+                        <p id="edit-desc-4" class="font-instrument text-[22px] text-gray-500 dark:text-gray-400">Selling cookies and experiencing different new things</p>
+                    </div>
+                </div>
+                
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="w-full max-w-5xl mx-auto px-6 py-24 mb-12 border-t border-black/10 dark:border-white/10">
+            <div class="flex flex-col md:flex-row gap-8 md:gap-16 items-start">
+                <div class="flex flex-col items-start gap-4 shrink-0 reveal-up" style="transition-delay: 150ms;">
+                    <img id="about-img" src="https://images.unsplash.com/photo-1616781296181-4357df843702?q=80&w=150&auto=format&fit=crop" class="w-24 h-24 rounded-2xl object-cover filter grayscale hover:grayscale-0 transition-all duration-300 shadow-md">
+                    <div>
+                        <h3 id="edit-about-name" class="font-oswald font-black text-3xl tracking-widest uppercase">FRANCINE OMADLAO</h3>
+                        <p id="edit-about-role" class="font-oswald font-light text-base text-black/60 dark:text-white/60 uppercase tracking-wider">Layout Designer & Video Editor</p>
+                    </div>
+                </div>
+                <div class="max-w-2xl reveal-up" style="transition-delay: 300ms;">
+                    <p id="edit-about-desc" class="font-instrument text-2xl md:text-[1.75rem] leading-relaxed text-black/80 dark:text-white/80">
+                        I'm a layout designer (sometimes UI designer) and video editor based in Cebu, Philippines. 
+                        I started doing passion projects in 2022. My mission is to think, create and design in 
+                        different ways that are fun and impactful and I spend each day doing so by creating 
+                        designs and edits that I hope are helpful and meaningful to others.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Collaborate Marquee (Dynamic Colors) -->
+        <div class="w-full bg-[#161616] text-[#f4f3ec] dark:bg-brand-accent dark:text-[#1a1a1a] py-4 overflow-hidden relative z-20 transition-colors">
+            <div class="w-[200vw] flex whitespace-nowrap">
+                <div class="animate-marquee-fast flex gap-12 text-xl font-oswald font-black uppercase tracking-widest">
+                    <span>• LET'S COLLAB</span><span>• LET'S COLLAB</span><span>• LET'S COLLAB</span>
+                    <span>• LET'S COLLAB</span><span>• LET'S COLLAB</span><span>• LET'S COLLAB</span>
+                    <span>• LET'S COLLAB</span><span>• LET'S COLLAB</span><span>• LET'S COLLAB</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact CTA Section -->
+        <section class="py-24 px-6 max-w-7xl mx-auto" id="contact">
+            <div class="bg-[#1a1a1a] text-white rounded-[40px] p-16 md:p-24 text-center flex flex-col items-center zoom-reveal relative overflow-hidden group border border-white/5 shadow-2xl work-card">
+                <!-- Warm Orange Glow -->
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-brand-accent/20 blur-[120px] rounded-full pointer-events-none group-hover:bg-brand-accent/30 transition-colors duration-700"></div>
+                
+                <h2 class="relative font-oswald font-black text-5xl md:text-7xl mb-4 tracking-wide uppercase">
+                    Your story, <span class="font-instrument italic font-normal tracking-normal text-brand-accent lowercase">well designed.</span>
+                </h2>
+                <p class="relative text-white/70 max-w-xl mx-auto mb-10 text-lg font-oswald font-light tracking-wide">
+                    Every brand has a story worth telling - let's design yours with intention and style.
+                </p>
+                <div class="relative flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+                    <a href="mailto:design.francineomadlao@gmail.com" class="bg-brand-accent text-[#1a1a1a] px-8 py-4 rounded-xl font-oswald tracking-widest uppercase font-bold transition-transform hover:-translate-y-1 text-center shadow-lg shadow-brand-accent/20">Let's Collaborate</a>
+                    <a href="#work" class="bg-transparent text-white px-8 py-4 rounded-xl font-oswald tracking-widest uppercase font-bold border border-white/20 transition-all hover:bg-white/10 hover:-translate-y-1 text-center backdrop-blur-sm">View Portfolio</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="bg-[#f5f5f0] text-black dark:bg-[#121212] dark:text-white pt-16 pb-8 px-6 max-w-7xl mx-auto border-t border-black/10 dark:border-white/10 transition-colors relative overflow-hidden">
+            <div class="absolute bottom-[-20%] right-[-10%] w-[600px] h-[600px] bg-brand-accent/10 dark:bg-brand-accent/20 blur-[150px] rounded-full pointer-events-none -z-10"></div>
+
+            <div class="flex flex-col md:flex-row justify-between gap-12 mb-16">
+                <!-- Left Info -->
+                <div class="max-w-sm">
+                    <!-- Footer Logo Box -->
+                    <div class="w-16 h-16 rounded-xl bg-[#1a1a1a] text-brand-yellow font-oswald font-black text-2xl flex items-center justify-center overflow-hidden mb-6 relative shadow-md">
+                        <span id="footer-logo-default">FO</span>
+                        <img id="footer-logo-img" src="" class="hidden w-full h-full object-cover">
+                    </div>
+                    
+                    <p class="font-instrument text-xl mb-8 leading-relaxed text-black/80 dark:text-white/80">
+                        Every project starts with a story. I turn those stories into digital experiences that feel effortless and expressive.
+                    </p>
+                    
+                    <!-- Social Icons -->
+                    <div class="flex gap-4">
+                        <a href="#" class="w-12 h-12 rounded-full border border-black/20 dark:border-white/20 flex items-center justify-center hover:bg-[#1a1a1a] hover:text-white dark:hover:bg-white dark:hover:text-[#1a1a1a] hover:-translate-y-1 transition-all shadow-sm">
+                            <i data-feather="instagram" class="w-5 h-5"></i>
+                        </a>
+                        <a href="#" class="w-12 h-12 rounded-full border border-black/20 dark:border-white/20 flex items-center justify-center hover:bg-[#1a1a1a] hover:text-white dark:hover:bg-white dark:hover:text-[#1a1a1a] hover:-translate-y-1 transition-all shadow-sm">
+                            <i data-feather="linkedin" class="w-5 h-5"></i>
+                        </a>
+                        <a href="#" class="w-12 h-12 rounded-full border border-black/20 dark:border-white/20 flex items-center justify-center hover:bg-[#1a1a1a] hover:text-white dark:hover:bg-white dark:hover:text-[#1a1a1a] hover:-translate-y-1 transition-all shadow-sm">
+                            <i data-feather="facebook" class="w-5 h-5"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right Visual Anchor (Replaces the generic link columns) -->
+                <div class="flex flex-col md:items-end justify-center gap-6">
+                    <div class="text-left md:text-right mt-8 md:mt-0">
+                        <h4 class="font-oswald font-black tracking-widest uppercase mb-4 text-sm text-black/50 dark:text-white/50">Say Hello</h4>
+                        <a href="mailto:design.francineomadlao@gmail.com" class="font-instrument italic text-4xl md:text-[3rem] text-[#1a1a1a] dark:text-[#f4f3ec] hover:text-brand-accent dark:hover:text-brand-accent transition-colors block leading-none">
+                            design.francineomadlao@gmail.com
+                        </a>
+                    </div>
+                    <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="group font-oswald text-sm font-bold tracking-widest uppercase flex items-center gap-3 hover:text-brand-accent transition-colors mt-2 md:mt-6">
+                        Back to top 
+                        <span class="w-10 h-10 rounded-full border border-black/20 dark:border-white/20 flex items-center justify-center group-hover:border-brand-accent transition-colors">
+                            <i data-feather="arrow-up" class="w-4 h-4"></i>
+                        </span>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="flex flex-col md:flex-row justify-between text-sm text-black/50 dark:text-white/50 pt-8 border-t border-black/10 dark:border-white/10 font-oswald font-light tracking-wide">
+                <p>All rights reserved. © 2026</p>
+                <p>Made by <a href="#" class="underline hover:text-brand-accent transition-colors">Francine Omadlao</a></p>
+            </div>
+        </footer>
+    </div> 
+    <!-- END MAIN PORTFOLIO VIEW -->
+
+    <!-- ========================================== -->
+    <!-- DETAILED PROJECT VIEW (Hidden by Default)  -->
+    <!-- ========================================== -->
+    <div id="project-detail-view" class="hidden relative z-[150] w-full min-h-screen bg-[#f5f5f0] text-black dark:bg-[#121212] dark:text-[#f4f3ec] transition-colors duration-300">
+        
+        <!-- Sticky Navigation: Home & Mode Toggle -->
+        <div class="fixed top-6 right-6 z-[200] flex items-center gap-6 mix-blend-difference">
+            <button id="pd-theme-toggle" class="text-white hover:opacity-70 transition-opacity" title="Toggle Dark/Light Mode">
+                <i data-feather="moon" class="w-5 h-5 dark:hidden block"></i>
+                <i data-feather="sun" class="w-5 h-5 hidden dark:block"></i>
+            </button>
+            <button onclick="closeProject()" class="text-white font-oswald tracking-widest uppercase text-sm hover:opacity-70 flex items-center gap-2 drop-shadow-md transition-opacity">
+                HOME <i data-feather="arrow-up-right" class="w-5 h-5"></i>
+            </button>
+        </div>
+
+        <!-- Dynamic Content Injected Here -->
+        <div id="pd-content"></div>
+        
+        <!-- Next Project Footer Section -->
+        <div class="w-full bg-white dark:bg-[#1a1a1a] py-24 px-6 border-t border-black/10 dark:border-white/10 transition-colors">
+            <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+                <div class="text-center md:text-left">
+                    <h2 id="pd-next-text" class="font-oswald font-black text-[4rem] md:text-[6rem] tracking-wide cursor-pointer hover:text-brand-accent transition-colors leading-none mb-4 uppercase">Next Project</h2>
+                    <p id="pd-next-desc" class="font-oswald text-sm md:text-base tracking-[0.2em] uppercase text-black/50 dark:text-white/50"></p>
+                </div>
+                <button id="pd-next-btn" class="w-24 h-24 rounded-full border-2 border-black dark:border-white flex items-center justify-center hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all group shrink-0">
+                    <i data-feather="arrow-right" class="w-10 h-10 group-hover:translate-x-2 transition-transform"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ========================================== -->
+    <!-- ADMIN EDIT MODAL -->
+    <!-- ========================================== -->
+    <div id="admin-modal" class="fixed inset-0 z-[300] hidden bg-black/80 backdrop-blur-md items-center justify-center p-4 opacity-0 transition-opacity duration-300">
+        <div class="bg-[#1a1a1a] border border-white/10 rounded-3xl p-8 w-full max-w-2xl max-h-[95vh] overflow-y-auto shadow-2xl transform scale-95 transition-transform duration-300 font-oswald text-white no-scrollbar" id="admin-modal-content">
+            <h3 class="text-2xl font-bold uppercase tracking-wider mb-6 text-brand-accent flex items-center justify-between">
+                Portfolio Admin 
+                <button id="close-admin" class="text-white/50 hover:text-white transition-colors"><i data-feather="x"></i></button>
+            </h3>
+            
+            <!-- LOGIN VIEW -->
+            <div id="admin-login-view" class="flex flex-col gap-5">
+                <p class="text-sm font-instrument text-white/60 tracking-wide">Please sign in to access the portfolio editor.</p>
+                <div>
+                    <label class="block text-sm text-white/60 uppercase tracking-wide mb-2">Admin Password</label>
+                    <input type="password" id="admin-password-input" class="w-full bg-black/50 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-accent transition-colors" placeholder="Enter password...">
+                    <p id="admin-login-error" class="text-red-400 text-xs tracking-wide mt-2 hidden">Incorrect password. Please try again.</p>
+                </div>
+                <button id="admin-login-btn" class="w-full bg-brand-accent hover:bg-[#ff5733] text-[#1a1a1a] font-bold uppercase tracking-widest py-4 rounded-xl mt-2 transition-colors">
+                    Sign In
+                </button>
+            </div>
+
+            <!-- EDITOR VIEW -->
+            <div id="admin-editor-view" class="hidden flex-col gap-5">
+                <div>
+                    <label class="block text-sm text-white/60 uppercase tracking-wide mb-2">Select Item to Edit</label>
+                    <select id="admin-card-select" class="w-full bg-black/50 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-accent transition-colors">
+                        <optgroup label="Main Page Cards">
+                            <option value="1">Card 1: Layout Designs</option>
+                            <option value="2">Card 2: Video Edits</option>
+                            <option value="3">Card 3: Website Designs</option>
+                            <option value="4">Card 4: Other Hobbies</option>
+                        </optgroup>
+                        <optgroup label="Project Detail Pages (Magazine Layout)">
+                            <option value="proj-1">Project 1 Details</option>
+                            <option value="proj-2">Project 2 Details</option>
+                            <option value="proj-3">Project 3 Details</option>
+                            <option value="proj-4">Project 4 Details</option>
+                        </optgroup>
+                        <optgroup label="Global Texts">
+                            <option value="hero">Hero Section Texts</option>
+                            <option value="about-texts">About Section Texts</option>
+                        </optgroup>
+                        <optgroup label="Global Media">
+                            <option value="about">About Section Photo</option>
+                            <option value="nav">Navbar Logo</option>
+                            <option value="footer">Footer Logo</option>
+                        </optgroup>
+                    </select>
+                </div>
+
+                <!-- Sub-Block Manager for Projects -->
+                <div id="admin-block-controls" class="hidden flex flex-col md:flex-row gap-3 border-b border-white/10 pb-5 mb-2">
+                    <div class="flex-1">
+                        <label class="block text-sm text-white/60 uppercase tracking-wide mb-2">Select Content Block</label>
+                        <select id="admin-block-select" class="w-full bg-black/50 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-accent transition-colors"></select>
+                    </div>
+                    <div class="flex items-end">
+                        <button id="admin-add-block-btn" class="bg-white/10 hover:bg-white/20 text-white font-bold uppercase tracking-widest px-6 py-3 rounded-xl transition-colors h-[50px] whitespace-nowrap">
+                            + Add Block
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="admin-title-container">
+                    <label id="admin-title-label" class="block text-sm text-white/60 uppercase tracking-wide mb-2">Title</label>
+                    <input type="text" id="admin-title-input" class="w-full bg-black/50 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-accent transition-colors" placeholder="Enter text...">
+                </div>
+
+                <div id="admin-subtitle-container" class="hidden">
+                    <label id="admin-subtitle-label" class="block text-sm text-white/60 uppercase tracking-wide mb-2">Subtitle / Role</label>
+                    <input type="text" id="admin-subtitle-input" class="w-full bg-black/50 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-accent transition-colors" placeholder="Enter subtitle...">
+                </div>
+
+                <!-- PROJECT SPECIFIC META FIELDS -->
+                <div id="admin-meta-container" class="hidden grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm text-white/60 uppercase tracking-wide mb-2">Timeline</label>
+                        <input type="text" id="admin-timeline-input" class="w-full bg-black/50 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-accent transition-colors">
+                    </div>
+                    <div>
+                        <label class="block text-sm text-white/60 uppercase tracking-wide mb-2">Year</label>
+                        <input type="text" id="admin-year-input" class="w-full bg-black/50 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-accent transition-colors">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-sm text-white/60 uppercase tracking-wide mb-2">Tools</label>
+                        <input type="text" id="admin-tools-input" class="w-full bg-black/50 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-accent transition-colors">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-sm text-white/60 uppercase tracking-wide mb-2">Project Category (Type)</label>
+                        <input type="text" id="admin-type-input" class="w-full bg-black/50 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-accent transition-colors">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-sm text-white/60 uppercase tracking-wide mb-2">Marquee Text</label>
+                        <input type="text" id="admin-marquee-input" class="w-full bg-black/50 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-accent transition-colors">
+                    </div>
+                </div>
+
+                <div id="admin-desc-container">
+                    <label id="admin-desc-label" class="block text-sm text-white/60 uppercase tracking-wide mb-2">Description / Details</label>
+                    <textarea id="admin-desc-input" rows="4" class="w-full bg-black/50 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-accent font-instrument resize-none transition-colors" placeholder="Enter text..."></textarea>
+                </div>
+
+                <div id="admin-img-container">
+                    <label id="admin-img-label" class="block text-sm text-white/60 uppercase tracking-wide mb-2">Hero Image URL</label>
+                    <input type="text" id="admin-img-input" class="w-full bg-black/50 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-accent transition-colors" placeholder="https://...">
+                </div>
+
+                <div id="admin-gallery-container" class="hidden">
+                    <label class="block text-sm text-white/60 uppercase tracking-wide mb-2">Slider Image URLs (One per line)</label>
+                    <textarea id="admin-gallery-input" rows="3" class="w-full bg-black/50 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-accent transition-colors font-instrument" placeholder="https://..."></textarea>
+                </div>
+                
+                <div id="admin-grid-imgs-container" class="hidden">
+                    <label class="block text-sm text-white/60 uppercase tracking-wide mb-2">Additional Grid Image URLs (One per line)</label>
+                    <textarea id="admin-grid-imgs-input" rows="3" class="w-full bg-black/50 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-accent transition-colors font-instrument" placeholder="https://..."></textarea>
+                </div>
+
+                <button id="admin-save-btn" class="w-full bg-brand-accent hover:bg-[#ff5733] text-[#1a1a1a] font-bold uppercase tracking-widest py-4 rounded-xl mt-4 transition-colors">
+                    Save Changes
+                </button>
+                
+                <div class="border-t border-white/10 pt-4 mt-2 text-center">
+                    <button id="admin-logout-btn" class="text-white/40 hover:text-white uppercase text-xs tracking-widest font-bold underline transition-colors">
+                        Sign Out & Lock
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SUPABASE CLOUD DATABASE LOGIC -->
+    <script type="module">
+        // Ensure Icons load
+        if (typeof feather !== 'undefined') feather.replace();
+
+        // 1. IMPORT SUPABASE VIA CDN
+        import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+        // 2. CONNECT TO YOUR LIVE SUPABASE PROJECT
+        const supabaseUrl = 'https://qzfdpobkgwnfzezmnfuf.supabase.co';
+        const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF6ZmRwb2JrZ3duZnplem1uZnVmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg1Nzk3NzksImV4cCI6MjEwNDE1NTc3OX0.k0l9uGCvVq8F3Nas73oElKgOtE5KxD9kIelto7aVqAU';
+        
+        const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
+        const defaultState = {
+            hero: {
+                name: "OMADLAO FRANCINE",
+                subtitle: "VIDEO EDITOR &<br>LAYOUT DESIGNER"
+            },
+            about: {
+                name: "FRANCINE OMADLAO",
+                role: "Layout Designer & Video Editor",
+                desc: "I'm a layout designer (sometimes UI designer) and video editor based in Cebu, Philippines. I started doing passion projects in 2022. My mission is to think, create and design in different ways that are fun and impactful and I spend each day doing so by creating designs and edits that I hope are helpful and meaningful to others.",
+                img: "https://images.unsplash.com/photo-1616781296181-4357df843702?q=80&w=150&auto=format&fit=crop"
+            },
+            footer: {
+                email: "design.francineomadlao@gmail.com"
+            },
+            media: {
+                navLogo: "",
+                footerLogo: ""
+            },
+            cards: {
+                "1": { title: "Layout Designs", desc: "Publication Design, T-Shirt, Logo & Web Page Designs", img: "image_1ce1f4.png" },
+                "2": { title: "Video Edits", desc: "School Publication and Commissions", img: "image_1ce1f1.jpg" },
+                "3": { title: "Website Designs", desc: "Business Painting Mood, Cat Strays, Citucore Record Office", img: "https://placehold.co/600x800/ffd54f/1a1a1a?text=Website+Designs" },
+                "4": { title: "Other Hobbies", desc: "Selling cookies and experiencing different new things", img: "https://images.unsplash.com/photo-1499636136210-6f4ee915583e?auto=format&fit=crop&w=800&q=80" }
+            },
+            projects: {
+                1: {
+                    nextId: 2, nextLabel: "Next Project",
+                    blocks: [
+                        { title: "Communications Pacesetter", heroImg: "image_a9bfbf.jpg", galleryImgs: "https://placehold.co/1200x800/f4f3ec/a3a3a3?text=Magazine+Spread+1\nhttps://placehold.co/1200x800/f4f3ec/a3a3a3?text=Magazine+Spread+2", marquee: "• 1ST ISSUE • 2ND ISSUE •", projectType: "Publication Design • Magazine Layout", timeline: "3 Months", year: "2023", tools: "Adobe InDesign & Photoshop", desc: "Communications Pacesetter is the official school publication of the University of San Carlos - South Campus. As the assistant layout editor for the academic year 2022-2023, I was responsible for designing the cover page for the 1st issue.", gridImgs: "" },
+                        { title: "Shirt Layouts", heroImg: "https://images.unsplash.com/photo-1576566588028-4147f3842f27?q=80&w=2000", galleryImgs: "https://placehold.co/1200x800/f4f3ec/a3a3a3?text=Shirt+Design+Front\nhttps://placehold.co/1200x800/f4f3ec/a3a3a3?text=Shirt+Design+Back", marquee: "• SJF SHIRT DESIGN • SJF SHIRT DESIGN •", projectType: "T-Shirt Designs", timeline: "1 week", year: "2023", tools: "Figma", desc: "Other shirt designs are personal passion projects and others are for school events.", gridImgs: "https://placehold.co/600x600/f4f3ec/a3a3a3?text=Grid+1\nhttps://placehold.co/600x600/f4f3ec/a3a3a3?text=Grid+2\nhttps://placehold.co/600x600/f4f3ec/a3a3a3?text=Grid+3" }
+                    ]
+                },
+                2: {
+                    nextId: 3, nextLabel: "Next Project",
+                    blocks: [
+                        { title: "Video Edits", heroImg: "image_1ce1f1.jpg", galleryImgs: "https://placehold.co/1200x800/f4f3ec/a3a3a3?text=Video+Thumbnail+1\nhttps://placehold.co/1200x800/f4f3ec/a3a3a3?text=Video+Thumbnail+2", marquee: "• COMMISSIONS • SCHOOL WORK •", projectType: "Video Editing", timeline: "Ongoing", year: "2023 - Present", tools: "Premiere Pro & After Effects", desc: "A collection of school publications and commissioned video editing projects. These projects allowed me to explore different styles of pacing, color grading, and narrative structure.", gridImgs: "" }
+                    ]
+                },
+                3: {
+                    nextId: 4, nextLabel: "Next Project",
+                    blocks: [
+                        { title: "Web Interfaces", heroImg: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?q=80&w=2000", galleryImgs: "https://placehold.co/1200x800/f4f3ec/a3a3a3?text=Web+Layout+1\nhttps://placehold.co/1200x800/f4f3ec/a3a3a3?text=Web+Layout+2", marquee: "• PAINTING MOOD • CAT STRAYS • CIT-U CORE •", projectType: "Website Design", timeline: "4 Weeks", year: "2024", tools: "Figma & Webflow", desc: "Designing business profiles such as Painting Mood, Cat Strays, and the CIT-U CORE Record Office. My focus is on creating clean, intuitive interfaces that solve functional needs.", gridImgs: "" },
+                        { title: "Ming Protect", heroImg: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?q=80&w=2000", galleryImgs: "https://placehold.co/1200x800/f4f3ec/a3a3a3?text=App+Design+1\nhttps://placehold.co/1200x800/f4f3ec/a3a3a3?text=App+Design+2", marquee: "• MING PROTECT • MING PROTECT •", projectType: "Web Page Design and Logo Design", timeline: "1 week", year: "2022", tools: "Figma & Adobe Illustrator", desc: "", gridImgs: "" }
+                    ]
+                },
+                4: {
+                    nextId: 1, nextLabel: "Last Project",
+                    blocks: [
+                        { title: "Other Hobbies", heroImg: "https://images.unsplash.com/photo-1499636136210-6f4ee915583e?q=80&w=2000", galleryImgs: "https://placehold.co/1200x800/f4f3ec/a3a3a3?text=Baking+Cookies\nhttps://placehold.co/1200x800/f4f3ec/a3a3a3?text=Travel", marquee: "• BAKING • EXPERIENCES • HOBBIES •", projectType: "Crafts & Lifestyle", timeline: "Always", year: "2022 - Present", tools: "Oven, Camera, Creativity", desc: "Outside of digital design, I enjoy baking and selling cookies, as well as experiencing different new things. These hobbies keep me grounded and provide fresh inspiration.", gridImgs: "" }
+                    ]
+                }
+            }
+        };
+
+        let globalState = JSON.parse(JSON.stringify(defaultState));
+        let savedMainScrollY = 0;
+        let currentProjId = null;
+        let currentBlockIndex = 0;
+
+        // 3. FETCH DATA FROM SUPABASE ON LOAD
+        async function initDB() {
+            try {
+                // Fetch the single row (id=1) from our 'portfolio' table
+                const { data, error } = await supabase
+                    .from('portfolio')
+                    .select('content')
+                    .eq('id', 1)
+                    .single();
+
+                if (error) {
+                    // If no row exists yet, this is the first load. Let's upload default data!
+                    if (error.code === 'PGRST116') { 
+                        console.log("No database data found. Pushing default template...");
+                        await supabase.from('portfolio').insert([{ id: 1, content: defaultState }]);
+                        globalState = JSON.parse(JSON.stringify(defaultState));
+                    } else {
+                        console.error("Supabase Error:", error.message);
+                    }
+                } else if (data && data.content) {
+                    // We successfully loaded data! Overwrite the default global state.
+                    // We merge it with defaultState to ensure new fields (if we update code later) don't crash the site
+                    globalState = { ...defaultState, ...data.content };
+                    console.log("Supabase Data Loaded successfully!");
+                }
+            } catch (err) {
+                console.error("Connection failed:", err);
+            }
+            
+            // Regardless of DB success, render the site so it's never blank
+            updateDOM(globalState);
+        }
+        
+        // Start the process
+        initDB();
+
+        function updateDOM(state) {
+            // Update Hero
+            document.getElementById('edit-hero-name-1').textContent = state.hero.name;
+            document.getElementById('edit-hero-name-2').textContent = state.hero.name;
+            document.getElementById('edit-hero-name-3').textContent = state.hero.name;
+            document.getElementById('edit-hero-subtitle').innerHTML = state.hero.subtitle;
+
+            // Update About
+            document.getElementById('edit-about-name').textContent = state.about.name;
+            document.getElementById('edit-about-role').textContent = state.about.role;
+            document.getElementById('edit-about-desc').textContent = state.about.desc;
+            document.getElementById('about-img').src = state.about.img;
+
+            // Update Footer Email
+            const emailEl = document.getElementById('footer-email-text');
+            if(emailEl) {
+                emailEl.textContent = state.footer.email;
+                emailEl.href = `mailto:${state.footer.email}`;
+            }
+
+            // Update Grid Cards
+            for(let i=1; i<=4; i++) {
+                if(state.cards[i]) {
+                    document.getElementById(`edit-title-${i}`).textContent = state.cards[i].title;
+                    document.getElementById(`edit-desc-${i}`).textContent = state.cards[i].desc;
+                    document.getElementById(`edit-img-${i}`).src = state.cards[i].img;
+                }
+            }
+
+            // Update Media Logos
+            if (state.media && state.media.navLogo) {
+                const navImg = document.getElementById('nav-logo-img');
+                navImg.src = state.media.navLogo;
+                navImg.classList.remove('hidden');
+                document.getElementById('nav-logo-default').classList.add('hidden');
+            }
+            if (state.media && state.media.footerLogo) {
+                const ftImg = document.getElementById('footer-logo-img');
+                ftImg.src = state.media.footerLogo;
+                ftImg.classList.remove('hidden');
+                document.getElementById('footer-logo-default').classList.add('hidden');
+            }
+
+            // Live Update Project view if open
+            if (!document.getElementById('project-detail-view').classList.contains('hidden') && currentProjId) {
+                window.openProject(currentProjId, true);
+            }
+        }
+
+        window.openProject = function(id, skipScroll = false) {
+            if(!skipScroll) savedMainScrollY = window.scrollY;
+
+            const projectsData = globalState.projects;
+            const data = projectsData[id];
+            if(!data) return;
+            currentProjId = id;
+
+            const pdContent = document.getElementById('pd-content');
+            pdContent.innerHTML = '';
+
+            data.blocks.forEach((block, index) => {
+                let galleryHtml = '';
+                if (block.galleryImgs) {
+                    const imgs = block.galleryImgs.split('\n').filter(url => url.trim() !== '');
+                    if (imgs.length > 0) {
+                        galleryHtml = `<div class="w-full mb-16"><div class="flex overflow-x-auto snap-x snap-mandatory no-scrollbar gap-8 px-6 pb-8">
+                            ${imgs.map(img => `<div class="snap-center shrink-0 w-[90vw] md:w-[75vw] max-w-5xl"><img src="${img.trim()}" class="w-full h-auto object-cover rounded-xl shadow-[0_15px_40px_rgba(0,0,0,0.12)] dark:shadow-[0_15px_40px_rgba(0,0,0,0.4)]"></div>`).join('')}
+                        </div></div>`;
+                    }
+                }
+
+                let gridHtml = '';
+                if (block.gridImgs) {
+                    const imgs = block.gridImgs.split('\n').filter(url => url.trim() !== '');
+                    if (imgs.length > 0) {
+                        gridHtml = `<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16 px-6 max-w-7xl mx-auto w-full">
+                            ${imgs.map(img => `<img src="${img.trim()}" class="w-full aspect-square object-cover rounded-xl shadow-md hover:scale-[1.02] transition-transform duration-300">`).join('')}
+                        </div>`;
+                    }
+                }
+
+                const marqueeStr = `<span>${block.marquee || ''}</span>`.repeat(8);
+                const hasDesc = block.desc && block.desc.trim() !== '';
+
+                const blockHtml = `
+                    <div class="relative w-full h-[70vh] md:h-[85vh] flex items-center justify-center overflow-hidden bg-[#1a1a1a]">
+                        <img src="${block.heroImg}" class="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-overlay scale-105 transition-transform duration-1000">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#1a1a1a]/90 via-[#1a1a1a]/20 to-transparent"></div>
+                        <div class="relative z-10 text-center px-6 fade-in-view flex flex-col items-center">
+                            <h1 class="font-instrument italic text-[4rem] md:text-[6rem] lg:text-[8rem] leading-[0.9] text-[#f4f3ec] drop-shadow-xl max-w-6xl">${block.title}</h1>
+                        </div>
+                    </div>
+                    <div class="w-full bg-[#f5f5f0] dark:bg-[#0a0a0a] transition-colors duration-300">
+                        <div class="max-w-7xl mx-auto px-6 py-20 lg:py-32 grid grid-cols-1 md:grid-cols-12 gap-16 lg:gap-24 items-start">
+                            <div class="md:col-span-4 flex flex-col gap-8 font-oswald uppercase tracking-widest text-sm">
+                                ${block.projectType ? `<div class="border-t border-black/10 dark:border-white/10 pt-5"><h4 class="text-brand-accent font-black mb-2 text-base">Project</h4><p class="text-black/60 dark:text-white/60 leading-relaxed">${block.projectType}</p></div>` : ''}
+                                ${block.timeline ? `<div class="border-t border-black/10 dark:border-white/10 pt-5"><h4 class="text-brand-accent font-black mb-2 text-base">Timeline</h4><p class="text-black/60 dark:text-white/60 leading-relaxed">${block.timeline}</p></div>` : ''}
+                                ${block.year ? `<div class="border-t border-black/10 dark:border-white/10 pt-5"><h4 class="text-brand-accent font-black mb-2 text-base">Year</h4><p class="text-black/60 dark:text-white/60 leading-relaxed">${block.year}</p></div>` : ''}
+                                ${block.tools ? `<div class="border-t border-black/10 dark:border-white/10 pt-5"><h4 class="text-brand-accent font-black mb-2 text-base">Tools</h4><p class="text-black/60 dark:text-white/60 leading-relaxed">${block.tools}</p></div>` : ''}
+                            </div>
+                            <div class="md:col-span-8 font-instrument text-[1.75rem] md:text-[2.25rem] leading-[1.4] text-black/90 dark:text-white/90">
+                                ${hasDesc ? `<p class="drop-cap">${block.desc}</p>` : '<p class="italic text-black/40 dark:text-white/40">Visual showcase below.</p>'}
+                            </div>
+                        </div>
+                    </div>
+                    ${block.marquee ? `<div class="w-full bg-brand-yellow text-[#1a1a1a] py-4 overflow-hidden relative z-20 shadow-inner border-y border-black/10"><div class="w-[200vw] flex whitespace-nowrap"><div class="animate-marquee-fast flex gap-8 text-xl font-oswald font-black uppercase tracking-widest">${marqueeStr}</div></div></div>` : ''}
+                    ${(galleryHtml || gridHtml) ? `<div class="w-full bg-[#f5f5f0] dark:bg-[#121212] py-24 transition-colors duration-300 flex flex-col items-center">${galleryHtml}${gridHtml}</div>` : ''}
+                `;
+                pdContent.innerHTML += blockHtml;
+            });
+
+            const nextData = projectsData[data.nextId];
+            document.getElementById('pd-next-text').textContent = data.nextLabel || "Next Project";
+            document.getElementById('pd-next-desc').textContent = `${nextData.blocks[0].title} • BY FRANCINE OMADLAO`;
+            
+            document.getElementById('pd-next-btn').setAttribute('onclick', `openProject(${data.nextId})`);
+            document.getElementById('pd-next-text').setAttribute('onclick', `openProject(${data.nextId})`);
+
+            const mainView = document.getElementById('main-portfolio-view');
+            const projectView = document.getElementById('project-detail-view');
+            mainView.classList.add('hidden');
+            projectView.classList.remove('hidden');
+            projectView.classList.add('fade-in-view');
+            
+            if(!skipScroll) window.scrollTo({ top: 0, behavior: 'instant' });
+            if (typeof feather !== 'undefined') feather.replace();
+        };
+
+        window.closeProject = function() {
+            const mainView = document.getElementById('main-portfolio-view');
+            const projectView = document.getElementById('project-detail-view');
+            
+            projectView.classList.add('hidden');
+            mainView.classList.remove('hidden');
+            mainView.classList.add('fade-in-view');
+            
+            window.scrollTo({ top: savedMainScrollY, behavior: 'instant' });
+            currentProjId = null;
+        };
+
+        window.toggleTheme = function() {
+            const html = document.documentElement;
+            html.classList.toggle('dark');
+            localStorage.theme = html.classList.contains('dark') ? 'dark' : 'light';
+        };
+
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+
+        const heroImg = document.getElementById('hero-profile-img');
+        const heroGlow = document.querySelector('.hero-glow');
+
+        function handleHeroParallax(clientX, clientY) {
+            if (!heroImg || document.getElementById('main-portfolio-view').classList.contains('hidden')) return;
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
+            const x = (clientX - centerX) / centerX;
+            const y = (clientY - centerY) / centerY;
+            const intensity = 60; 
+
+            heroImg.style.transform = `translate(calc(-50% + ${x * intensity}px), calc(-50% + ${y * intensity}px))`;
+            if (heroGlow) {
+                heroGlow.style.transform = `translate(calc(-50% + ${-x * (intensity * 0.8)}px), calc(-50% + ${-y * (intensity * 0.8)}px))`;
+            }
+        }
+
+        document.addEventListener('mousemove', (e) => handleHeroParallax(e.clientX, e.clientY));
+        document.addEventListener('touchmove', (e) => {
+            if (e.touches.length > 0) handleHeroParallax(e.touches[0].clientX, e.touches[0].clientY);
+        }, { passive: true });
+
+        const workCards = document.querySelectorAll('.work-card');
+        const workContainer = document.getElementById('work-container');
+
+        if (workContainer && workCards.length > 0) {
+            workCards.forEach(card => {
+                function tiltCard(clientX, clientY) {
+                    const rect = card.getBoundingClientRect();
+                    const x = clientX - rect.left;
+                    const y = clientY - rect.top;
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    const rotateX = ((y - centerY) / centerY) * -12; 
+                    const rotateY = ((x - centerX) / centerX) * 12;
+                    card.style.transition = 'transform 0.1s ease-out';
+                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+                }
+                function resetTilt() {
+                    card.style.transition = 'transform 0.5s ease-out';
+                    card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+                }
+                function activateCard() {
+                    workCards.forEach(c => {
+                        if (c === card) c.setAttribute('data-state', 'active');
+                        else c.setAttribute('data-state', 'inactive');
+                    });
+                }
+                card.addEventListener('mousemove', (e) => tiltCard(e.clientX, e.clientY));
+                card.addEventListener('mouseleave', resetTilt);
+                card.addEventListener('mouseenter', activateCard);
+                card.addEventListener('touchmove', (e) => {
+                    if (e.touches.length > 0) tiltCard(e.touches[0].clientX, e.touches[0].clientY);
+                }, { passive: true });
+                card.addEventListener('touchend', resetTilt);
+                card.addEventListener('touchstart', activateCard, { passive: true });
+            });
+            workContainer.addEventListener('mouseleave', () => {
+                workCards.forEach(c => c.setAttribute('data-state', 'inactive'));
+            });
+        }
+
+        const scrollObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in-view');
+                } else {
+                    entry.target.classList.remove('in-view'); 
+                }
+            });
+        }, { root: null, rootMargin: '0px', threshold: 0.15 });
+
+        document.querySelectorAll('.zoom-reveal, .reveal-up').forEach((el) => {
+            if(el) scrollObserver.observe(el);
+        });
+
+        let clickCount = 0;
+        let clickTimer;
+        let isLoggedIn = false;
+        
+        const trigger = document.getElementById('admin-trigger');
+        const modal = document.getElementById('admin-modal');
+        const closeBtn = document.getElementById('close-admin');
+        const loginView = document.getElementById('admin-login-view');
+        const editorView = document.getElementById('admin-editor-view');
+        const pwInput = document.getElementById('admin-password-input');
+        const loginBtn = document.getElementById('admin-login-btn');
+        const errorMsg = document.getElementById('admin-login-error');
+        const logoutBtn = document.getElementById('admin-logout-btn');
+
+        const adminCardSelect = document.getElementById('admin-card-select');
+        const adminBlockControls = document.getElementById('admin-block-controls');
+        const adminBlockSelect = document.getElementById('admin-block-select');
+        const adminAddBlockBtn = document.getElementById('admin-add-block-btn');
+        
+        const adminTitleInput = document.getElementById('admin-title-input');
+        const adminSubtitleInput = document.getElementById('admin-subtitle-input');
+        const adminDescInput = document.getElementById('admin-desc-input');
+        const adminImgInput = document.getElementById('admin-img-input');
+        const adminYearInput = document.getElementById('admin-year-input');
+        const adminToolsInput = document.getElementById('admin-tools-input');
+        const adminTypeInput = document.getElementById('admin-type-input');
+        const adminMarqueeInput = document.getElementById('admin-marquee-input');
+        const adminTimelineInput = document.getElementById('admin-timeline-input');
+        const adminGalleryInput = document.getElementById('admin-gallery-input');
+        const adminGridImgsInput = document.getElementById('admin-grid-imgs-input');
+        
+        const metaContainer = document.getElementById('admin-meta-container');
+        const galleryContainer = document.getElementById('admin-gallery-container');
+        const gridImgsContainer = document.getElementById('admin-grid-imgs-container');
+        const adminSaveBtn = document.getElementById('admin-save-btn');
+
+        trigger?.addEventListener('click', (e) => {
+            e.preventDefault();
+            clickCount++;
+            clearTimeout(clickTimer);
+            if (clickCount >= 5) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+                clickCount = 0;
+                if (isLoggedIn) {
+                    loginView.classList.add('hidden');
+                    editorView.classList.remove('hidden');
+                    editorView.classList.add('flex');
+                    populateAdminForm();
+                } else {
+                    loginView.classList.remove('hidden');
+                    editorView.classList.add('hidden');
+                    editorView.classList.remove('flex');
+                    pwInput.value = '';
+                    pwInput.focus();
+                }
+                setTimeout(() => {
+                    modal.classList.remove('opacity-0');
+                    document.getElementById('admin-modal-content').classList.remove('scale-95');
+                }, 10);
+            }
+            clickTimer = setTimeout(() => { clickCount = 0; }, 1500);
+        });
+
+        closeBtn?.addEventListener('click', () => {
+            modal.classList.add('opacity-0');
+            document.getElementById('admin-modal-content').classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }, 300);
+        });
+
+        function handleLogin() {
+            if (pwInput.value === 'admin') {
+                isLoggedIn = true;
+                errorMsg.classList.add('hidden');
+                loginView.classList.add('hidden');
+                loginView.classList.remove('flex');
+                editorView.classList.remove('hidden');
+                editorView.classList.add('flex');
+                populateAdminForm();
+            } else {
+                errorMsg.classList.remove('hidden');
+                pwInput.classList.add('border-red-500');
+                loginView.classList.add('animate-shake');
+                setTimeout(() => {
+                    loginView.classList.remove('animate-shake');
+                    pwInput.classList.remove('border-red-500');
+                }, 400);
+            }
+        }
+        
+        loginBtn?.addEventListener('click', handleLogin);
+        pwInput?.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleLogin(); });
+
+        logoutBtn?.addEventListener('click', () => {
+            isLoggedIn = false;
+            editorView.classList.add('hidden');
+            editorView.classList.remove('flex');
+            loginView.classList.remove('hidden');
+            loginView.classList.add('flex');
+            pwInput.value = '';
+        });
+
+        function updateBlockDropdown() {
+            if(!currentProjId) return;
+            adminBlockSelect.innerHTML = '';
+            globalState.projects[currentProjId].blocks.forEach((b, idx) => {
+                const opt = document.createElement('option');
+                opt.value = idx;
+                opt.textContent = `Block ${idx + 1}: ${b.title || 'Untitled'}`;
+                adminBlockSelect.appendChild(opt);
+            });
+            adminBlockSelect.value = currentBlockIndex;
+        }
+
+        function loadBlockData() {
+            if(!currentProjId) return;
+            const block = globalState.projects[currentProjId].blocks[currentBlockIndex];
+            adminTitleInput.value = block.title;
+            adminImgInput.value = block.heroImg;
+            adminGalleryInput.value = block.galleryImgs;
+            adminGridImgsInput.value = block.gridImgs;
+            adminMarqueeInput.value = block.marquee;
+            adminTypeInput.value = block.projectType;
+            adminTimelineInput.value = block.timeline;
+            adminYearInput.value = block.year;
+            adminToolsInput.value = block.tools;
+            adminDescInput.value = block.desc;
+        }
+
+        adminBlockSelect?.addEventListener('change', (e) => {
+            currentBlockIndex = parseInt(e.target.value);
+            loadBlockData();
+        });
+
+        adminAddBlockBtn?.addEventListener('click', () => {
+            globalState.projects[currentProjId].blocks.push({
+                title: "New Custom Block", heroImg: "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=2000", galleryImgs: "", marquee: "• NEW PROJECT •", projectType: "Category", timeline: "Duration", year: "Year", tools: "Software", desc: "Description here...", gridImgs: ""
+            });
+            currentBlockIndex = globalState.projects[currentProjId].blocks.length - 1;
+            updateBlockDropdown();
+            loadBlockData();
+        });
+
+        function populateAdminForm() {
+            if (!adminCardSelect) return;
+            const cardId = adminCardSelect.value;
+            const isImageOnly = ['about', 'nav', 'footer'].includes(cardId);
+            const isTextOnly = ['hero', 'about-texts', 'footer-email'].includes(cardId);
+            const isProject = cardId.startsWith('proj-');
+            
+            const titleCont = document.getElementById('admin-title-container');
+            const subCont = document.getElementById('admin-subtitle-container');
+            const descCont = document.getElementById('admin-desc-container');
+            const imgCont = document.getElementById('admin-img-container');
+            
+            const titleLabel = document.getElementById('admin-title-label');
+            const descLabel = document.getElementById('admin-desc-label');
+            const imgLabel = document.getElementById('admin-img-label');
+            
+            metaContainer.classList.add('hidden');
+            galleryContainer.classList.add('hidden');
+            gridImgsContainer.classList.add('hidden');
+            adminBlockControls.classList.add('hidden');
+
+            if (isProject) {
+                currentProjId = parseInt(cardId.split('-')[1]);
+                currentBlockIndex = 0; 
+                
+                adminBlockControls.classList.remove('hidden');
+                adminBlockControls.classList.add('flex');
+                metaContainer.classList.remove('hidden');
+                metaContainer.classList.add('grid');
+                galleryContainer.classList.remove('hidden');
+                gridImgsContainer.classList.remove('hidden');
+
+                titleCont.classList.remove('hidden');
+                subCont.classList.remove('hidden');
+                descCont.classList.remove('hidden');
+                imgCont.classList.remove('hidden');
+                
+                titleLabel.textContent = 'Block Hero Title';
+                descLabel.textContent = 'Block Bottom Description';
+                imgLabel.textContent = 'Block Hero Background URL';
+
+                updateBlockDropdown();
+                loadBlockData();
+
+            } else if (isImageOnly) {
+                titleCont.classList.add('hidden');
+                subCont.classList.add('hidden');
+                descCont.classList.add('hidden');
+                imgCont.classList.remove('hidden');
+                imgLabel.textContent = 'Image URL';
+                
+                if (cardId === 'about') adminImgInput.value = globalState.about.img;
+                if (cardId === 'nav') adminImgInput.value = globalState.media.navLogo || '';
+                if (cardId === 'footer') adminImgInput.value = globalState.media.footerLogo || '';
+            } else if (isTextOnly) {
+                imgCont.classList.add('hidden');
+                
+                if (cardId === 'hero') {
+                    titleCont.classList.remove('hidden');
+                    subCont.classList.add('hidden');
+                    descCont.classList.remove('hidden');
+                    titleLabel.textContent = 'Hero Name Marquee';
+                    descLabel.textContent = 'Hero Subtitle (use Enter for new lines)';
+                    
+                    adminTitleInput.value = globalState.hero.name;
+                    adminDescInput.value = globalState.hero.subtitle.replace(/<br\s*[\/]?>/gi, '\n');
+                } else if (cardId === 'about-texts') {
+                    titleCont.classList.remove('hidden');
+                    subCont.classList.remove('hidden');
+                    descCont.classList.remove('hidden');
+                    titleLabel.textContent = 'Name';
+                    document.getElementById('admin-subtitle-label').textContent = 'Role';
+                    descLabel.textContent = 'About Description';
+                    
+                    adminTitleInput.value = globalState.about.name;
+                    adminSubtitleInput.value = globalState.about.role;
+                    adminDescInput.value = globalState.about.desc;
+                } else if (cardId === 'footer-email') {
+                    titleCont.classList.remove('hidden');
+                    subCont.classList.add('hidden');
+                    descCont.classList.add('hidden');
+                    titleLabel.textContent = 'Footer Email Address';
+                    adminTitleInput.value = globalState.footer.email;
+                }
+            } else {
+                titleCont.classList.remove('hidden');
+                subCont.classList.add('hidden');
+                descCont.classList.remove('hidden');
+                imgCont.classList.remove('hidden');
+                
+                titleLabel.textContent = 'Main Grid Card Title';
+                descLabel.textContent = 'Main Grid Card Description';
+                imgLabel.textContent = 'Card Image URL';
+                
+                adminTitleInput.value = globalState.cards[cardId].title;
+                adminDescInput.value = globalState.cards[cardId].desc;
+                adminImgInput.value = globalState.cards[cardId].img;
+            }
+        }
+
+        adminCardSelect?.addEventListener('change', populateAdminForm);
+
+        // 4. PUSH CHANGES TO SUPABASE ON SAVE
+        adminSaveBtn?.addEventListener('click', async () => {
+            adminSaveBtn.textContent = 'Saving to Database...';
+            
+            const cardId = adminCardSelect.value;
+            const isImageOnly = ['about', 'nav', 'footer'].includes(cardId);
+            const isTextOnly = ['hero', 'about-texts', 'footer-email'].includes(cardId);
+            const isProject = cardId.startsWith('proj-');
+            
+            if (isProject) {
+                const block = globalState.projects[currentProjId].blocks[currentBlockIndex];
+                block.title = adminTitleInput.value;
+                block.heroImg = adminImgInput.value;
+                block.galleryImgs = adminGalleryInput.value;
+                block.gridImgs = adminGridImgsInput.value;
+                block.marquee = adminMarqueeInput.value;
+                block.projectType = adminTypeInput.value;
+                block.timeline = adminTimelineInput.value;
+                block.year = adminYearInput.value;
+                block.tools = adminToolsInput.value;
+                block.desc = adminDescInput.value;
+                updateBlockDropdown(); 
+            } else if (isImageOnly) {
+                if (cardId === 'about') globalState.about.img = adminImgInput.value;
+                if (cardId === 'nav') globalState.media.navLogo = adminImgInput.value;
+                if (cardId === 'footer') globalState.media.footerLogo = adminImgInput.value;
+            } else if (isTextOnly) {
+                if (cardId === 'hero') {
+                    globalState.hero.name = adminTitleInput.value;
+                    globalState.hero.subtitle = adminDescInput.value.replace(/\n/g, '<br>');
+                } else if (cardId === 'about-texts') {
+                    globalState.about.name = adminTitleInput.value;
+                    globalState.about.role = adminSubtitleInput.value;
+                    globalState.about.desc = adminDescInput.value;
+                } else if (cardId === 'footer-email') {
+                    globalState.footer.email = adminTitleInput.value;
+                }
+            } else {
+                globalState.cards[cardId].title = adminTitleInput.value;
+                globalState.cards[cardId].desc = adminDescInput.value;
+                globalState.cards[cardId].img = adminImgInput.value;
+            }
+            
+            try {
+                // Actually push the new JSON string back to Supabase
+                const { error } = await supabase
+                    .from('portfolio')
+                    .update({ content: globalState })
+                    .eq('id', 1);
+
+                if(error) throw error;
+
+                // Update successful
+                adminSaveBtn.textContent = 'Saved!';
+                adminSaveBtn.classList.replace('bg-brand-accent', 'bg-green-500');
+                
+                // Instantly show changes on the website without reloading
+                updateDOM(globalState);
+
+            } catch (err) {
+                console.error("Save Error:", err.message);
+                adminSaveBtn.textContent = 'Error saving';
+                adminSaveBtn.classList.replace('bg-brand-accent', 'bg-red-500');
+            }
+
+            setTimeout(() => {
+                adminSaveBtn.textContent = 'Save Changes';
+                adminSaveBtn.classList.remove('bg-green-500', 'bg-red-500');
+                adminSaveBtn.classList.add('bg-brand-accent');
+            }, 1500);
+        });
+    </script>
+</body>
+</html>
