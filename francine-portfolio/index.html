@@ -1870,7 +1870,7 @@
                     if(entry.block.title.length>50)title.classList.add('long-title');
                     title.innerHTML = `<p class="carousel-category">${escapeHTML(entry.block.projectType || entry.card.title)}</p><h2 class="carousel-heading">${escapeHTML(entry.block.title)}</h2><p class="carousel-description">${escapeHTML(entry.card.desc)}</p>`;
                     this.titlesLayer.append(title);
-                    const item = {tex:null,w:1200,h:800,actual:false,expectsArtwork:!!artworkURL(entry.block.heroImg || entry.card.img)}; this.textures.push(item);
+                    const item = {tex:null,w:1200,h:800,actual:false}; this.textures.push(item);
                     if (!loader) return;
                     const receive = (texture,actual) => {
                         if (generation !== this.generation || (!actual && item.actual)) { texture.dispose(); return; }
@@ -1959,7 +1959,8 @@
                     u.uHover.value=isInteractiveMode?this.currentHover:0;if(isInteractiveMode)u.uTime.value+=dt*.48;else u.uTime.value=0;
                     if(this.textures[a]?.tex){u.t1.value=this.textures[a].tex;u.uTexRes1.value.set(this.textures[a].w,this.textures[a].h);}
                     if(this.textures[b]?.tex){u.t2.value=this.textures[b].tex;u.uTexRes2.value.set(this.textures[b].w,this.textures[b].h);}
-                    const ready=[this.textures[a],this.textures[b]].every(item=>item?.tex && (!item.expectsArtwork || item.actual));
+                    // Loaded previews share the same effects, even when adjacent artwork is unavailable.
+                    const ready=[this.textures[a],this.textures[b]].every(item=>item?.tex);
                     if(u.t1.value&&u.t2.value&&ready){this.renderer.render(this.scene,this.camera);this.container.classList.add('webgl-ready');}
                     else this.container.classList.remove('webgl-ready');
                 }
