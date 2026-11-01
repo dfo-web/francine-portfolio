@@ -375,8 +375,8 @@
             --lamp-anchor:-3px;
             position:absolute; top:6px; right:62px; z-index:6;
             width:48px; height:calc(var(--lamp-length) + 44px);
-            margin:0; padding:0; border:0; background:transparent; cursor:pointer;
-            color:#665b56; overflow:visible; isolation:isolate;
+            margin:0; padding:0; border:0; background:transparent; cursor:grab;
+            color:#665b56; overflow:visible; isolation:isolate; touch-action:none; user-select:none;
         }
         .ceiling-lamp-wrapper::after {
             content:""; position:absolute; top:calc(var(--lamp-anchor) - 3px);
@@ -403,7 +403,7 @@
         .lamp-pull {
             position:absolute; left:2px; top:calc(100% - 22px);
             width:44px; height:44px; display:grid; place-items:center;
-            transform-origin:center;
+            transform-origin:center; pointer-events:auto;
         }
         .lamp-pull > span {
             width:8px; height:8px; border-radius:50%; background:#fffdf6;
@@ -1038,7 +1038,7 @@
         <a class="home-signature" href="#about-view" aria-label="About Francine" onclick="window.openView('about-view'); return false;"><span id="nav-logo-default">fo<span>.</span></span><img id="nav-logo-img" alt="Portfolio logo" hidden></a>
 
         <section id="desk-hero" aria-label="Welcome to Francine’s creative desk">
-        <button type="button" aria-label="Switch to dark mode" aria-pressed="false" class="ceiling-lamp-wrapper" onclick="window.toggleTheme()" title="Pull to switch to dark mode">
+        <button type="button" aria-label="Switch to dark mode" aria-pressed="false" class="ceiling-lamp-wrapper" onclick="if(event.detail===0)window.toggleTheme()" title="Pull to switch to dark mode">
             <svg class="lamp-spotlight" viewBox="0 0 220 350" fill="none" aria-hidden="true">
                 <defs>
                     <linearGradient id="lamp-beam-fade" x1="110" y1="20" x2="110" y2="330" gradientUnits="userSpaceOnUse"><stop stop-color="#fffdf6"/><stop offset=".17" stop-color="#fffdf6" stop-opacity=".85"/><stop offset=".46" stop-color="#fff9e8" stop-opacity=".4"/><stop offset=".76" stop-color="#fff9e8" stop-opacity=".10"/><stop offset="1" stop-color="#fff9e8" stop-opacity="0"/></linearGradient>
@@ -2361,7 +2361,7 @@
             const pull=button?.querySelector('.lamp-pull');
             const spotlight=button?.querySelector('.lamp-spotlight');
             if(!string?.animate || !pull?.animate || !spotlight?.animate)return;
-            // Capture a running tug before restarting, so repeated clicks stay continuous.
+            // Capture the current pull before returning the cord to rest.
             const stringStart=getComputedStyle(string).transform;
             const pullStart=getComputedStyle(pull).transform;
             const lightStart=Number(getComputedStyle(spotlight).opacity);
@@ -2413,6 +2413,33 @@
             syncLampTheme();
             window.deskExperience?.theme();
         };
+
+        const lampButton=document.querySelector('.ceiling-lamp-wrapper');
+        const lampString=lampButton.querySelector('.lamp-string'),lampPull=lampButton.querySelector('.lamp-pull');
+        let lampDrag=null;
+        lampButton.addEventListener('pointerdown',event=>{
+            if(lampDrag || !event.isPrimary || event.button!==0)return;
+            stopLampFeedback();
+            lampDrag={id:event.pointerId,x:event.clientX,y:event.clientY,length:Math.max(1,lampString.offsetHeight)};
+            lampButton.setPointerCapture(event.pointerId);
+        });
+        lampButton.addEventListener('pointermove',event=>{
+            if(event.pointerId!==lampDrag?.id)return;
+            const distance=Math.max(0,Math.min(60,event.clientY-lampDrag.y)),stretch=1+distance/lampDrag.length;
+            lampString.style.transform=`scaleY(${stretch})`;
+            lampPull.style.transform=`scaleY(${1/stretch})`;
+        });
+        function releaseLampPull(event) {
+            if(event.pointerId!==lampDrag?.id)return;
+            const drag=lampDrag;lampDrag=null;
+            if(lampButton.hasPointerCapture(event.pointerId))lampButton.releasePointerCapture(event.pointerId);
+            const distance=event.clientY-drag.y;
+            if(event.type==='pointerup' && distance>=28 && distance>Math.abs(event.clientX-drag.x))window.toggleTheme();
+            else if(lampString.style.transform)playLampFeedback(document.documentElement.classList.contains('dark'));
+            lampString.style.transform='';lampPull.style.transform='';
+        }
+        ['pointerup','pointercancel','lostpointercapture'].forEach(type=>lampButton.addEventListener(type,releaseLampPull));
+        window.addEventListener('blur',()=>{if(lampDrag)releaseLampPull({type:'pointercancel',pointerId:lampDrag.id});});
 
         let storedTheme; try { storedTheme = localStorage.theme; } catch (_) {}
         if (storedTheme === 'dark' || (!storedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
