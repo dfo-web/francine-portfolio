@@ -445,7 +445,7 @@
         .work-nav-label,.work-nav>div button { font:400 12px Oswald,sans-serif; letter-spacing:.13em; text-transform:uppercase; }
         .work-nav>div { display:flex; gap:32px; }
         .work-nav>div button:hover { color:#ffc2b3; }
-        #work-section { height:100%; min-height:450px; touch-action:pan-y; cursor:grab; isolation:isolate; overflow:hidden; }
+        #work-section { height:100%; min-height:0; touch-action:pan-y; cursor:grab; isolation:isolate; overflow:hidden; }
         #work-section:active { cursor:grabbing; }
         #webgl-canvas,.carousel-image { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
         #webgl-canvas { opacity:0; transition:opacity .4s; }
@@ -1903,20 +1903,25 @@
                 window.addEventListener('resize',this.resize,{passive:true});
                 document.addEventListener('visibilitychange',()=>this.kick());
                 this.container.addEventListener('pointerdown',event=>{
-                    if(event.button!==0 || (event.target.closest('button,a') && !event.target.closest('#carousel-click-overlay'))) return;
-                    this.isDragging=true;this.dragged=false;this.startX=event.clientX;this.startY=event.clientY;this.startProgress=this.targetProgress;this.lastX=event.clientX;
+                    if(this.isDragging || !event.isPrimary || event.button!==0 || (event.target.closest('button,a') && !event.target.closest('#carousel-click-overlay'))) return;
+                    this.isDragging=true;this.dragPointer=event.pointerId;this.dragged=false;this.startX=event.clientX;this.startY=event.clientY;this.startProgress=this.targetProgress;this.lastX=event.clientX;
                 });
                 window.addEventListener('pointermove',event=>{
                     if(this.material) this.material.uniforms.uMouse.value.set(event.clientX/innerWidth,1-event.clientY/innerHeight);
-                    if(!this.isDragging) return;
+                    if(!this.isDragging || event.pointerId!==this.dragPointer) return;
                     const dx=event.clientX-this.startX,dy=event.clientY-this.startY;
-                    if(Math.abs(dx)>8 && Math.abs(dx)>Math.abs(dy)) this.dragged=true;
+                    if(!this.dragged && Math.abs(dx)>8 && Math.abs(dx)>Math.abs(dy)){this.dragged=true;this.container.setPointerCapture(event.pointerId);}
                     if(this.dragged) {this.lastX=event.clientX;this.targetProgress=this.startProgress-dx/this.width*1.8;this.kick();}
                 },{passive:true});
-                const release=()=>{if(!this.isDragging)return;this.isDragging=false;
-                    if(this.dragged && Math.abs(this.targetProgress-this.startProgress)<.5) this.targetProgress=Math.round(this.startProgress)+(this.lastX<this.startX?1:-1);
+                const release=event=>{if(!this.isDragging || event.pointerId!==this.dragPointer)return;this.isDragging=false;
+                    if(this.container.hasPointerCapture(this.dragPointer))this.container.releasePointerCapture(this.dragPointer);this.dragPointer=null;
+                    if(event.type!=='pointerup'){this.targetProgress=this.startProgress;this.dragged=true;}
+                    else if(this.dragged && Math.abs(this.targetProgress-this.startProgress)<.5 && Math.abs(this.lastX-this.startX)>8) this.targetProgress=Math.round(this.startProgress)+(this.lastX<this.startX?1:-1);
                     this.snapToNearest();};
                 window.addEventListener('pointerup',release);window.addEventListener('pointercancel',release);
+                // A child's implicit touch capture may be handed to the carousel during a swipe.
+                this.container.addEventListener('lostpointercapture',event=>{if(event.target===this.container)release(event);});
+                window.addEventListener('blur',()=>{if(this.isDragging)release({type:'pointercancel',pointerId:this.dragPointer});});
                 let wheelSum=0,lastWheel=0;
                 this.container.addEventListener('wheel',event=>{event.preventDefault();
                     const now=performance.now();if(now-lastWheel<400)return;
@@ -2353,7 +2358,7 @@
             lampFeedbackAnimations.forEach(animation=>animation.cancel());
             lampFeedbackAnimations=[];
         }
-        lampReducedMotion.addEventListener?.('change',event=>{if(event.matches)stopLampFeedback();});
+        lampReducedMotion.addEventListener?.('change',event=>{if(event.matches){stopLampFeedback();if(isInteractiveMode)window.toggleInteractiveMode();}});
         function playLampFeedback(nextDark) {
             if(!isInteractiveMode || lampReducedMotion.matches) { stopLampFeedback(); return; }
             const button=document.querySelector('.ceiling-lamp-wrapper');
