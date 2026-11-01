@@ -306,6 +306,9 @@
         .scene-ready #desk-fallback { opacity:0; visibility:hidden; }
         #desk-screen-live { position:absolute; left:0; top:0; width:1200px; height:760px; transform-origin:0 0; pointer-events:none; overflow:hidden; border-radius:22px; visibility:hidden; }
         #desk-screen-live svg { display:block; width:100%; height:100%; }
+        .desk-polaroid-live { position:absolute; left:0; top:0; width:240px; height:290px; transform-origin:0 0; pointer-events:none; visibility:hidden; }
+        .desk-polaroid-live svg { display:block; width:100%; height:100%; }
+        .desk-polaroid-live[data-placed] { visibility:visible; }
         #desk-screen-live[data-placed] { visibility:visible; }
         .screen-bubbles { opacity:0; }
         .desk-boot .screen-bubbles { animation:desk-bubbles 950ms ease-out both; }
@@ -1101,8 +1104,8 @@
                     <path d="M413 389H545" stroke="#75795b" stroke-width="3" stroke-dasharray="8 5"/><rect x="649" y="381" width="17" height="14" fill="#159269"/>
                     <g transform="translate(300 477)"><path d="M0 0H391L410 35H-19Z" fill="#f2e5c3" stroke="#b6ab8a" stroke-width="3"/><path d="M12 9H380M7 18H385M2 27H390" stroke="#eabe50" stroke-width="7" stroke-dasharray="17 5"/><path d="M110 28H275" stroke="#0f9a65" stroke-width="8"/><path d="M2 10H35M352 10H382" stroke="#db3d2e" stroke-width="12"/></g>
                     <path d="m305 96 65 6-8 57-65-9z" fill="#ffde59"/><text x="333" y="121" text-anchor="middle" font-size="14" font-style="italic" font-family="Georgia,serif" fill="#5f4836">Poke<tspan x="333" dy="18">around.</tspan></text>
-                    <g transform="translate(643 307) rotate(-10)"><rect width="57" height="73" fill="#fff8de"/><image id="fallback-polaroid-1" x="5" y="5" width="47" height="51" preserveAspectRatio="xMidYMid slice"/></g>
-                    <g transform="translate(661 345) rotate(9)"><rect width="57" height="73" fill="#fff8de"/><image id="fallback-polaroid-2" x="5" y="5" width="47" height="51" preserveAspectRatio="xMidYMid slice"/></g>
+                    <g id="fallback-polaroid-frame-1" transform="translate(643 307) rotate(-10)"><rect width="57" height="73" fill="#fff8de"/><image id="fallback-polaroid-1" x="5" y="5" width="47" height="51" preserveAspectRatio="xMidYMid slice"/></g>
+                    <g id="fallback-polaroid-frame-2" transform="translate(661 345) rotate(9)"><rect width="57" height="73" fill="#fff8de"/><image id="fallback-polaroid-2" x="5" y="5" width="47" height="51" preserveAspectRatio="xMidYMid slice"/></g>
                     <rect x="195" y="402" width="75" height="96" rx="14" fill="#099b70"/><path d="M265 423q45-3 28 40-8 19-31 8" fill="none" stroke="#087b59" stroke-width="13"/><ellipse cx="232" cy="403" rx="35" ry="12" fill="#76dcb3"/><ellipse cx="232" cy="403" rx="26" ry="7" fill="#594137"/><circle cx="219" cy="438" r="12" fill="#fffdf5"/><circle cx="246" cy="438" r="12" fill="#fffdf5"/><circle cx="222" cy="440" r="5" fill="#242324"/><circle cx="247" cy="440" r="5" fill="#242324"/><circle cx="236" cy="465" r="7" fill="#34233f"/>
                     <path d="m736 412 80-16 22 57-79 18z" fill="#ffde59"/><path d="m748 423 51-11m-48 24 36-8" stroke="#6c5533" stroke-width="3"/>
                     <path d="m741 283 13 31 31 12-31 12-13 31-13-31-31-12 31-12z" fill="#099b70"/><path d="m266 194 12 28 28 10-28 10-12 28-10-28-28-10 28-10z" fill="#ffde59"/>
@@ -1120,6 +1123,8 @@
                 </svg>
                 <canvas id="desk-canvas" aria-hidden="true"></canvas>
                 <div id="desk-screen-live" aria-hidden="true"></div>
+                <div id="desk-polaroid-live-1" class="desk-polaroid-live" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="240" height="290" viewBox="0 0 240 290"><rect width="240" height="290" fill="#fff7df"/><image id="desk-polaroid-photo-1" x="21" y="23" width="198" height="204" preserveAspectRatio="xMidYMid slice"/></svg></div>
+                <div id="desk-polaroid-live-2" class="desk-polaroid-live" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="240" height="290" viewBox="0 0 240 290"><rect width="240" height="290" fill="#fff7df"/><image id="desk-polaroid-photo-2" x="21" y="23" width="198" height="204" preserveAspectRatio="xMidYMid slice"/></svg></div>
                 <script id="desk-polaroid-data" type="application/json">{"polaroid-1":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MDAiIGhlaWdodD0iNjAwIiB2aWV3Qm94PSIwIDAgNjAwIDYwMCI+CiAgPHJlY3Qgd2lkdGg9IjYwMCIgaGVpZ2h0PSI2MDAiIGZpbGw9IiNmN2VkYzgiLz4KICA8cGF0aCBkPSJNMCAwSDYwMFYzNzVIMFoiIGZpbGw9IiMyMGI4ZDIiLz4KICA8Y2lyY2xlIGN4PSI0NDAiIGN5PSIxMjgiIHI9IjcwIiBmaWxsPSIjZjhkNjRjIi8+CiAgPHBhdGggZD0iTTAgMzIyUTEzNSAyODAgMjYyIDMyNlQ2MDAgMzA2VjQzMEgwWiIgZmlsbD0iIzA4N2E2OCIvPgogIDxwYXRoIGQ9Ik0wIDM3NVExNjcgMzI4IDMwMCAzODVUNjAwIDM2MFY2MDBIMFoiIGZpbGw9IiNmN2VkYzgiLz4KICA8cGF0aCBkPSJNMTM1IDYwMFExOTMgNDAyIDI3OCAyOTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2JkM2IyOCIgc3Ryb2tlLXdpZHRoPSIzMSIvPgogIDxnIGZpbGw9IiMxMjg3NDUiPgogICAgPHBhdGggZD0iTTI3OCAyOTFRMTI2IDI5MyA3MiAxODlRMjA3IDE3NyAyNzggMjkxWiIvPgogICAgPHBhdGggZD0iTTI3OCAyOTFRMTU2IDE4MCAxODggODBRMjk1IDE0MSAyNzggMjkxWiIvPgogICAgPHBhdGggZD0iTTI3OCAyOTFRMjgyIDExNyAzNzAgNzlRMzk0IDIxMiAyNzggMjkxWiIvPgogICAgPHBhdGggZD0iTTI3OCAyOTFRMzk3IDE3OSA1MDEgMjM3UTQ0MiAzMzIgMjc4IDI5MVoiLz4KICAgIDxwYXRoIGQ9Ik0yNzggMjkxUTQyMyAyODIgNDI4IDQwOVEzMTQgNDA1IDI3OCAyOTFaIi8+CiAgPC9nPgogIDxwYXRoIGQ9Ik00MzYgNDkzbDE4LTM0IDE3IDM0IDM3IDgtMzcgMTEtMTcgMzUtMTgtMzUtMzctMTF6IiBmaWxsPSIjZGMzYjI5Ii8+CiAgPHBhdGggZD0iTTU4IDQwOHEzMy0xMyA2NC00bTI2NSAyN3EzMi0xMyA2My01IiBmaWxsPSJub25lIiBzdHJva2U9IiMyMGI4ZDIiIHN0cm9rZS13aWR0aD0iOSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+Cjwvc3ZnPgo=","polaroid-2":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MDAiIGhlaWdodD0iNjAwIiB2aWV3Qm94PSIwIDAgNjAwIDYwMCI+CiAgPHJlY3Qgd2lkdGg9IjYwMCIgaGVpZ2h0PSI2MDAiIGZpbGw9IiNkYzNiMjkiLz4KICA8cGF0aCBkPSJNMCAwSDYwMFYyMzBIMFoiIGZpbGw9IiMwYTY1NDciLz4KICA8Y2lyY2xlIGN4PSI0MzgiIGN5PSIxMDUiIHI9IjUzIiBmaWxsPSIjZjdlZGM4Ii8+CiAgPHBhdGggZD0iTTAgMjMwTDYwMCAzODVWNjAwSDBaIiBmaWxsPSIjZjdlZGM4Ii8+CiAgPHBhdGggZD0iTTAgMjUyTDYwMCA0MDhWNDQ2TDAgMjkwWiIgZmlsbD0iIzIwYjhkMiIvPgogIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDk4IDI4Mikgcm90YXRlKC0xMSAyMDAgMTMwKSI+CiAgICA8cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjI2MCIgcng9IjE2IiBmaWxsPSIjYmQzMDI2Ii8+CiAgICA8cGF0aCBkPSJNMTIgMTNIMzg4VjIxNUgxMloiIGZpbGw9IiNlZDRiMzIiLz4KICAgIDxjaXJjbGUgY3g9IjIwMiIgY3k9IjExNiIgcj0iMTA0IiBmaWxsPSIjMTkyZTJhIi8+CiAgICA8Y2lyY2xlIGN4PSIyMDIiIGN5PSIxMTYiIHI9IjgyIiBmaWxsPSJub25lIiBzdHJva2U9IiMzNTU0NGEiIHN0cm9rZS13aWR0aD0iNiIvPgogICAgPGNpcmNsZSBjeD0iMjAyIiBjeT0iMTE2IiByPSI1OCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMzU1NDRhIiBzdHJva2Utd2lkdGg9IjQiLz4KICAgIDxjaXJjbGUgY3g9IjIwMiIgY3k9IjExNiIgcj0iMzEiIGZpbGw9IiMxNTk0NWIiLz4KICAgIDxjaXJjbGUgY3g9IjIwMiIgY3k9IjExNiIgcj0iNiIgZmlsbD0iI2Y3ZWRjOCIvPgogICAgPHBhdGggZD0iTTM1MCA0M1YxNDJMMzA0IDE4MyIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZjdlZGM4IiBzdHJva2Utd2lkdGg9IjEyIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICAgIDxyZWN0IHg9IjI3IiB5PSIyMjUiIHdpZHRoPSIxMDIiIGhlaWdodD0iMTkiIHJ4PSIzIiBmaWxsPSIjMjBiOGQyIi8+CiAgICA8Y2lyY2xlIGN4PSIzMzAiIGN5PSIyMzQiIHI9IjkiIGZpbGw9IiNmOGQ2NGMiLz4KICAgIDxjaXJjbGUgY3g9IjM2NSIgY3k9IjIzNCIgcj0iOSIgZmlsbD0iIzE1OTQ1YiIvPgogIDwvZz4KICA8cGF0aCBkPSJNODkgODhsMTUtMzIgMTYgMzIgMzMgMTEtMzMgMTAtMTYgMzMtMTUtMzMtMzMtMTB6IiBmaWxsPSIjZjhkNjRjIi8+Cjwvc3ZnPgo="}</script>
                 <div class="desk-hotspots">
                     <button id="desk-work-hotspot" type="button" class="scene-hotspot" aria-label="Explore selected work on the monitor" onclick="window.openView('work-view')"><span>Explore my work ↗</span></button>
@@ -2532,6 +2537,12 @@
                 for(const [id,bounds] of [['desk-work-hotspot',[354,140,284,216]],['desk-about-hotspot',[190,402,110,96]],['desk-resume-hotspot',[270,433,470,97]],['desk-services-hotspot',[752,399,91,102]]]){const button=document.getElementById(id);button.style.left=(x+bounds[0]*scale)+'px';button.style.top=(y+bounds[1]*scale)+'px';button.style.width=Math.max(44,bounds[2]*scale)+'px';button.style.height=Math.max(44,bounds[3]*scale)+'px';}
                 placeDeskScreen([[354,158],[638,158],[638,338],[354,338]].map(([px,py])=>({x:x+px*scale,y:y+py*scale})));
                 const matrix=document.getElementById('desk-fallback').getScreenCTM(),hostRect=host.getBoundingClientRect();
+                for(let i=1;i<=2;i++){
+                    const frame=document.getElementById('fallback-polaroid-frame-'+i),transform=frame.getScreenCTM();
+                    if(!transform)continue;
+                    const points=[[0,0],[57,0],[57,73],[0,73]].map(([px,py])=>{const point=new DOMPoint(px,py).matrixTransform(transform);return {x:point.x-hostRect.left,y:point.y-hostRect.top};});
+                    placeDeskSurface(document.getElementById('desk-polaroid-live-'+i),points,240,290);frame.style.visibility='hidden';
+                }
                 if(matrix)contactExperience?.placePaper([[371,492],[619,492],[639,645],[353,645]].map(([x,y])=>{const point=new DOMPoint(x,y-154*(1-feed)).matrixTransform(matrix);return {x:point.x-hostRect.left,y:point.y-hostRect.top};}),feed);
             };
             new ResizeObserver(layout).observe(host);window.addEventListener('resize',layout,{passive:true});window.visualViewport?.addEventListener('resize',layout,{passive:true});layout();
@@ -2627,6 +2638,13 @@
             const colors=index===1?['#0f9a75','#75dbea','#ffe569']:['#ec4933','#f6ce4a','#168f77'];
             return 'data:image/svg+xml,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="240" height="250"><rect width="240" height="250" fill="${colors[1]}"/><circle cx="180" cy="60" r="34" fill="${colors[2]}"/><path d="M0 200L80 90L150 180L205 130L240 180V250H0Z" fill="${colors[0]}"/></svg>`);
         }
+        function refreshDeskPolaroids(){
+            for(let i=1;i<=2;i++){
+                const source=deskPolaroidSource(i);
+                document.getElementById('fallback-polaroid-'+i).setAttribute('href',source);
+                document.getElementById('desk-polaroid-photo-'+i).setAttribute('href',source);
+            }
+        }
         let deskScreenSource='';
         function refreshDeskScreen(){
             deskScreenSource=createDeskScreenSource();
@@ -2639,27 +2657,28 @@
             void host.offsetWidth;host.classList.add('desk-boot');
         };
         refreshDeskScreen();
-        for(let i=1;i<=2;i++)document.getElementById('fallback-polaroid-'+i).setAttribute('href',deskPolaroidSource(i));
+        refreshDeskPolaroids();
         // Drop deployment pictures in assets/desk; embedded artwork stays available offline.
         for(const [name,target] of [['main-portrait.jpg','portrait'],['polaroid-1.jpg','polaroid-1'],['polaroid-2.jpg','polaroid-2']]){
             fetch(new URL('assets/desk/'+name,document.baseURI)).then(response=>{if(!response.ok)throw new Error('optional photo');return response.blob();}).then(blob=>new Promise((resolve,reject)=>{if(!blob.type.startsWith('image/'))return reject();const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=reject;reader.readAsDataURL(blob);})).then(async src=>{
                 const picture=new Image();picture.src=src;await picture.decode();
                 if(target==='portrait'){document.getElementById('desk-screen-portrait').textContent=JSON.stringify({src});refreshDeskScreen();}
-                else {deskPolaroidPhotos[target]=src;document.getElementById('desk-polaroid-data').textContent=JSON.stringify(deskPolaroidPhotos);document.getElementById('fallback-'+target)?.setAttribute('href',src);window.deskExperience?.refreshPolaroids();}
+                else {deskPolaroidPhotos[target]=src;document.getElementById('desk-polaroid-data').textContent=JSON.stringify(deskPolaroidPhotos);refreshDeskPolaroids();}
             }).catch(()=>{});
         }
 
 
-        function placeDeskScreen(points){
+        function placeDeskSurface(element,points,width,height){
             const [p0,p1,p2,p3]=points;
             const dx1=p1.x-p2.x,dx2=p3.x-p2.x,dy1=p1.y-p2.y,dy2=p3.y-p2.y;
             const sx=p0.x-p1.x+p2.x-p3.x,sy=p0.y-p1.y+p2.y-p3.y,det=dx1*dy2-dx2*dy1;
             if(Math.abs(det)<.001)return;
             const g=(sx*dy2-dx2*sy)/det,h=(dx1*sy-sx*dy1)/det;
             const a=p1.x-p0.x+g*p1.x,b=p3.x-p0.x+h*p3.x,c=p1.y-p0.y+g*p1.y,d=p3.y-p0.y+h*p3.y;
-            const live=document.getElementById('desk-screen-live');if(!live.hasAttribute('data-placed'))live.dataset.placed='true';
-            document.getElementById('desk-screen-live').style.transform=`matrix3d(${a/1200},${c/1200},0,${g/1200},${b/760},${d/760},0,${h/760},0,0,1,0,${p0.x},${p0.y},0,1)`;
+            if(!element.hasAttribute('data-placed'))element.dataset.placed='true';
+            element.style.transform=`matrix3d(${a/width},${c/width},0,${g/width},${b/height},${d/height},0,${h/height},0,0,1,0,${p0.x},${p0.y},0,1)`;
         }
+        function placeDeskScreen(points){placeDeskSurface(document.getElementById('desk-screen-live'),points,1200,760);}
 
         // All workstation geometry is original, procedural, and self-contained.
         function initCreativeDesk() {
@@ -2730,21 +2749,11 @@
             add(roundBox(.19,.17,.05,.012,tableGreen),1.67,-1.28,1.05,monitor);
             const stickyTex=canvasTexture((ctx,w,h)=>{ctx.fillStyle='#ffdc66';ctx.fillRect(0,0,w,h);ctx.fillStyle='#5f4836';ctx.textAlign='center';ctx.font='italic 86px "Instrument Serif",Georgia';ctx.fillText('Poke',w/2,152);ctx.fillText('around.',w/2,260);},512,380);
             const sticky=textPlane(.69,.54,stickyTex);sticky.rotation.z=-.13;add(sticky,-1.71,1.43,1.15,monitor);
+            // Cards share the sharp screen's DOM layer so the screen cannot cover them.
             const polaroids=[];
-            function refreshPolaroids(){
-                for(const [index,item] of polaroids.entries()){
-                    const generation=++item.generation;
-                    new THREE.TextureLoader().load(deskPolaroidSource(index+1),texture=>{if(generation!==item.generation){texture.dispose();return;}texture.encoding=THREE.sRGBEncoding;texture.minFilter=THREE.LinearFilter;texture.generateMipmaps=false;
-                        const aspect=texture.image.width/texture.image.height,target=.55/.57;
-                        if(aspect>target){texture.repeat.x=target/aspect;texture.offset.x=(1-texture.repeat.x)/2;}else{texture.repeat.y=aspect/target;texture.offset.y=(1-texture.repeat.y)/2;}
-                        item.photo.material.map?.dispose();item.photo.material.map=texture;item.photo.material.needsUpdate=true;kick();});
-                    document.getElementById('fallback-polaroid-'+(index+1))?.setAttribute('href',deskPolaroidSource(index+1));
-                }
-            }
             for(let i=0;i<2;i++){
                 const group=new THREE.Group();group.rotation.z=i===0?-.13:.15;add(group,1.69+i*.27,-.66-i*.40,1.27+i*.03,monitor);
-                add(textPlane(.67,.81,canvasTexture((ctx,w,h)=>{ctx.fillStyle='#fff7df';ctx.fillRect(0,0,w,h);},128,160)),0,0,0,group);
-                const photo=textPlane(.55,.57,null);add(photo,0,.055,.004,group);polaroids.push({photo,generation:0});
+                polaroids.push({group,element:document.getElementById('desk-polaroid-live-'+(i+1))});
             }
             const keyboard=new THREE.Group();keyboard.rotation.x=-.14;add(keyboard,0,.10,1.85);
             add(roundBox(4.5,.19,.86,.04,cream),0,0,0,keyboard);
@@ -2791,6 +2800,12 @@
                     const point=new THREE.Vector3(x,y,1.12);monitor.localToWorld(point);point.project(camera);return {x:(point.x+1)*host.clientWidth/2,y:(1-point.y)*host.clientHeight/2};
                 });
                 placeDeskScreen(corners);
+                for(const {group,element} of polaroids){
+                    const points=[[-.335,.405],[.335,.405],[.335,-.405],[-.335,-.405]].map(([x,y])=>{
+                        const point=new THREE.Vector3(x,y,.004);group.localToWorld(point);point.project(camera);return {x:(point.x+1)*host.clientWidth/2,y:(1-point.y)*host.clientHeight/2};
+                    });
+                    placeDeskSurface(element,points,240,290);
+                }
             }
             function resize(){const narrow=innerWidth<768;
                 mug.position.x=narrow?-2.47:-3.03;
@@ -2823,8 +2838,8 @@
             new ResizeObserver(resize).observe(host);
             canvas.addEventListener('webglcontextlost',event=>{event.preventDefault();contextLost=true;if(frame)cancelAnimationFrame(frame);frame=0;document.getElementById('main-portfolio-view').classList.remove('scene-ready');window.dispatchEvent(new Event('resize'));});
             canvas.addEventListener('webglcontextrestored',()=>{contextLost=false;document.getElementById('main-portfolio-view').classList.add('scene-ready');resize();});
-            window.deskExperience={setOverlay(enabled){overlayPaused=enabled;if(frame)cancelAnimationFrame(frame);frame=0;kick();},setPaper(){},setMotion(enabled){interactive=enabled;if(!enabled){pointerX=pointerY=0;world.rotation.set(0,0,0);if(frame)cancelAnimationFrame(frame);frame=0;}kick();},activate(enabled){active=enabled;if(!enabled&&frame){cancelAnimationFrame(frame);frame=0;}else kick();},theme,refreshPolaroids,refreshText(){refreshDeskScreen();kick();}};
-            refreshPolaroids();
+            window.deskExperience={setOverlay(enabled){overlayPaused=enabled;if(frame)cancelAnimationFrame(frame);frame=0;kick();},setPaper(){},setMotion(enabled){interactive=enabled;if(!enabled){pointerX=pointerY=0;world.rotation.set(0,0,0);if(frame)cancelAnimationFrame(frame);frame=0;}kick();},activate(enabled){active=enabled;if(!enabled&&frame){cancelAnimationFrame(frame);frame=0;}else kick();},theme,refreshPolaroids:refreshDeskPolaroids,refreshText(){refreshDeskScreen();kick();}};
+            refreshDeskPolaroids();
             resize();theme();document.getElementById('main-portfolio-view').classList.add('scene-ready');
             interactive = !document.body.classList.contains('motion-off');kick();
             // Draw again after the embedded fonts finish decoding.
@@ -3974,6 +3989,7 @@
             root.querySelector('#main-portfolio-view').classList.remove('scene-ready');root.querySelector('#work-section').classList.remove('webgl-ready');
             const screen=root.querySelector('#desk-screen-live');screen.replaceChildren();screen.removeAttribute('style');screen.removeAttribute('data-placed');
             root.querySelector('#desk-stage').classList.remove('desk-boot');
+            for(const card of root.querySelectorAll('.desk-polaroid-live')){card.removeAttribute('style');card.removeAttribute('data-placed');card.querySelector('image').removeAttribute('href');}
             for(const image of root.querySelectorAll('#fallback-screen-art,#fallback-polaroid-1,#fallback-polaroid-2'))image.removeAttribute('href');
             for(const view of root.querySelectorAll('.view-layer')){const home=view.id==='main-portfolio-view';view.classList.toggle('active',home);view.inert=!home;view.setAttribute('aria-hidden',String(!home));}
             for(const input of root.querySelectorAll('#admin-modal input')){input.removeAttribute('value');input.value='';}
