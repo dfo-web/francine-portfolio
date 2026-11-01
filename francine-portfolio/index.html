@@ -272,9 +272,9 @@
             .resume-print ul { padding-left: 20px; }
             .resume-print a { color: #111; text-decoration: none; }
         }
-        /* A soft 3D desktop, adapted to Francine's cream / coral / violet identity. */
-        #main-portfolio-view { background: radial-gradient(ellipse at 17% 0%,#ffdfca80,transparent 55%),linear-gradient(180deg,#f5f5f0 0%,#f2eade 55%,#e5d5ea 100%); color:#242323; isolation:isolate; }
-        .dark #main-portfolio-view { background:radial-gradient(ellipse at 17% 0%,#70402b55,transparent 55%),linear-gradient(180deg,#24212b,#302b39 58%,#493950); color:#f4f3ec; }
+        /* Tropical desktop: cream hardware, red controls, green table and cyan screen. */
+        #main-portfolio-view { background: radial-gradient(ellipse at 17% 0%,#f9e48255,transparent 55%),linear-gradient(180deg,#fff9e9 0%,#eef2dd 55%,#b4d7c9 100%); color:#242323; isolation:isolate; }
+        .dark #main-portfolio-view { background:radial-gradient(ellipse at 17% 0%,#17695966,transparent 55%),linear-gradient(180deg,#102d30,#173c3a 58%,#245348); color:#f4f3ec; }
         #desk-hero { width:100%; height:100svh; min-height:560px; overflow:hidden; position:relative; display:block; }
         #hero-type.home-intro { top:20px; left:50%; width:100%; padding:0 20px; transform:translateX(-50%); text-align:center; z-index:4; pointer-events:none; }
         .home-hello { font:400 clamp(24px,3.3vh,42px)/1.1 "Instrument Serif",Georgia,serif; margin:0 0 1px; }
@@ -292,10 +292,10 @@
 
         .home-marquee { position:absolute; left:0; right:0; top:26%; height:56%; overflow:hidden; z-index:0; opacity:.11; user-select:none; pointer-events:none; }
         .home-marquee-track { display:flex; width:max-content; height:100%; animation:home-type-drift 38s linear infinite; }
-        .home-marquee-track > span { display:block; flex-shrink:0; white-space:nowrap; font:700 clamp(180px,48vh,530px)/1 Oswald,sans-serif; letter-spacing:-.025em; color:#815a50; }
-        .home-marquee-track b { font-weight:400; color:#9b5de5; font-size:.6em; vertical-align:.12em; margin:0 .05em; }
+        .home-marquee-track > span { display:block; flex-shrink:0; white-space:nowrap; font:700 clamp(180px,48vh,530px)/1 Oswald,sans-serif; letter-spacing:-.025em; color:#247b54; }
+        .home-marquee-track b { font-weight:400; color:#e5462d; font-size:.6em; vertical-align:.12em; margin:0 .05em; }
         .dark .home-marquee { opacity:.11; }
-        .dark .home-marquee-track > span { color:#ffcfb9; }
+        .dark .home-marquee-track > span { color:#ffe8aa; }
         @keyframes home-type-drift { to { transform:translateX(-50%); } }
         .desk-stage { position:absolute; top:18%; bottom:0; left:0; width:100%; z-index:2; }
         #desk-canvas, #desk-fallback, .desk-hotspots { position:absolute; inset:0; width:100%; height:100%; }
@@ -304,10 +304,31 @@
         #fallback-receipt { opacity: 1; }
         .scene-ready #desk-canvas { opacity:1; }
         .scene-ready #desk-fallback { opacity:0; visibility:hidden; }
+        #desk-screen-live { position:absolute; left:0; top:0; width:1200px; height:760px; transform-origin:0 0; pointer-events:none; overflow:hidden; border-radius:22px; visibility:hidden; }
+        #desk-screen-live svg { display:block; width:100%; height:100%; }
+        #desk-screen-live[data-placed] { visibility:visible; }
+        .screen-bubbles { opacity:0; }
+        .desk-boot .screen-bubbles { animation:desk-bubbles 950ms ease-out both; }
+        .desk-boot .screen-dashboard { animation:desk-desktop 950ms ease-out both; }
+        @keyframes desk-bubbles { 0% { opacity:0; transform:translateY(90px) scale(.8); } 25% { opacity:1; } 100% { opacity:0; transform:translateY(-130px) scale(1.1); } }
+        @keyframes desk-desktop { 0%,25% { opacity:0; } 100% { opacity:1; } }
+        .motion-off .desk-boot .screen-bubbles { display:none; animation:none; }
+        .motion-off .desk-boot .screen-dashboard { animation:none; }
+        @media (prefers-reduced-motion:reduce) { .desk-boot .screen-bubbles { display:none; animation:none; } .desk-boot .screen-dashboard { animation:none; } }
+        #contact-paper-modal { border:5px ridge #16a7a9; border-radius:8px; background:#fff6db; }
+        #contact-paper-modal .contact-popup-sheet { display:flex; flex-direction:column; max-height:calc(100svh - 58px); border-radius:0; background:#fff6db; }
+        #contact-paper-modal #contact-popup-content { flex:1; min-height:0; max-height:none; }
+        #contact-paper-modal .contact-popup-sheet::before { content:"FRANS.WORKSPACE / CONTACT"; display:block; flex-shrink:0; padding:12px 44px 12px 16px; background:#087c73; color:#fff6db; font:700 14px/1.4 monospace; letter-spacing:.06em; }
+        #contact-paper-modal .contact-popup-close { border-radius:2px; color:#fff6db; background:#cb3331; top:8px; right:8px; }
+        #contact-paper-modal .paper-jagged-bottom { display:none; }
+        #printer-view { background:#127d79; }
+        #printer-view .paper-container { width:100%; margin:0; padding:0; clip-path:none; }
+        #printer-view .paper-container::after { display:none; }
+        #printer-view .contact-window-title { padding:16px; background:#087c73; color:#fff6db; font:700 16px monospace; border:4px ridge #49c1bd; }
         .desk-hotspots { pointer-events:none; }
         .scene-hotspot { position:absolute; padding:0; border:0; border-radius:25px; background:transparent; pointer-events:auto; }
         .scene-hotspot > span { position:absolute; bottom:calc(100% + 10px); left:50%; transform:translateX(-50%) translateY(5px); opacity:0; white-space:nowrap; padding:10px 14px; background:#242323; color:#fff7ed; font:500 12px Arial,sans-serif; border-radius:8px; transition:opacity .15s,transform .15s; pointer-events:none; }
-        .scene-hotspot:focus-visible { outline:3px dashed #9b5de5; outline-offset:8px; }
+        .scene-hotspot:focus-visible { outline:3px dashed #e8b92c; outline-offset:8px; }
         .scene-hotspot:is(:hover,:focus-visible) > span { opacity:1; transform:translateX(-50%); }
         #desk-work-hotspot { left:34%; top:21%; width:31%; height:39%; }
         #desk-about-hotspot { left:18%; top:59%; width:10%; height:18%; }
@@ -318,7 +339,7 @@
         #main-portfolio-view .desk-nav > a.home-nav-current { font:italic 31px/1.05 "Instrument Serif",Georgia,serif; }
         .dark #main-portfolio-view .desk-nav > a:hover { color:#ffae8e; }
         #main-portfolio-view .home-motion-control { display:flex; align-items:center; gap:12px; margin:13px 0 0; font:400 12px/1.3 Arial,sans-serif; }
-        #interactive-toggle { position:relative; width:61px; height:30px; border:0; border-radius:20px; color:#fff; background:#9b5de5; box-shadow:inset 0 1px 6px #0002; display:flex; align-items:center; padding:0; }
+        #interactive-toggle { position:relative; width:61px; height:30px; border:0; border-radius:20px; color:#fff; background:#0c9565; box-shadow:inset 0 1px 6px #0002; display:flex; align-items:center; padding:0; }
         #interactive-toggle[aria-pressed="false"] { background:#88818a; }
         #interactive-text { width:38px; display:block; font:500 12px "Instrument Serif",Georgia,serif; }
         #interactive-indicator { display:block; position:absolute; top:4px; left:34px; width:22px; height:22px; background:#f5f5f0; border-radius:50%; transform:none !important; transition:left .2s; }
@@ -1065,38 +1086,46 @@
             <div class="home-marquee" aria-hidden="true"><div class="home-marquee-track"><span>DESIGN <b>✳</b> MOTION <b>✳</b> INTERFACES <b>✳</b> </span><span>DESIGN <b>✳</b> MOTION <b>✳</b> INTERFACES <b>✳</b> </span></div></div>
             <div id="desk-stage" class="desk-stage">
                 <svg id="desk-fallback" viewBox="0 0 1000 670" aria-hidden="true">
-                    <defs><linearGradient id="case-coral" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffae88"/><stop offset=".7" stop-color="#ff6b4a"/><stop offset="1" stop-color="#c84b35"/></linearGradient><linearGradient id="table-cream" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff7e6"/><stop offset="1" stop-color="#d9c5b6"/></linearGradient><filter id="desk-soft-shadow"><feGaussianBlur stdDeviation="18"/></filter></defs>
-                    <ellipse cx="520" cy="560" rx="355" ry="34" fill="#603e3133" filter="url(#desk-soft-shadow)"/>
-                    <path d="M137 490Q140 473 176 470H829Q866 474 866 493v67Q866 580 839 580H165Q137 580 137 560z" fill="url(#table-cream)"/><ellipse cx="500" cy="483" rx="367" ry="32" fill="#fff4df"/>
-                    <rect x="445" y="396" width="97" height="42" rx="8" fill="#b87b64"/>
-                    <path d="M294 422h420l30 72H266z" fill="#f4ead5"/><rect x="287" y="475" width="428" height="48" rx="10" fill="#ddceb8"/><rect x="336" y="482" width="315" height="11" rx="6" fill="#402f45"/>
-                    <rect x="415" y="444" width="160" height="19" rx="4" fill="#ffde59"/><text x="495" y="458" text-anchor="middle" fill="#272527" font-size="12" font-family="Arial,sans-serif" font-weight="700">VIEW CONTACT</text>
-                    <path d="M302 123q0-40 43-40h292q66 0 72 43v250q-5 37-47 43H342q-40 0-40-44z" fill="url(#case-coral)"/><rect x="322" y="108" width="347" height="281" rx="35" fill="#faedce"/><rect x="343" y="129" width="306" height="237" rx="24" fill="#302c33"/><rect x="354" y="140" width="284" height="216" rx="16" fill="#242152"/>
-                    <image id="fallback-screen-art" x="354" y="140" width="284" height="216" preserveAspectRatio="xMidYMid meet"/>
-                    <path d="m305 96 65 6-8 57-65-9z" fill="#ffde59"/><text x="333" y="121" text-anchor="middle" font-size="14" font-style="italic" font-family="Georgia,serif" fill="#5f4836">Poke<tspan x="333" dy="18">around.</tspan></text><path d="m652 311 46-3 6 55-46 7z" fill="#ffde59"/><text x="677" y="331" text-anchor="middle" font-size="11" font-family="Arial,sans-serif" fill="#5f4836">Poke<tspan x="677" dy="16">around.</tspan></text><circle cx="691" cy="160" r="12" fill="#9b5de5"/>
-                    <rect x="195" y="402" width="75" height="96" rx="14" fill="#9b5de5"/><path d="M265 423q45-3 28 40-8 19-31 8" fill="none" stroke="#8b49cc" stroke-width="13"/><ellipse cx="232" cy="403" rx="35" ry="12" fill="#dcc2f4"/><ellipse cx="232" cy="403" rx="26" ry="7" fill="#594137"/><circle cx="219" cy="438" r="12" fill="#fffdf5"/><circle cx="246" cy="438" r="12" fill="#fffdf5"/><circle cx="222" cy="440" r="5" fill="#242324"/><circle cx="247" cy="440" r="5" fill="#242324"/><circle cx="236" cy="465" r="7" fill="#34233f"/>
+                    <defs><linearGradient id="case-cream" x2="0" y2="1"><stop stop-color="#fff3cf"/><stop offset="1" stop-color="#c2b392"/></linearGradient></defs>
+                    <ellipse cx="520" cy="602" rx="355" ry="24" fill="#124c4322"/>
+                    <path d="M142 470H857L884 520H115Z" fill="#168d59"/><path d="M115 520H884V539H115Z" fill="#cb3c30"/>
+                    <path d="M153 539V602H168V539M833 539V602H848V539" fill="none" stroke="#e6d7b6" stroke-width="12"/>
+                    <rect x="294" y="406" width="420" height="69" rx="4" fill="url(#case-cream)" stroke="#a69a7b" stroke-width="3"/>
+                    <path d="M315 428H426M315 438H426M315 448H426" stroke="#626b52" stroke-width="3" stroke-dasharray="2 5"/>
+                    <rect x="451" y="420" width="87" height="8" fill="#233c36"/><rect x="566" y="419" width="117" height="24" fill="#e5d6b6" stroke="#a89a7a"/>
+                    <rect x="455" y="446" width="127" height="19" fill="#ffe34b"/><text x="519" y="460" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" font-weight="bold" fill="#164f44">VIEW CONTACT</text>
+                    <path d="M302 103H683L709 124V403H302Z" fill="#bdb08e"/>
+                    <rect x="302" y="103" width="382" height="300" rx="6" fill="url(#case-cream)" stroke="#ae9c7a" stroke-width="3"/>
+                    <rect x="319" y="116" width="349" height="258" rx="4" fill="#cf3d30"/><rect x="337" y="128" width="315" height="239" rx="5" fill="#163b34"/>
+                    <image id="fallback-screen-art" x="354" y="158" width="284" height="180" preserveAspectRatio="xMidYMid meet"/>
+                    <path d="M413 389H545" stroke="#75795b" stroke-width="3" stroke-dasharray="8 5"/><rect x="649" y="381" width="17" height="14" fill="#159269"/>
+                    <g transform="translate(300 477)"><path d="M0 0H391L410 35H-19Z" fill="#f2e5c3" stroke="#b6ab8a" stroke-width="3"/><path d="M12 9H380M7 18H385M2 27H390" stroke="#eabe50" stroke-width="7" stroke-dasharray="17 5"/><path d="M110 28H275" stroke="#0f9a65" stroke-width="8"/><path d="M2 10H35M352 10H382" stroke="#db3d2e" stroke-width="12"/></g>
+                    <path d="m305 96 65 6-8 57-65-9z" fill="#ffde59"/><text x="333" y="121" text-anchor="middle" font-size="14" font-style="italic" font-family="Georgia,serif" fill="#5f4836">Poke<tspan x="333" dy="18">around.</tspan></text>
+                    <g transform="translate(643 307) rotate(-10)"><rect width="57" height="73" fill="#fff8de"/><image id="fallback-polaroid-1" x="5" y="5" width="47" height="51" preserveAspectRatio="xMidYMid slice"/></g>
+                    <g transform="translate(661 345) rotate(9)"><rect width="57" height="73" fill="#fff8de"/><image id="fallback-polaroid-2" x="5" y="5" width="47" height="51" preserveAspectRatio="xMidYMid slice"/></g>
+                    <rect x="195" y="402" width="75" height="96" rx="14" fill="#099b70"/><path d="M265 423q45-3 28 40-8 19-31 8" fill="none" stroke="#087b59" stroke-width="13"/><ellipse cx="232" cy="403" rx="35" ry="12" fill="#76dcb3"/><ellipse cx="232" cy="403" rx="26" ry="7" fill="#594137"/><circle cx="219" cy="438" r="12" fill="#fffdf5"/><circle cx="246" cy="438" r="12" fill="#fffdf5"/><circle cx="222" cy="440" r="5" fill="#242324"/><circle cx="247" cy="440" r="5" fill="#242324"/><circle cx="236" cy="465" r="7" fill="#34233f"/>
                     <path d="m736 412 80-16 22 57-79 18z" fill="#ffde59"/><path d="m748 423 51-11m-48 24 36-8" stroke="#6c5533" stroke-width="3"/>
-                    <path d="m741 283 13 31 31 12-31 12-13 31-13-31-31-12 31-12z" fill="#9b5de5"/><path d="m266 194 12 28 28 10-28 10-12 28-10-28-28-10 28-10z" fill="#ffde59"/>
+                    <path d="m741 283 13 31 31 12-31 12-13 31-13-31-31-12 31-12z" fill="#099b70"/><path d="m266 194 12 28 28 10-28 10-12 28-10-28-28-10 28-10z" fill="#ffde59"/>
                     <g id="fallback-services-mascot" aria-hidden="true">
                         <ellipse cx="789" cy="493" rx="39" ry="8" fill="#603e3133"/>
                         <g stroke="#44364f" stroke-width="2.5" stroke-linejoin="round">
                             <rect x="762" y="481" width="23" height="12" rx="6" fill="#4d3b59"/><rect x="789" y="481" width="23" height="12" rx="6" fill="#4d3b59"/>
-                            <rect x="764" y="449" width="45" height="37" rx="13" fill="#9b5de5"/><ellipse cx="760" cy="466" rx="8" ry="10" fill="#fffbed"/>
-                            <path d="M761 431Q756 414 778 409L785 397Q793 415 810 416Q824 432 810 449Q783 462 765 447Z" fill="#ad7dde"/>
+                            <rect x="764" y="449" width="45" height="37" rx="13" fill="#099b70"/><ellipse cx="760" cy="466" rx="8" ry="10" fill="#fffbed"/>
+                            <path d="M761 431Q756 414 778 409L785 397Q793 415 810 416Q824 432 810 449Q783 462 765 447Z" fill="#32b587"/>
                             <circle cx="780" cy="431" r="8" fill="#fffbed"/><circle cx="800" cy="431" r="8" fill="#fffbed"/><circle cx="782" cy="432" r="3" fill="#44364f"/><circle cx="802" cy="432" r="3" fill="#44364f"/>
                             <path d="M784 444Q790 452 797 444" fill="none"/><circle cx="821" cy="469" r="17" fill="#fffbed"/>
                             <path d="M815 462L824 460L829 468L822 476L813 471Z" fill="#44364f"/><path d="M815 462L810 455M824 460L830 455M829 468L837 470M822 476L823 485M813 471L805 474" fill="none"/>
                         </g><text x="787" y="475" text-anchor="middle" fill="#fffbed" font-size="15" font-weight="bold" font-family="Arial">1</text>
                     </g>
-                    <defs><clipPath id="contact-receipt-clip"><rect x="330" y="492" width="340" height="170"/></clipPath><linearGradient id="contact-paper-shade" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#d5cbbb"/><stop offset=".14" stop-color="#fffaf0"/><stop offset=".65" stop-color="#f2eadb"/><stop offset="1" stop-color="#fffaf0"/></linearGradient></defs>
-                    <g clip-path="url(#contact-receipt-clip)"><g id="fallback-receipt" transform="translate(0,-154)"><path d="M371 492H619Q605 506 610 536L639 645H353L363 536Q368 506 371 492Z" fill="url(#contact-paper-shade)"/><text x="495" y="542" font-family="Georgia,serif" font-style="italic" font-size="32" text-anchor="middle" fill="#39312c">Frans.</text><text x="495" y="579" font-family="Arial,sans-serif" font-size="12" text-anchor="middle" fill="#635a53">UI/UX &amp; VISUAL DESIGNER</text><path d="M386 601h217M392 613h205" stroke="#bca99a" stroke-width="2" stroke-dasharray="5 4"/></g></g>
                 </svg>
                 <canvas id="desk-canvas" aria-hidden="true"></canvas>
+                <div id="desk-screen-live" aria-hidden="true"></div>
+                <script id="desk-polaroid-data" type="application/json">{"polaroid-1":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MDAiIGhlaWdodD0iNjAwIiB2aWV3Qm94PSIwIDAgNjAwIDYwMCI+CiAgPHJlY3Qgd2lkdGg9IjYwMCIgaGVpZ2h0PSI2MDAiIGZpbGw9IiNmN2VkYzgiLz4KICA8cGF0aCBkPSJNMCAwSDYwMFYzNzVIMFoiIGZpbGw9IiMyMGI4ZDIiLz4KICA8Y2lyY2xlIGN4PSI0NDAiIGN5PSIxMjgiIHI9IjcwIiBmaWxsPSIjZjhkNjRjIi8+CiAgPHBhdGggZD0iTTAgMzIyUTEzNSAyODAgMjYyIDMyNlQ2MDAgMzA2VjQzMEgwWiIgZmlsbD0iIzA4N2E2OCIvPgogIDxwYXRoIGQ9Ik0wIDM3NVExNjcgMzI4IDMwMCAzODVUNjAwIDM2MFY2MDBIMFoiIGZpbGw9IiNmN2VkYzgiLz4KICA8cGF0aCBkPSJNMTM1IDYwMFExOTMgNDAyIDI3OCAyOTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2JkM2IyOCIgc3Ryb2tlLXdpZHRoPSIzMSIvPgogIDxnIGZpbGw9IiMxMjg3NDUiPgogICAgPHBhdGggZD0iTTI3OCAyOTFRMTI2IDI5MyA3MiAxODlRMjA3IDE3NyAyNzggMjkxWiIvPgogICAgPHBhdGggZD0iTTI3OCAyOTFRMTU2IDE4MCAxODggODBRMjk1IDE0MSAyNzggMjkxWiIvPgogICAgPHBhdGggZD0iTTI3OCAyOTFRMjgyIDExNyAzNzAgNzlRMzk0IDIxMiAyNzggMjkxWiIvPgogICAgPHBhdGggZD0iTTI3OCAyOTFRMzk3IDE3OSA1MDEgMjM3UTQ0MiAzMzIgMjc4IDI5MVoiLz4KICAgIDxwYXRoIGQ9Ik0yNzggMjkxUTQyMyAyODIgNDI4IDQwOVEzMTQgNDA1IDI3OCAyOTFaIi8+CiAgPC9nPgogIDxwYXRoIGQ9Ik00MzYgNDkzbDE4LTM0IDE3IDM0IDM3IDgtMzcgMTEtMTcgMzUtMTgtMzUtMzctMTF6IiBmaWxsPSIjZGMzYjI5Ii8+CiAgPHBhdGggZD0iTTU4IDQwOHEzMy0xMyA2NC00bTI2NSAyN3EzMi0xMyA2My01IiBmaWxsPSJub25lIiBzdHJva2U9IiMyMGI4ZDIiIHN0cm9rZS13aWR0aD0iOSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+Cjwvc3ZnPgo=","polaroid-2":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MDAiIGhlaWdodD0iNjAwIiB2aWV3Qm94PSIwIDAgNjAwIDYwMCI+CiAgPHJlY3Qgd2lkdGg9IjYwMCIgaGVpZ2h0PSI2MDAiIGZpbGw9IiNkYzNiMjkiLz4KICA8cGF0aCBkPSJNMCAwSDYwMFYyMzBIMFoiIGZpbGw9IiMwYTY1NDciLz4KICA8Y2lyY2xlIGN4PSI0MzgiIGN5PSIxMDUiIHI9IjUzIiBmaWxsPSIjZjdlZGM4Ii8+CiAgPHBhdGggZD0iTTAgMjMwTDYwMCAzODVWNjAwSDBaIiBmaWxsPSIjZjdlZGM4Ii8+CiAgPHBhdGggZD0iTTAgMjUyTDYwMCA0MDhWNDQ2TDAgMjkwWiIgZmlsbD0iIzIwYjhkMiIvPgogIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDk4IDI4Mikgcm90YXRlKC0xMSAyMDAgMTMwKSI+CiAgICA8cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjI2MCIgcng9IjE2IiBmaWxsPSIjYmQzMDI2Ii8+CiAgICA8cGF0aCBkPSJNMTIgMTNIMzg4VjIxNUgxMloiIGZpbGw9IiNlZDRiMzIiLz4KICAgIDxjaXJjbGUgY3g9IjIwMiIgY3k9IjExNiIgcj0iMTA0IiBmaWxsPSIjMTkyZTJhIi8+CiAgICA8Y2lyY2xlIGN4PSIyMDIiIGN5PSIxMTYiIHI9IjgyIiBmaWxsPSJub25lIiBzdHJva2U9IiMzNTU0NGEiIHN0cm9rZS13aWR0aD0iNiIvPgogICAgPGNpcmNsZSBjeD0iMjAyIiBjeT0iMTE2IiByPSI1OCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMzU1NDRhIiBzdHJva2Utd2lkdGg9IjQiLz4KICAgIDxjaXJjbGUgY3g9IjIwMiIgY3k9IjExNiIgcj0iMzEiIGZpbGw9IiMxNTk0NWIiLz4KICAgIDxjaXJjbGUgY3g9IjIwMiIgY3k9IjExNiIgcj0iNiIgZmlsbD0iI2Y3ZWRjOCIvPgogICAgPHBhdGggZD0iTTM1MCA0M1YxNDJMMzA0IDE4MyIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZjdlZGM4IiBzdHJva2Utd2lkdGg9IjEyIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICAgIDxyZWN0IHg9IjI3IiB5PSIyMjUiIHdpZHRoPSIxMDIiIGhlaWdodD0iMTkiIHJ4PSIzIiBmaWxsPSIjMjBiOGQyIi8+CiAgICA8Y2lyY2xlIGN4PSIzMzAiIGN5PSIyMzQiIHI9IjkiIGZpbGw9IiNmOGQ2NGMiLz4KICAgIDxjaXJjbGUgY3g9IjM2NSIgY3k9IjIzNCIgcj0iOSIgZmlsbD0iIzE1OTQ1YiIvPgogIDwvZz4KICA8cGF0aCBkPSJNODkgODhsMTUtMzIgMTYgMzIgMzMgMTEtMzMgMTAtMTYgMzMtMTUtMzMtMzMtMTB6IiBmaWxsPSIjZjhkNjRjIi8+Cjwvc3ZnPgo="}</script>
                 <div class="desk-hotspots">
                     <button id="desk-work-hotspot" type="button" class="scene-hotspot" aria-label="Explore selected work on the monitor" onclick="window.openView('work-view')"><span>Explore my work ↗</span></button>
                     <button id="desk-about-hotspot" type="button" class="scene-hotspot" aria-label="About Francine — the character mug" onclick="window.openView('about-view')"><span>A little about me ↗</span></button>
-                    <button id="desk-resume-hotspot" type="button" class="scene-hotspot" aria-label="View contact — the desk printer" onclick="window.activateContactPrinter()"><span>View contact ↗</span></button>
-                    <button id="desk-contact-paper-hotspot" type="button" class="scene-hotspot" aria-label="Open printed contact paper" aria-haspopup="dialog" aria-controls="contact-paper-modal" aria-expanded="false" onclick="window.openContactPaper()" hidden></button>
+                    <button id="desk-resume-hotspot" type="button" class="scene-hotspot" aria-label="Open contact on the computer" onclick="window.activateContactPrinter()"><span>View contact ↗</span></button>
+                    <button id="desk-contact-paper-hotspot" type="button" class="scene-hotspot" aria-label="Open contact window" aria-haspopup="dialog" aria-controls="contact-paper-modal" aria-expanded="false" onclick="window.openContactPaper()" hidden></button>
                     <button id="desk-services-hotspot" type="button" class="scene-hotspot" aria-label="Services — play football with the desk mascot" aria-haspopup="dialog" aria-controls="services-game" aria-expanded="false" onclick="window.openServices(this)"><span>// services · play the cup ↗</span></button>
                 </div>
             </div>
@@ -1251,22 +1280,7 @@
         </button>
         
         <div class="w-full max-w-md relative mt-20">
-            <!-- The 3D Machine Body -->
-            <div class="printer-machine relative z-20 w-full h-32 md:h-40 rounded-t-3xl flex flex-col items-center justify-end pb-8">
-                <!-- Machine Details (Lights, Label) -->
-                <div class="absolute top-4 flex gap-2">
-                    <div class="w-2 h-2 rounded-full bg-blue-400"></div>
-                    <div class="w-2 h-2 rounded-full bg-blue-400"></div>
-                    <div class="w-2 h-2 rounded-full bg-blue-400"></div>
-                </div>
-                <div class="bg-pink-300 text-pink-900 font-oswald font-black tracking-widest text-xs px-4 py-1 rounded shadow-sm mb-4 border border-pink-400">
-                    VIEW CONTACT
-                </div>
-                <!-- The Slot -->
-                <div class="w-[80%] h-4 printer-slot rounded-full relative overflow-hidden">
-                    <div class="absolute inset-0 bg-gradient-to-b from-black/80 to-transparent"></div>
-                </div>
-            </div>
+            <div class="contact-window-title">FRANS.WORKSPACE / CONTACT</div>
 
             <!-- The Paper Container (Hidden Overflow to clip the rolling paper) -->
             <div class="relative z-10 w-[75%] mx-auto paper-container -mt-4 pt-4">
@@ -1313,9 +1327,9 @@
     <!-- ========================================== -->
     <!-- DETAILED PROJECT VIEW (Case Studies) -->
     <!-- ========================================== -->
-    <dialog id="contact-paper-modal" aria-label="Francine contact paper">
+    <dialog id="contact-paper-modal" aria-label="Francine contact window">
         <div class="contact-popup-sheet">
-            <button type="button" class="contact-popup-close" aria-label="Close contact paper" onclick="window.closeContactPaper()" autofocus>×</button>
+            <button type="button" class="contact-popup-close" aria-label="Close contact window" onclick="window.closeContactPaper()" autofocus>×</button>
             <div id="contact-popup-content"></div>
             <span class="contact-popup-sheen" aria-hidden="true"></span>
         </div>
@@ -2453,186 +2467,61 @@
         }
 
         function createContactPrinter() {
-            const host=document.getElementById('desk-stage'),view=document.getElementById('printer-view'),paper=document.getElementById('resume-paper');
-            const fallback=document.getElementById('fallback-receipt'),reduced=window.matchMedia('(prefers-reduced-motion: reduce)');
-            const paperButton=document.getElementById('desk-contact-paper-hotspot'),popup=document.getElementById('contact-paper-modal');
-            const popupSheet=popup.querySelector('.contact-popup-sheet'),popupContent=document.getElementById('contact-popup-content'),paperHome=paper.parentElement;
-            const aboutLink=document.getElementById('about-contact-link');
-            const triggers=[document.getElementById('desk-resume-hotspot'),document.querySelector('.desk-nav a[href="#printer-view"]'),paperButton].filter(Boolean);
-            let popupPhase='closed',popupEpoch=0,popupAnimation=null,popupEffects=[],popupReturn=null,popupHeld=false,heldBeforePopup=false;
-            let popupOrigin=paperButton,popupView=document.getElementById('main-portfolio-view');
-            let held=false;
-            const feedDelay=520,feedDuration=680,retractDuration=560,paperClickThreshold=.04;
-            let previewFrame=0,previewFeed=0,previewTarget=0,previewFrom=0,previewStart=0,previewDelay=0,previewDuration=0;
-            let sheetFrame=0,sheetStart=0,opened=false,fallbackLayout=null;
-            let soundContext=null,soundBuffer=null,soundLoading=null,soundSource=null,soundRequest=0;
-            const triggerSound='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';
+            const view=document.getElementById('printer-view'),paper=document.getElementById('resume-paper');
+            const popup=document.getElementById('contact-paper-modal'),sheet=popup.querySelector('.contact-popup-sheet');
+            const home=paper.parentElement,content=document.getElementById('contact-popup-content');
+            const aboutLink=document.getElementById('about-contact-link'),deskButton=document.getElementById('desk-resume-hotspot');
+            const reduced=matchMedia('(prefers-reduced-motion: reduce)');
+            let animation=null,epoch=0,returnTarget=null,origin=deskButton,closing=false,timer=0;
             const motion=()=>isInteractiveMode&&!reduced.matches;
-            const ease=value=>value*value*(3-2*value);
-            function prepareSound() {
-                if(soundContext)return soundContext;
-                try {
-                    const Context=window.AudioContext||window.webkitAudioContext;if(!Context)return null;
-                    soundContext=new Context();
-                    const bytes=Uint8Array.from(atob(triggerSound),character=>character.charCodeAt(0));
-                    soundLoading=soundContext.decodeAudioData(bytes.buffer).then(buffer=>soundBuffer=buffer).catch(()=>null);
-                    return soundContext;
-                } catch (_) { return null; }
+            function cancel(){epoch++;animation?.cancel();animation=null;clearTimeout(timer);timer=0;}
+            function restore(focus=true){
+                cancel();closing=false;popup.close();popup.removeAttribute('data-phase');
+                document.body.classList.remove('contact-popup-open');home.append(paper);paper.inert=true;paper.style.transform='none';
+                origin?.setAttribute('aria-expanded','false');
+                window.deskExperience?.setOverlay(document.getElementById('services-game').open);
+                if(focus&&returnTarget?.isConnected&&returnTarget.getClientRects().length)returnTarget.focus({preventScroll:true});
             }
-            function unlockSound(event) {
-                if(!event.isTrusted)return;
-                if(!popup.open&&event.type==='pointerdown'&&held&&!triggers.some(trigger=>trigger.contains(event.target))){held=false;updatePreview();}
-                const context=prepareSound();if(context?.state==='suspended')context.resume().catch(()=>{});
+            function originTransform(){
+                const from=(origin===deskButton?document.getElementById('desk-work-hotspot'):origin).getBoundingClientRect(),to=popup.getBoundingClientRect();
+                return `translate(${from.left+from.width/2-to.left-to.width/2}px,${from.top+from.height/2-to.top-to.height/2}px) scale(${Math.max(.15,Math.min(.9,from.width/to.width))},${Math.max(.15,Math.min(.9,from.height/to.height))})`;
             }
-            // Browsers unlock audio after a real click, tap, or key press.
-            document.addEventListener('pointerdown',unlockSound,{capture:true,passive:true});
-            document.addEventListener('keydown',unlockSound,{capture:true});
-            function playSound() {
-                if(!soundContext&&!navigator.userActivation?.hasBeenActive)return;
-                const context=prepareSound();if(!context)return;
-                if(context.state!=='running'&&!navigator.userActivation?.isActive)return;
-                const request=++soundRequest;
-                const ready=context.state==='running'?Promise.resolve():context.resume();
-                Promise.all([ready,soundBuffer?Promise.resolve(soundBuffer):soundLoading]).then(([,buffer])=>{
-                    if(!buffer||request!==soundRequest||context.state!=='running')return;
-                    if(soundSource){try{soundSource.stop();}catch(_){}soundSource.disconnect();}
-                    const source=context.createBufferSource(),gain=context.createGain();
-                    source.buffer=buffer;gain.gain.value=.95;source.connect(gain);gain.connect(context.destination);
-                    soundSource=source;source.start();
-                    source.onended=()=>{source.disconnect();gain.disconnect();if(soundSource===source)soundSource=null;};
-                }).catch(()=>{});
+            function closePopup(immediate=false){
+                if(!popup.open){cancel();return;}
+                if(immediate||!motion()){restore(!immediate);return;}
+                if(closing)return;
+                cancel();closing=true;const ticket=epoch;popup.dataset.phase='closing';
+                animation=sheet.animate([{transform:'none',opacity:1},{transform:originTransform(),opacity:0}],{duration:240,easing:'ease-in',fill:'both'});
+                animation.finished.then(()=>{if(ticket===epoch)restore();}).catch(()=>{});
             }
-            function stopSound() {
-                soundRequest++;if(soundSource){try{soundSource.stop();}catch(_){}soundSource.disconnect();soundSource=null;}
-            }
-            function drawPreview(value) {
-                previewFeed=value;
-                fallback.setAttribute('transform',`translate(0,${(-154*(1-value)).toFixed(3)})`);
-                fallbackLayout?.(value);window.deskExperience?.setPaper(value);
-            }
-            function animatePreview(now) {
-                previewFrame=0;
-                const progress=Math.min(1,Math.max(0,(now-previewStart-previewDelay)/previewDuration));
-                drawPreview(previewFrom+(previewTarget-previewFrom)*ease(progress));
-                if(progress<1)previewFrame=requestAnimationFrame(animatePreview);
-            }
-            function setPreview(show) {
-                const target=show?1:0;if(target===previewTarget)return;
-                previewTarget=target;host.classList.toggle('printer-preview',show);
-                if(previewFrame)cancelAnimationFrame(previewFrame);previewFrame=0;
-                if(!motion()){drawPreview(target);return;}
-                previewFrom=previewFeed;previewStart=performance.now();
-                previewDelay=show&&previewFeed<.01?feedDelay:0;
-                previewDuration=Math.max(160,(show?feedDuration:retractDuration)*Math.abs(target-previewFeed));
-                previewFrame=requestAnimationFrame(animatePreview);
-            }
-            function updatePreview() {
-                if(!document.getElementById('main-portfolio-view').classList.contains('active'))return;
-                setPreview(popupHeld||held);
-            }
-            function drawSheet(value) {
-                paper.style.transform=`translate3d(0,${(-100*(1-value)).toFixed(3)}%,0) rotateX(${(-6*Math.sin(value*Math.PI)).toFixed(3)}deg)`;
-                view.style.setProperty('--contact-feed',value.toFixed(4));
-                if(value===1){paper.classList.add('printed');paper.inert=false;view.setAttribute('aria-busy','false');view.dataset.printing='false';}
-            }
-            function animateSheet(now) {
-                sheetFrame=0;if(!opened)return;
-                const progress=Math.min(1,Math.max(0,(now-sheetStart-feedDelay)/feedDuration));
-                drawSheet(ease(progress));
-                if(progress<1)sheetFrame=requestAnimationFrame(animateSheet);
-            }
-            function resetPreview() {
-                if(previewFrame)cancelAnimationFrame(previewFrame);previewFrame=0;
-                held=false;previewTarget=0;host.classList.remove('printer-preview');drawPreview(0);
-            }
-            function leave() {
-                closePopup(true);
-                opened=false;if(sheetFrame)cancelAnimationFrame(sheetFrame);sheetFrame=0;
-                paper.classList.remove('printed');paper.inert=true;drawSheet(0);
-                view.setAttribute('aria-busy','false');view.dataset.printing='false';resetPreview();stopSound();
-            }
-            function enter() {
-                if(opened)return;
-                closePopup(true);
-                opened=true;resetPreview();paper.classList.remove('printed');paper.inert=true;drawSheet(0);
-                view.setAttribute('aria-busy','true');view.dataset.printing='true';sheetStart=performance.now();
-                if(motion())sheetFrame=requestAnimationFrame(animateSheet);else drawSheet(1);
-            }
-            function setMotion() {
-                if(motion())return;
-                if(popupPhase==='closing')finishPopupClose();else if(popup.open){popupEpoch++;popupAnimation?.cancel();popupAnimation=null;popupEffects.forEach(animation=>animation.cancel());popupEffects=[];popupPhase='open';popup.dataset.phase='open';}
-                if(previewFrame)cancelAnimationFrame(previewFrame);previewFrame=0;drawPreview(previewTarget);
-                if(sheetFrame)cancelAnimationFrame(sheetFrame);sheetFrame=0;if(opened)drawSheet(1);
-            }
-            function activate() {
-                if(!document.getElementById('main-portfolio-view').classList.contains('active')||popup.open)return;
-                playSound();
-                held=!held;updatePreview();
-            }
-            function placePaper(points,value) {
-                paperButton.hidden=value<=paperClickThreshold;
-                if(paperButton.hidden)return;
-                const left=Math.min(...points.map(point=>point.x)),top=Math.min(...points.map(point=>point.y));
-                const width=Math.max(1,Math.max(...points.map(point=>point.x))-left),height=Math.max(1,Math.max(...points.map(point=>point.y))-top);
-                Object.assign(paperButton.style,{left:`${left}px`,top:`${top}px`,width:`${width}px`,height:`${height}px`,clipPath:`polygon(${points.map(point=>`${((point.x-left)/width*100).toFixed(3)}% ${((point.y-top)/height*100).toFixed(3)}%`).join(',')})`});
-            }
-            function originTransform() {
-                const from=popupOrigin.getBoundingClientRect(),to=popup.getBoundingClientRect();
-                const x=from.left+from.width/2-to.left-to.width/2,y=from.top+Math.min(from.height,innerHeight-from.top)/2-to.top-to.height/2;
-                const sx=Math.max(.22,Math.min(.86,from.width/to.width)),sy=Math.max(.18,Math.min(.72,from.height/to.height));
-                return `translate3d(${x.toFixed(2)}px,${y.toFixed(2)}px,0) scale(${sx.toFixed(4)},${sy.toFixed(4)})`;
-            }
-            function finishPopupClose(restoreFocus=true) {
-                popupEpoch++;popupAnimation?.cancel();popupAnimation=null;popupEffects.forEach(animation=>animation.cancel());popupEffects=[];
-                popupPhase='closed';popupHeld=false;held=heldBeforePopup;
-                popup.close();popup.removeAttribute('data-phase');document.body.classList.remove('contact-popup-open');
-                paperHome.append(paper);paper.inert=true;paper.classList.remove('printed');paper.style.transform='translate3d(0,-100%,0)';
-                popupOrigin.setAttribute('aria-expanded','false');window.deskExperience?.setOverlay(document.getElementById('services-game').open);
-                if(restoreFocus&&(popupView.classList.contains('active')||popupView===document.getElementById('services-game')&&popupView.open)){
-                    const target=popupReturn?.isConnected&&!popupReturn.hidden?popupReturn:popupOrigin;target.focus({preventScroll:true});updatePreview();
-                }
-            }
-            function closePopup(immediate=false) {
-                if(popupPhase==='closed')return;
-                if(immediate){finishPopupClose(false);return;}
-                if(popupPhase==='closing')return;
-                const current=getComputedStyle(popupSheet),from=current.transform,opacity=current.opacity,target=originTransform();
-                popupEpoch++;const epoch=popupEpoch;popupAnimation?.cancel();popupPhase='closing';popup.dataset.phase='closing';
-                if(!motion()){finishPopupClose();return;}
-                popupAnimation=popupSheet.animate([{transform:from,opacity},{transform:target,opacity:0}],{duration:260,easing:'cubic-bezier(.4,0,.6,1)',fill:'both'});
-                popupAnimation.finished.then(()=>{if(epoch===popupEpoch&&popupPhase==='closing')finishPopupClose();}).catch(()=>{});
-            }
-            function openPopup(trigger=paperButton) {
+            function openPopup(trigger=deskButton){
+                const fromHome=document.getElementById('main-portfolio-view').classList.contains('active')&&(trigger===deskButton||trigger===document.getElementById('desk-contact-paper-hotspot'));
                 const fromAbout=trigger===aboutLink&&document.getElementById('about-view').classList.contains('active');
-                const fromPaper=document.getElementById('main-portfolio-view').classList.contains('active')&&previewFeed>paperClickThreshold;
-                const cupState=trigger===document.getElementById('cup-contact-reward')?window.servicesCup?.snapshot():null;
-                const fromCup=cupState?.open&&!cupState.closing&&cupState.stage==='match'&&cupState.match?.phase==='finished'&&cupState.match.winner===0;
-                if((!fromAbout&&!fromPaper&&!fromCup)||popupPhase==='opening'||popupPhase==='open')return;
-                const reopening=popup.open,current=reopening?getComputedStyle(popupSheet):null;
-                const fromTransform=current?.transform,fromOpacity=current?.opacity;
-                popupEpoch++;const epoch=popupEpoch;popupAnimation?.cancel();popupEffects.forEach(animation=>animation.cancel());popupEffects=[];
-                if(!reopening){popupReturn=fromAbout?aboutLink:fromCup?trigger:document.activeElement;heldBeforePopup=held;popupOrigin=fromAbout?aboutLink:fromCup?trigger:paperButton;popupView=document.getElementById(fromAbout?'about-view':fromCup?'services-game':'main-portfolio-view');}
-                popupHeld=!fromAbout&&!fromCup;popupPhase='opening';popup.dataset.phase='opening';popupOrigin.setAttribute('aria-expanded','true');
-                updatePreview();
-                popupContent.append(paper);paper.inert=false;paper.classList.add('printed');paper.style.transform='none';
-                document.body.classList.add('contact-popup-open');if(!popup.open)popup.showModal();popupContent.scrollTop=0;
-                window.deskExperience?.setOverlay(true);if(!fromCup||!cupState.muted)playSound();
-                if(!motion()){popupPhase='open';popup.dataset.phase='open';return;}
-                const from=fromTransform||originTransform();
-                popupAnimation=popupSheet.animate([{transform:from,opacity:fromOpacity||.12},{transform:'translate3d(0,-7px,0) scale(1.008)',opacity:1,offset:.8},{transform:'none',opacity:1}],{duration:620,easing:'cubic-bezier(.22,.72,.18,1)',fill:'both'});
-                const stub=paper.querySelector('button[onclick="window.printResume()"]')?.parentElement;
-                if(stub){
-                    const seam=stub.offsetTop+paper.offsetTop-14;popupSheet.style.setProperty('--contact-seam',`${seam}px`);
-                    popupEffects.push(stub.animate([{transform:'translateY(18px)',opacity:.8},{transform:'translateY(-3px)',opacity:1,offset:.7},{transform:'translateY(0)',opacity:1}],{duration:520,delay:80,easing:'cubic-bezier(.22,.72,.18,1)',fill:'both'}));
-                    popupEffects.push(popup.querySelector('.contact-popup-sheen').animate([{opacity:0,transform:'scaleX(.8)'},{opacity:.85,transform:'scaleX(1)',offset:.4},{opacity:0,transform:'scaleX(.9)'}],{duration:440,delay:160,fill:'both',easing:'ease-in-out'}));
-                }
-                popupAnimation.finished.then(()=>{if(epoch!==popupEpoch||popupPhase!=='opening')return;popupPhase='open';popup.dataset.phase='open';popupAnimation.cancel();popupAnimation=null;popupEffects.forEach(animation=>animation.cancel());popupEffects=[];}).catch(()=>{});
+                const cup=trigger===document.getElementById('cup-contact-reward')?window.servicesCup?.snapshot():null;
+                const fromCup=cup?.open&&!cup.closing&&cup.stage==='match'&&cup.match?.phase==='finished'&&cup.match.winner===0;
+                if((!fromHome&&!fromAbout&&!fromCup)||popup.open&&!closing)return;
+                cancel();closing=false;returnTarget=trigger;origin=fromHome?deskButton:trigger;
+                content.append(paper);paper.inert=false;paper.classList.add('printed');paper.style.transform='none';
+                origin.setAttribute('aria-expanded','true');document.body.classList.add('contact-popup-open');
+                if(!popup.open)popup.showModal();content.scrollTop=0;window.deskExperience?.setOverlay(true);
+                if(!motion()){popup.dataset.phase='open';return;}
+                const ticket=epoch;popup.dataset.phase='opening';
+                animation=sheet.animate([{transform:originTransform(),opacity:0},{transform:'none',opacity:1}],{duration:480,easing:'cubic-bezier(.16,1,.3,1)',fill:'both'});
+                animation.finished.then(()=>{if(ticket!==epoch)return;animation.cancel();animation=null;popup.dataset.phase='open';}).catch(()=>{});
             }
+            function activate(){
+                if(!document.getElementById('main-portfolio-view').classList.contains('active')||popup.open)return;
+                cancel();
+                if(!motion()){openPopup(deskButton);return;}
+                window.playDeskScreenTransition();timer=setTimeout(()=>{timer=0;openPopup(deskButton);},450);
+            }
+            function enter(){closePopup(true);paper.inert=false;paper.style.transform='none';paper.classList.add('printed');view.setAttribute('aria-busy','false');view.dataset.printing='false';}
+            function leave(){closePopup(true);paper.inert=true;}
+            function setMotion(){if(motion())return;if(timer){clearTimeout(timer);timer=0;openPopup(deskButton);}if(popup.open){if(closing)restore();else{cancel();popup.dataset.phase='open';}}}
             popup.addEventListener('cancel',event=>{event.preventDefault();closePopup();});
-            popup.addEventListener('click',event=>{if(event.target===popup&&popupPhase==='open'&&event.detail<2)closePopup();});
-            reduced.addEventListener('change',setMotion);
-            paper.inert=true;drawPreview(0);drawSheet(0);
-            return {activate,enter,leave,setMotion,openPopup,closePopup,placePaper,attachFallback(layout){fallbackLayout=layout;layout(previewFeed);}};
+            popup.addEventListener('click',event=>{if(event.target===popup)closePopup();});
+            reduced.addEventListener('change',setMotion);paper.inert=true;
+            return {activate,enter,leave,setMotion,openPopup,closePopup,placePaper(){},attachFallback(layout){layout(0);}};
         }
 
         function setupDeskFallback() {
@@ -2641,88 +2530,136 @@
             const layout=()=>{if(document.getElementById('main-portfolio-view').classList.contains('scene-ready'))return;
                 const scale=Math.min(host.clientWidth/1000,host.clientHeight/670),x=(host.clientWidth-1000*scale)/2,y=(host.clientHeight-670*scale)/2;
                 for(const [id,bounds] of [['desk-work-hotspot',[354,140,284,216]],['desk-about-hotspot',[190,402,110,96]],['desk-resume-hotspot',[270,433,470,97]],['desk-services-hotspot',[752,399,91,102]]]){const button=document.getElementById(id);button.style.left=(x+bounds[0]*scale)+'px';button.style.top=(y+bounds[1]*scale)+'px';button.style.width=Math.max(44,bounds[2]*scale)+'px';button.style.height=Math.max(44,bounds[3]*scale)+'px';}
+                placeDeskScreen([[354,158],[638,158],[638,338],[354,338]].map(([px,py])=>({x:x+px*scale,y:y+py*scale})));
                 const matrix=document.getElementById('desk-fallback').getScreenCTM(),hostRect=host.getBoundingClientRect();
                 if(matrix)contactExperience?.placePaper([[371,492],[619,492],[639,645],[353,645]].map(([x,y])=>{const point=new DOMPoint(x,y-154*(1-feed)).matrixTransform(matrix);return {x:point.x-hostRect.left,y:point.y-hostRect.top};}),feed);
             };
-            new ResizeObserver(layout).observe(host);layout();
+            new ResizeObserver(layout).observe(host);window.addEventListener('resize',layout,{passive:true});window.visualViewport?.addEventListener('resize',layout,{passive:true});layout();
             contactExperience?.attachFallback(value=>{feed=value;layout();});
         }
         // One embedded artwork is shared by the 3D monitor and its SVG fallback.
         function createDeskScreenSource() {
             let portrait='';
             try { portrait=JSON.parse(document.getElementById('desk-screen-portrait')?.textContent || '{}').src || ''; } catch (_) {}
-            const panel=(x,y,w,h,fill='url(#panel-blue)')=>`<rect x="${x+5}" y="${y+7}" width="${w}" height="${h}" rx="9" fill="#111331"/><rect x="${x}" y="${y}" width="${w}" height="${h}" rx="9" fill="${fill}" stroke="#0e173f" stroke-width="5"/><path d="M${x+5} ${y+h-7}V${y+6}H${x+w-7}" fill="none" stroke="#b8bcff" stroke-width="4"/><path d="M${x+7} ${y+h-5}H${x+w-5}V${y+7}" fill="none" stroke="#282250" stroke-width="5"/>`;
+            const panel=(x,y,w,h,fill='url(#panel-blue)')=>`<rect x="${x+5}" y="${y+7}" width="${w}" height="${h}" rx="9" fill="#075948"/><rect x="${x}" y="${y}" width="${w}" height="${h}" rx="9" fill="${fill}" stroke="#124c43" stroke-width="5"/><path d="M${x+5} ${y+h-7}V${y+6}H${x+w-7}" fill="none" stroke="#a9f5d4" stroke-width="4"/><path d="M${x+7} ${y+h-5}H${x+w-5}V${y+7}" fill="none" stroke="#06483e" stroke-width="5"/>`;
             const portraitArt=/^data:image\/(webp|png|jpeg);base64,[A-Za-z0-9+/=]+$/.test(portrait)
                 ? `<image x="362" y="130" width="446" height="418" preserveAspectRatio="xMidYMid slice" href="${portrait}" clip-path="url(#portrait-clip)"/>`
                 : '<text x="585" y="375" text-anchor="middle" fill="#fff0cb" font-family="Georgia,serif" font-size="150" font-style="italic">fo.</text>';
             const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760">
                 <defs>
-                    <linearGradient id="panel-blue" x2="0" y2="1"><stop stop-color="#667ac0"/><stop offset=".18" stop-color="#424e9b"/><stop offset="1" stop-color="#282b68"/></linearGradient>
-                    <linearGradient id="purple-paper" x2="0" y2="1"><stop stop-color="#5c327e"/><stop offset="1" stop-color="#251b51"/></linearGradient>
+                    <linearGradient id="panel-blue" x2="0" y2="1"><stop stop-color="#32cab7"/><stop offset=".18" stop-color="#0e9b88"/><stop offset="1" stop-color="#08746c"/></linearGradient>
+                    <linearGradient id="purple-paper" x2="0" y2="1"><stop stop-color="#12a9cc"/><stop offset="1" stop-color="#066a8e"/></linearGradient>
                     <linearGradient id="can" x2="1" y2="0"><stop stop-color="#d57235"/><stop offset=".2" stop-color="#ffcc76"/><stop offset=".7" stop-color="#fff1c3"/><stop offset="1" stop-color="#d79c59"/></linearGradient>
                     <pattern id="screen-grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" fill="none" stroke="#768ac4" stroke-opacity=".16"/></pattern>
-                    <pattern id="scanlines" width="4" height="4" patternUnits="userSpaceOnUse"><path d="M0 0H4" stroke="#10152e" stroke-opacity=".12"/></pattern>
+                    <pattern id="portrait-dots" width="4" height="4" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r=".65" fill="#075747" fill-opacity=".22"/></pattern>
                     <clipPath id="screen-clip"><rect width="1200" height="760" rx="38"/></clipPath>
-                    <clipPath id="portrait-clip"><rect x="362" y="130" width="446" height="418" rx="3"/></clipPath>
+                    <clipPath id="portrait-clip"><rect x="362" y="130" width="446" height="418" rx="22"/></clipPath>
                 </defs>
-                <g clip-path="url(#screen-clip)" font-family="Arial,sans-serif">
-                    <rect width="1200" height="760" fill="#242152"/>
-                    <rect x="10" y="10" width="1180" height="740" rx="24" fill="#353765" stroke="#8aa5bb" stroke-width="6"/>
+                <g class="screen-dashboard" clip-path="url(#screen-clip)" font-family="Arial,sans-serif">
+                    <rect width="1200" height="760" fill="#ffdc45"/>
+                    <rect x="10" y="10" width="1180" height="740" rx="24" fill="#ed4c35" stroke="#f9f3cc" stroke-width="6"/>
                     <rect x="20" y="20" width="1160" height="720" rx="17" fill="url(#screen-grid)"/>
                     ${panel(26,26,1148,70)}
-                    <text x="49" y="72" font-size="31" font-weight="900" letter-spacing="2" fill="#171b49">FRANS.WORKSPACE</text>
-                    <text x="47" y="68" font-size="31" font-weight="900" letter-spacing="2" fill="#ffdb87">FRANS.WORKSPACE</text>
-                    <text x="1139" y="68" text-anchor="end" font-family="Courier New,monospace" font-size="19" font-weight="700" fill="#f6efdb">A LITTLE SPACE FOR BIG IDEAS</text>
-                    ${panel(26,118,214,149,'#de9555')}
-                    <g transform="rotate(-4 133 192)" text-anchor="middle" font-size="35" font-weight="900" fill="#442651">
+                    <text x="49" y="72" font-size="31" font-weight="900" letter-spacing="2" fill="#7b241e">FRANS.WORKSPACE</text>
+                    <text x="47" y="68" font-size="31" font-weight="900" letter-spacing="2" fill="#ffec49">FRANS.WORKSPACE</text>
+                    <text x="1139" y="68" text-anchor="end" font-family="Courier New,monospace" font-size="19" font-weight="700" fill="#fff9dc">A LITTLE SPACE FOR BIG IDEAS</text>
+                    ${panel(26,118,214,149,'#f85a39')}
+                    <g transform="rotate(-4 133 192)" text-anchor="middle" font-size="35" font-weight="900" fill="#fff2c5">
                         <text x="133" y="163">THINK.</text><text x="133" y="204">MAKE.</text><text x="133" y="245">PLAY.</text>
                     </g>
-                    ${panel(26,285,214,183,'#9d83bd')}
-                    <g stroke="#2e2755" stroke-width="3">
-                        <rect x="41" y="303" width="54" height="99" fill="#f5c676"/><rect x="106" y="303" width="54" height="99" fill="#f07e67"/><rect x="171" y="303" width="54" height="99" fill="#d5c7ef"/>
+                    ${panel(26,285,214,183,'#27aa72')}
+                    <g stroke="#14604a" stroke-width="3">
+                        <rect x="41" y="303" width="54" height="99" fill="#ffe34b"/><rect x="106" y="303" width="54" height="99" fill="#f14b37"/><rect x="171" y="303" width="54" height="99" fill="#6fd6da"/>
                     </g>
-                    <g fill="#34264b" text-anchor="middle" font-family="Georgia,serif" font-size="32" font-weight="700"><text x="68" y="367">Aa</text><text x="133" y="367">fo.</text><text x="198" y="367">&amp;</text></g>
-                    <g fill="#34264b"><path d="M45 313H91M110 313H156M175 313H221" stroke="#34264b" stroke-width="5" stroke-dasharray="6 5"/></g>
-                    <text x="133" y="441" text-anchor="middle" font-size="15" font-weight="800" letter-spacing="1" fill="#211d45">TYPE + COLOR + PLAY</text>
+                    <g fill="#183f37" text-anchor="middle" font-family="Georgia,serif" font-size="32" font-weight="700"><text x="68" y="367">Aa</text><text x="133" y="367">fo.</text><text x="198" y="367">&amp;</text></g>
+                    <g fill="#183f37"><path d="M45 313H91M110 313H156M175 313H221" stroke="#183f37" stroke-width="5" stroke-dasharray="6 5"/></g>
+                    <text x="133" y="441" text-anchor="middle" font-size="15" font-weight="800" letter-spacing="1" fill="#fff2c5">TYPE + COLOR + PLAY</text>
                     ${panel(26,488,214,168,'#f4ead0')}
                     <circle cx="49" cy="510" r="9" fill="#eb775b" stroke="#a64f52" stroke-width="3"/>
-                    <g transform="rotate(-3 134 570)" font-family="Georgia,serif" font-size="24" font-style="italic" fill="#3a2c52" text-anchor="middle">
+                    <g transform="rotate(-3 134 570)" font-family="Georgia,serif" font-size="24" font-style="italic" fill="#164f44" text-anchor="middle">
                         <text x="134" y="539">Good ideas start</text><text x="134" y="575">with a little</text><text x="134" y="611">curiosity.</text>
                     </g>
                     ${panel(262,118,646,448,'url(#purple-paper)')}
-                    <g fill="#ffdb87" stroke="#251b51" stroke-width="3"><path d="M314 178L322 203L347 211L322 219L314 244L306 219L281 211L306 203Z"/><path d="M852 388L860 413L885 421L860 429L852 454L844 429L819 421L844 413Z"/></g>
+                    <g fill="#ffec49" stroke="#066a8e" stroke-width="3"><path d="M314 178L322 203L347 211L322 219L314 244L306 219L281 211L306 203Z"/><path d="M852 388L860 413L885 421L860 429L852 454L844 429L819 421L844 413Z"/></g>
+                    <rect x="344" y="121" width="480" height="432" rx="32" fill="#fff9d9" stroke="#086b52" stroke-width="10"/>
+                    <rect x="354" y="129" width="460" height="414" rx="25" fill="#50d6cc"/>
                     ${portraitArt}
-                    <rect x="275" y="519" width="620" height="32" fill="#26204a" fill-opacity=".9"/>
-                    <text x="585" y="541" text-anchor="middle" fill="#ffdf95" font-family="Courier New,monospace" font-size="18" font-weight="700" letter-spacing="1">FRANCINE OMADLAO / VISUAL DESIGNER</text>
+                    <rect x="362" y="130" width="446" height="418" fill="url(#portrait-dots)" clip-path="url(#portrait-clip)"/>
+                    <path d="M350 169V139H382M786 139H814V169M350 504V536H382M786 536H814V504" fill="none" stroke="#d1ffad" stroke-width="7"/>
+                    <rect x="275" y="519" width="620" height="32" fill="#d6402f" fill-opacity=".9"/>
+                    <text x="585" y="541" text-anchor="middle" fill="#fff4d4" font-family="Courier New,monospace" font-size="18" font-weight="700" letter-spacing="1">FRANCINE OMADLAO / VISUAL DESIGNER</text>
                     ${panel(262,585,646,71,'#f4ead0')}
-                    <text x="585" y="632" text-anchor="middle" font-family="Georgia,serif" font-size="31" font-style="italic" fill="#3b2c54">Make yourself at home.</text>
+                    <text x="585" y="632" text-anchor="middle" font-family="Georgia,serif" font-size="31" font-style="italic" fill="#0a6659">Make yourself at home.</text>
                     <g transform="translate(176 0)">
                     ${panel(754,118,244,127)}
                     <g fill="#fff0ce" text-anchor="middle" font-weight="800"><text x="876" y="160" font-size="27">HELLO FROM</text><text x="876" y="196" font-size="30" fill="#ffcf77">CEBU CITY!</text><text x="876" y="224" font-size="16" font-weight="400">a curious corner of the internet</text></g>
-                    ${panel(754,265,244,257,'#4a3a77')}
+                    ${panel(754,265,244,257,'#f5d84e')}
                     <g transform="rotate(7 877 396)">
-                        <path d="M791 302H961V478C961 503 791 503 791 478Z" fill="url(#can)" stroke="#3b2858" stroke-width="5"/>
-                        <ellipse cx="876" cy="302" rx="85" ry="19" fill="#dd7a42" stroke="#3b2858" stroke-width="5"/>
+                        <path d="M791 302H961V478C961 503 791 503 791 478Z" fill="url(#can)" stroke="#135b4c" stroke-width="5"/>
+                        <ellipse cx="876" cy="302" rx="85" ry="19" fill="#dd7a42" stroke="#135b4c" stroke-width="5"/>
                         <ellipse cx="876" cy="302" rx="68" ry="10" fill="#a6523d"/>
                         <rect x="791" y="351" width="170" height="104" fill="#fff1ca"/>
                         <text x="876" y="380" text-anchor="middle" font-family="Georgia,serif" font-size="24" font-style="italic" fill="#4d2c5c">Fresh</text>
-                        <text x="876" y="424" text-anchor="middle" font-size="42" font-weight="900" letter-spacing="-2" fill="#79366a">IDEAS</text>
-                        <text x="876" y="476" text-anchor="middle" font-size="17" font-weight="700" fill="#4c2c58">made with curiosity</text>
+                        <text x="876" y="424" text-anchor="middle" font-size="42" font-weight="900" letter-spacing="-2" fill="#d33730">IDEAS</text>
+                        <text x="876" y="476" text-anchor="middle" font-size="17" font-weight="700" fill="#135b4c">made with curiosity</text>
                     </g>
-                    ${panel(754,542,244,114,'#9670b0')}
+                    ${panel(754,542,244,114,'#de3e32')}
                     <g text-anchor="middle" fill="#fff0ce" font-weight="800"><text x="876" y="578" font-size="23">UI / UX + VISUAL</text><text x="876" y="612" font-size="22" fill="#ffdf86">DESIGN IN MOTION</text><text x="876" y="639" font-size="14" font-weight="400">interfaces, layouts &amp; little details</text></g></g>
-                    ${panel(26,679,1148,65,'#665082')}
-                    <rect x="42" y="690" width="966" height="43" rx="4" fill="#fff4d5" stroke="#35264f" stroke-width="3"/>
-                    <text x="525" y="720" text-anchor="middle" font-family="Courier New,monospace" font-size="27" font-weight="700" fill="#37264f">EXPLORE SELECTED WORK</text>
-                    <g transform="translate(176 0)"><rect x="848" y="690" width="136" height="43" rx="5" fill="#ffc771" stroke="#35264f" stroke-width="3"/>
-                    <path d="M887 711H946M932 699L946 711L932 723" fill="none" stroke="#37264f" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></g>
-                    <rect width="1200" height="760" fill="url(#scanlines)" pointer-events="none"/>
+                    ${panel(26,679,1148,65,'#1ba374')}
+                    <rect x="42" y="690" width="966" height="43" rx="4" fill="#fff4d5" stroke="#145e4b" stroke-width="3"/>
+                    <text x="525" y="720" text-anchor="middle" font-family="Courier New,monospace" font-size="27" font-weight="700" fill="#145e4b">EXPLORE SELECTED WORK</text>
+                    <g transform="translate(176 0)"><rect x="848" y="690" width="136" height="43" rx="5" fill="#ffc771" stroke="#145e4b" stroke-width="3"/>
+                    <path d="M887 711H946M932 699L946 711L932 723" fill="none" stroke="#145e4b" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></g>
+
+                </g>
+                <g class="screen-bubbles" fill="#bbfff5" fill-opacity=".25" stroke="#e7fff5" stroke-width="4">
+                    <circle cx="310" cy="590" r="90"/><circle cx="610" cy="420" r="140"/><circle cx="940" cy="630" r="70"/>
+                    <text x="600" y="370" text-anchor="middle" font-family="Arial,sans-serif" font-size="78" font-weight="900" fill="#ffe34b" stroke="#0a725f" stroke-width="2">FRANS.WORKSPACE</text>
                 </g>
             </svg>`;
             return 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);
         }
-        const deskScreenSource=createDeskScreenSource();
-        document.getElementById('fallback-screen-art').setAttribute('href',deskScreenSource);
+        const deskPolaroidPhotos={};
+        function deskPolaroidSource(index){
+            const saved=document.getElementById('desk-polaroid-data');
+            if(saved){try{Object.assign(deskPolaroidPhotos,JSON.parse(saved.textContent));}catch(_){}}
+            if(deskPolaroidPhotos['polaroid-'+index])return deskPolaroidPhotos['polaroid-'+index];
+            const colors=index===1?['#0f9a75','#75dbea','#ffe569']:['#ec4933','#f6ce4a','#168f77'];
+            return 'data:image/svg+xml,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="240" height="250"><rect width="240" height="250" fill="${colors[1]}"/><circle cx="180" cy="60" r="34" fill="${colors[2]}"/><path d="M0 200L80 90L150 180L205 130L240 180V250H0Z" fill="${colors[0]}"/></svg>`);
+        }
+        let deskScreenSource='';
+        function refreshDeskScreen(){
+            deskScreenSource=createDeskScreenSource();
+            document.getElementById('fallback-screen-art').setAttribute('href',deskScreenSource);
+            document.getElementById('desk-screen-live').innerHTML=decodeURIComponent(deskScreenSource.split(',')[1]);
+        }
+        window.playDeskScreenTransition=function(){
+            const host=document.getElementById('desk-stage');host.classList.remove('desk-boot');
+            if(!isInteractiveMode||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+            void host.offsetWidth;host.classList.add('desk-boot');
+        };
+        refreshDeskScreen();
+        for(let i=1;i<=2;i++)document.getElementById('fallback-polaroid-'+i).setAttribute('href',deskPolaroidSource(i));
+        // Drop deployment pictures in assets/desk; embedded artwork stays available offline.
+        for(const [name,target] of [['main-portrait.jpg','portrait'],['polaroid-1.jpg','polaroid-1'],['polaroid-2.jpg','polaroid-2']]){
+            fetch(new URL('assets/desk/'+name,document.baseURI)).then(response=>{if(!response.ok)throw new Error('optional photo');return response.blob();}).then(blob=>new Promise((resolve,reject)=>{if(!blob.type.startsWith('image/'))return reject();const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=reject;reader.readAsDataURL(blob);})).then(async src=>{
+                const picture=new Image();picture.src=src;await picture.decode();
+                if(target==='portrait'){document.getElementById('desk-screen-portrait').textContent=JSON.stringify({src});refreshDeskScreen();}
+                else {deskPolaroidPhotos[target]=src;document.getElementById('desk-polaroid-data').textContent=JSON.stringify(deskPolaroidPhotos);document.getElementById('fallback-'+target)?.setAttribute('href',src);window.deskExperience?.refreshPolaroids();}
+            }).catch(()=>{});
+        }
+
+
+        function placeDeskScreen(points){
+            const [p0,p1,p2,p3]=points;
+            const dx1=p1.x-p2.x,dx2=p3.x-p2.x,dy1=p1.y-p2.y,dy2=p3.y-p2.y;
+            const sx=p0.x-p1.x+p2.x-p3.x,sy=p0.y-p1.y+p2.y-p3.y,det=dx1*dy2-dx2*dy1;
+            if(Math.abs(det)<.001)return;
+            const g=(sx*dy2-dx2*sy)/det,h=(dx1*sy-sx*dy1)/det;
+            const a=p1.x-p0.x+g*p1.x,b=p3.x-p0.x+h*p3.x,c=p1.y-p0.y+g*p1.y,d=p3.y-p0.y+h*p3.y;
+            const live=document.getElementById('desk-screen-live');if(!live.hasAttribute('data-placed'))live.dataset.placed='true';
+            document.getElementById('desk-screen-live').style.transform=`matrix3d(${a/1200},${c/1200},0,${g/1200},${b/760},${d/760},0,${h/760},0,0,1,0,${p0.x},${p0.y},0,1)`;
+        }
 
         // All workstation geometry is original, procedural, and self-contained.
         function initCreativeDesk() {
@@ -2733,7 +2670,7 @@
             let renderer;
             try { renderer = new THREE.WebGLRenderer({canvas,alpha:true,antialias:true,powerPreference:'low-power'}); }
             catch (_) { return; }
-            renderer.setPixelRatio(Math.min(devicePixelRatio,1.65));
+            renderer.setPixelRatio(Math.min(devicePixelRatio,2));
             renderer.outputEncoding = THREE.sRGBEncoding;
             renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
             renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.22;
@@ -2747,8 +2684,8 @@
             const fill = new THREE.DirectionalLight(0xcfb9fb,.9);fill.position.set(6,4,-3);scene.add(fill);
             const glow = new THREE.PointLight(0xffd397,.7,12);glow.position.set(-2,3,5);scene.add(glow);
             const cream = new THREE.MeshStandardMaterial({color:0xf5e8cd,roughness:.48,metalness:.02});
-            const coral = new THREE.MeshStandardMaterial({color:0xff7150,roughness:.34,metalness:.025});
-            const violet = new THREE.MeshStandardMaterial({color:0x995ed5,roughness:.34});
+            const coral = new THREE.MeshStandardMaterial({color:0xc01822,roughness:.62,metalness:.025});
+            const violet = new THREE.MeshStandardMaterial({color:0x079b6e,roughness:.34});
             const yellow = new THREE.MeshStandardMaterial({color:0xffdc66,roughness:.65});
             const dark = new THREE.MeshStandardMaterial({color:0x302b36,roughness:.62});
             const white = new THREE.MeshStandardMaterial({color:0xfffbef,roughness:.45});
@@ -2771,36 +2708,54 @@
             }
             function rect(ctx,x,y,w,h,r,color) {ctx.fillStyle=color;ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath();ctx.fill();}
             function textPlane(w,h,texture) {return new THREE.Mesh(new THREE.PlaneGeometry(w,h),new THREE.MeshBasicMaterial({map:texture,transparent:true,toneMapped:false}));}
-            function screenImage() {
-                const texture=new THREE.TextureLoader().load(deskScreenSource,()=>kick());
-                texture.encoding=THREE.sRGBEncoding;texture.minFilter=THREE.LinearFilter;texture.magFilter=THREE.LinearFilter;texture.generateMipmaps=false;
-                texture.anisotropy=Math.min(renderer.capabilities.getMaxAnisotropy(),4);
-                return texture;
+            const tableGreen=new THREE.MeshStandardMaterial({color:0x118d58,roughness:.6});
+            const slab=roundBox(9.2,4.2,.22,.08,tableGreen);slab.rotation.x=-Math.PI/2;add(slab,0,-.13,.30);
+            add(roundBox(9.1,.35,.16,.03,coral),0,-.40,2.34);
+            for(const x of [-3.9,3.9])for(const z of [-1.25,1.8])add(roundBox(.26,1.1,.26,.025,cream),x,-.95,z);
+            const ground=new THREE.Mesh(new THREE.PlaneGeometry(30,30),new THREE.ShadowMaterial({opacity:.14}));ground.rotation.x=-Math.PI/2;ground.position.y=-1.53;ground.receiveShadow=true;scene.add(ground);
+            const tower=roundBox(4.45,.76,2.13,.06,cream);add(tower,0,.40,.05);
+            add(roundBox(1.6,.10,.04,.015,dark),-.62,.51,1.15);
+            add(roundBox(1.40,.29,.05,.025,cream),1.05,.47,1.15);
+            for(let i=0;i<15;i++)add(roundBox(.035,.27,.025,.006,dark),-1.95+i*.055,.32,1.15);
+            const labelTex=canvasTexture((ctx,w,h)=>{ctx.fillStyle='#ffe44c';ctx.fillRect(0,0,w,h);ctx.fillStyle='#0a5842';ctx.font='bold 54px Oswald,Arial';ctx.textAlign='center';ctx.fillText('VIEW CONTACT',w/2,80);},650,120);
+            add(textPlane(1.45,.27,labelTex),.10,.22,1.18);
+            add(roundBox(.17,.17,.07,.02,coral),1.98,.48,1.17);
+            const monitor=new THREE.Group();monitor.position.set(0,2.57,-.10);monitor.rotation.set(0,-.12,0);world.add(monitor);
+            add(roundBox(4.18,3.24,1.87,.10,cream),0,0,-.18,monitor);
+            add(roundBox(3.98,3.04,.16,.06,coral),0,.01,.82,monitor);
+            add(roundBox(3.76,2.60,.14,.08,cream),0,.13,.94,monitor);
+            add(roundBox(3.50,2.26,.08,.08,dark),0,.16,1.06,monitor);
+            const screen=textPlane(3.39,2.15,null);screen.material.color.setHex(0x087c96);add(screen,0,.16,1.108,monitor);
+            for(let i=0;i<10;i++)add(roundBox(.10,.045,.02,.007,dark),-.75+i*.14,-1.30,1.04,monitor);
+            add(roundBox(.19,.17,.05,.012,tableGreen),1.67,-1.28,1.05,monitor);
+            const stickyTex=canvasTexture((ctx,w,h)=>{ctx.fillStyle='#ffdc66';ctx.fillRect(0,0,w,h);ctx.fillStyle='#5f4836';ctx.textAlign='center';ctx.font='italic 86px "Instrument Serif",Georgia';ctx.fillText('Poke',w/2,152);ctx.fillText('around.',w/2,260);},512,380);
+            const sticky=textPlane(.69,.54,stickyTex);sticky.rotation.z=-.13;add(sticky,-1.71,1.43,1.15,monitor);
+            const polaroids=[];
+            function refreshPolaroids(){
+                for(const [index,item] of polaroids.entries()){
+                    const generation=++item.generation;
+                    new THREE.TextureLoader().load(deskPolaroidSource(index+1),texture=>{if(generation!==item.generation){texture.dispose();return;}texture.encoding=THREE.sRGBEncoding;texture.minFilter=THREE.LinearFilter;texture.generateMipmaps=false;
+                        const aspect=texture.image.width/texture.image.height,target=.55/.57;
+                        if(aspect>target){texture.repeat.x=target/aspect;texture.offset.x=(1-texture.repeat.x)/2;}else{texture.repeat.y=aspect/target;texture.offset.y=(1-texture.repeat.y)/2;}
+                        item.photo.material.map?.dispose();item.photo.material.map=texture;item.photo.material.needsUpdate=true;kick();});
+                    document.getElementById('fallback-polaroid-'+(index+1))?.setAttribute('href',deskPolaroidSource(index+1));
+                }
             }
-            // The tabletop is a horizontal slab beneath the upright workstation.
-            const slab=roundBox(9.2,3.6,.5,.28,cream);slab.rotation.x=-Math.PI/2;add(slab,0,-.26,.05);
-            const ground = new THREE.Mesh(new THREE.PlaneGeometry(30,30),new THREE.ShadowMaterial({opacity:.14}));ground.rotation.x=-Math.PI/2;ground.position.y=-.55;ground.receiveShadow=true;scene.add(ground);
-            const printer = roundBox(4.45,.79,2.13,.20,cream);add(printer,0,.44,.15);
-            const slot=roundBox(3.53,.12,.08,.05,dark);add(slot,0,.41,1.25);
-            const labelTex=canvasTexture((ctx,w,h)=>{ctx.fillStyle='#ffdf6a';ctx.fillRect(0,0,w,h);ctx.fillStyle='#3a2d32';ctx.font='bold 61px Oswald,Arial';ctx.textAlign='center';ctx.fillText('VIEW CONTACT',w/2,84);},650,120);
-            add(textPlane(1.7,.31,labelTex),0,.72,1.29);
-            for(let i=0;i<3;i++){const led=new THREE.Mesh(new THREE.SphereGeometry(.045,12,8),new THREE.MeshStandardMaterial({color:0xff8768,emissive:0xff7755,emissiveIntensity:.3}));add(led,-1.68+i*.17,.71,1.28);}
-            for(let i=0;i<6;i++)add(roundBox(.045,.25,.02,.012,new THREE.MeshStandardMaterial({color:0xcbbba8,roughness:.8})),1.70+i*.075,.48,1.255);
-            const stalk=roundBox(.88,.42,.58,.08,coral);add(stalk,0,1.03,-.25);
-            const foot=roundBox(1.80,.13,1.09,.08,coral);add(foot,0,.88,-.15);
-            const monitor = new THREE.Group();monitor.position.set(0,2.65,-.15);monitor.rotation.set(-.04,-.27,-.022);world.add(monitor);
-            add(roundBox(4.18,2.91,1.87,.36,coral),0,0,-.18,monitor);
-            add(roundBox(3.88,2.66,.21,.31,cream),-.04,0,.82,monitor);
-            add(roundBox(3.48,2.22,.14,.25,dark),-.04,.04,.99,monitor);
-            const screenTex=screenImage();const screen=textPlane(3.39,2.15,screenTex);add(screen,-.04,.04,1.074,monitor);
-            // The bezel covers the screen's sharp corners.
-            for(const [x,y] of [[-1.82,-1.16],[1.72,-1.16]]){const screw=new THREE.Mesh(new THREE.SphereGeometry(.027,12,8),dark);add(screw,x,y,.95,monitor);}
-            for(const [y,color] of [[.81,violet],[.10,yellow]]) {const dial=new THREE.Mesh(new THREE.CylinderGeometry(.18,.18,.12,32),color);dial.rotation.z=-Math.PI/2;add(dial,2.15,y,.18,monitor);}
-            for(let i=0;i<7;i++){const vent=roundBox(.055,.60,.04,.02,dark);vent.rotation.y=Math.PI/2;add(vent,2.14,-.60,-.49+i*.085,monitor);}
-            const stickyTex=canvasTexture((ctx,w,h)=>{ctx.fillStyle='#ffdc66';ctx.fillRect(0,0,w,h);ctx.fillStyle='#5f4836';ctx.textAlign='center';ctx.font='italic 43px "Instrument Serif",Georgia';ctx.fillText('Poke',w/2,76);ctx.fillText('around.',w/2,130);},256,190);
-            const sticky=textPlane(.77,.63,stickyTex);sticky.rotation.z=-.13;add(sticky,-1.69,1.29,1.105,monitor);sticky.castShadow=true;
-            const sideNote=canvasTexture((ctx,w,h)=>{ctx.fillStyle='#ffdf80';ctx.fillRect(0,0,w,h);ctx.fillStyle='#5f4836';ctx.textAlign='center';ctx.font='28px Arial';ctx.fillText('Poke',w/2,75);ctx.fillText('around.',w/2,120);ctx.font='43px Georgia';ctx.fillText('✳',w/2,178);},256,225);
-            const note=textPlane(.59,.74,sideNote);note.rotation.z=.13;add(note,1.78,-.93,1.14,monitor);
+            for(let i=0;i<2;i++){
+                const group=new THREE.Group();group.rotation.z=i===0?-.13:.15;add(group,1.69+i*.27,-.66-i*.40,1.27+i*.03,monitor);
+                add(textPlane(.67,.81,canvasTexture((ctx,w,h)=>{ctx.fillStyle='#fff7df';ctx.fillRect(0,0,w,h);},128,160)),0,0,0,group);
+                const photo=textPlane(.55,.57,null);add(photo,0,.055,.004,group);polaroids.push({photo,generation:0});
+            }
+            const keyboard=new THREE.Group();keyboard.rotation.x=-.14;add(keyboard,0,.10,1.85);
+            add(roundBox(4.5,.19,.86,.04,cream),0,0,0,keyboard);
+            const keyGeometry=roundBox(.23,.10,.12,.018,yellow).geometry,keyMatrix=new THREE.Object3D();
+            for(const material of [coral,tableGreen,yellow]){
+                const positions=[];
+                for(let row=0;row<4;row++)for(let col=0;col<15;col++)if((col===0||col===14?coral:row===3?tableGreen:yellow)===material)positions.push([-1.97+col*.28,.13,-.28+row*.18]);
+                const keys=new THREE.InstancedMesh(keyGeometry,material,positions.length);keys.castShadow=keys.receiveShadow=true;
+                positions.forEach((position,index)=>{keyMatrix.position.set(...position);keyMatrix.updateMatrix();keys.setMatrixAt(index,keyMatrix.matrix);});keyboard.add(keys);
+            }
+            add(roundBox(1.65,.12,.13,.015,tableGreen),0,.14,.27,keyboard);
             const mug=new THREE.Group();mug.position.set(-3.03,.59,.42);mug.rotation.y=.1;world.add(mug);
             const mugBody=new THREE.Mesh(new THREE.CylinderGeometry(.47,.42,1.12,64),violet);mugBody.castShadow=true;mugBody.receiveShadow=true;mug.add(mugBody);
             const rim=new THREE.Mesh(new THREE.TorusGeometry(.44,.055,12,64),violet);rim.rotation.x=Math.PI/2;add(rim,0,.56,0,mug);
@@ -2827,19 +2782,15 @@
             for(const [x,z] of [[-.12,.03],[.08,.15],[.12,-.11],[-.09,-.14]]) {const chip=new THREE.Mesh(new THREE.SphereGeometry(.037,8,8),coffee);add(chip,-2.45+x,.126,1.01+z);}
             function starMesh(material) {const shape=new THREE.Shape();shape.moveTo(0,.45);shape.bezierCurveTo(.07,.14,.13,.09,.43,0);shape.bezierCurveTo(.13,-.07,.07,-.14,0,-.45);shape.bezierCurveTo(-.07,-.14,-.13,-.07,-.43,0);shape.bezierCurveTo(-.13,.09,-.07,.14,0,.45);const geo=new THREE.ExtrudeGeometry(shape,{depth:.13,bevelEnabled:true,bevelThickness:.065,bevelSize:.05,bevelSegments:5,curveSegments:16});geo.center();const mesh=new THREE.Mesh(geo,material);mesh.castShadow=true;return mesh;}
             const stars=[add(starMesh(yellow),-2.84,3.25,-.1),add(starMesh(violet),2.98,1.73,.08)];stars[0].rotation.set(.18,-.1,.17);stars[1].rotation.set(.2,.3,-.14);
-            const receiptTex=canvasTexture((ctx,w,h)=>{ctx.fillStyle='#fffaf0';ctx.fillRect(0,0,w,h);ctx.fillStyle='#39312c';ctx.textAlign='center';ctx.font='italic 76px "Instrument Serif",Georgia';ctx.fillText('Frans.',w/2,120);ctx.font='bold 25px Oswald,Arial';ctx.fillText('UI/UX & VISUAL DESIGNER',w/2,175);ctx.strokeStyle='#baa99d';ctx.setLineDash([9,8]);ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(65,215);ctx.lineTo(w-65,215);ctx.stroke();ctx.font='23px Arial';ctx.fillText('Cebu City, Philippines',w/2,275);ctx.fillText('Clear ideas. Thoughtful design.',w/2,318);ctx.font='italic 45px Georgia';ctx.fillText('Let’s make something',w/2,414);ctx.fillText('good together.',w/2,468);ctx.font='bold 25px Arial';ctx.fillText('CLICK TO VIEW CONTACT  ↗',w/2,568);},620,650);
-            const receiptGeometry=new THREE.PlaneGeometry(2.50,2.13,8,40);
-            const receipt=new THREE.Mesh(receiptGeometry,new THREE.MeshStandardMaterial({map:receiptTex,side:THREE.DoubleSide,roughness:.96,metalness:0}));
-            const receiptPositions=receiptGeometry.attributes.position,receiptUVs=receiptGeometry.attributes.uv;
-            const receiptRows=Array.from({length:receiptPositions.count},(_,index)=>1-receiptUVs.getY(index));
-            receipt.rotation.x=-1.13;add(receipt,0,.395,1.295);receipt.visible=false;receipt.castShadow=true;receipt.receiveShadow=true;
             const convertedMaterials=new Set();scene.traverse(object=>{if(object.isMesh && object.material?.color && !object.material.map && !object.material.isShadowMaterial && !convertedMaterials.has(object.material)){object.material.color.convertSRGBToLinear();convertedMaterials.add(object.material);}});
-            let printValue=0,previousPrintValue=0,frame=0,active=true,interactive=true,overlayPaused=false,lastTime=0,pointerX=0,pointerY=0;
+            let frame=0,active=true,contextLost=false,interactive=true,overlayPaused=false,lastTime=0,pointerX=0,pointerY=0;
             const screenButton=document.getElementById('desk-work-hotspot'),mugButton=document.getElementById('desk-about-hotspot'),printerButton=document.getElementById('desk-resume-hotspot'),servicesButton=document.getElementById('desk-services-hotspot');
-            const rects=[{button:screenButton,mesh:monitor,min:new THREE.Vector3(-1.77,-1.13,1.08),max:new THREE.Vector3(1.69,1.20,1.08)},{button:mugButton,mesh:mug,min:new THREE.Vector3(-.47,-.55,.55),max:new THREE.Vector3(.77,.62,.55)},{button:printerButton,mesh:world,min:new THREE.Vector3(-2.18,.12,1.30),max:new THREE.Vector3(2.18,.83,1.30)},{button:servicesButton,mesh:servicesMascot,min:new THREE.Vector3(-.48,0,.38),max:new THREE.Vector3(.76,1.42,.38)}];
-            function projectButtons(){world.updateMatrixWorld(true);for(const item of rects){const a=item.min.clone(),b=item.max.clone();item.mesh.localToWorld(a);item.mesh.localToWorld(b);a.project(camera);b.project(camera);const left=(Math.min(a.x,b.x)+1)*host.clientWidth/2,top=(1-Math.max(a.y,b.y))*host.clientHeight/2;item.button.style.left=left+'px';item.button.style.top=top+'px';item.button.style.width=Math.max(44,Math.abs(b.x-a.x)*host.clientWidth/2)+'px';item.button.style.height=Math.max(44,Math.abs(b.y-a.y)*host.clientHeight/2)+'px';}
-                const length=2.13*printValue,z=.12*(1-Math.exp(-length*7));
-                contactExperience?.placePaper([[-1.25,0,0],[1.25,0,0],[1.25,-length,z],[-1.25,-length,z]].map(([x,y,z])=>{const point=new THREE.Vector3(x,y,z);receipt.localToWorld(point);point.project(camera);return {x:(point.x+1)*host.clientWidth/2,y:(1-point.y)*host.clientHeight/2};}),printValue);
+            const rects=[{button:screenButton,mesh:monitor,min:new THREE.Vector3(-1.70,-.92,1.12),max:new THREE.Vector3(1.70,1.24,1.12)},{button:mugButton,mesh:mug,min:new THREE.Vector3(-.47,-.55,.55),max:new THREE.Vector3(.77,.62,.55)},{button:printerButton,mesh:world,min:new THREE.Vector3(-2.18,.05,2.30),max:new THREE.Vector3(2.18,.70,1.30)},{button:servicesButton,mesh:servicesMascot,min:new THREE.Vector3(-.48,0,.38),max:new THREE.Vector3(.76,1.42,.38)}];
+            function projectButtons(){camera.updateMatrixWorld(true);world.updateMatrixWorld(true);for(const item of rects){const a=item.min.clone(),b=item.max.clone();item.mesh.localToWorld(a);item.mesh.localToWorld(b);a.project(camera);b.project(camera);const left=(Math.min(a.x,b.x)+1)*host.clientWidth/2,top=(1-Math.max(a.y,b.y))*host.clientHeight/2;item.button.style.left=left+'px';item.button.style.top=top+'px';item.button.style.width=Math.max(44,Math.abs(b.x-a.x)*host.clientWidth/2)+'px';item.button.style.height=Math.max(44,Math.abs(b.y-a.y)*host.clientHeight/2)+'px';}
+                const corners=[[-1.695,1.235],[1.695,1.235],[1.695,-.915],[-1.695,-.915]].map(([x,y])=>{
+                    const point=new THREE.Vector3(x,y,1.12);monitor.localToWorld(point);point.project(camera);return {x:(point.x+1)*host.clientWidth/2,y:(1-point.y)*host.clientHeight/2};
+                });
+                placeDeskScreen(corners);
             }
             function resize(){const narrow=innerWidth<768;
                 mug.position.x=narrow?-2.47:-3.03;
@@ -2847,42 +2798,33 @@
                 servicesMascot.position.x=narrow?2.54:3.03;
                 stars[0].position.x=narrow?-2.62:-2.84;stars[1].position.x=narrow?2.67:2.98;
                 if(narrow) pointerX=pointerY=0;
-                const w=host.clientWidth,h=host.clientHeight;renderer.setSize(w,h,false);camera.aspect=w/h;const distance=Math.max(11.5,9.4/(2*Math.tan(35*Math.PI/360)*camera.aspect));camera.position.set(0,3.5,distance);camera.lookAt(0,1.82,0);camera.updateProjectionMatrix();projectButtons();kick();}
-            function theme(){const isDark=document.documentElement.classList.contains('dark');ambient.intensity=isDark?.65:.95;key.intensity=isDark?1.55:2.1;fill.intensity=isDark?1.15:.9;renderer.toneMappingExposure=isDark?1.02:1.22;kick();}
-            function render(now=0){frame=0;if(!active || document.hidden)return;
+                const w=host.clientWidth,h=host.clientHeight;renderer.setPixelRatio(Math.min(devicePixelRatio||1,2,Math.sqrt(6000000/Math.max(1,w*h))));renderer.setSize(w,h,false);camera.aspect=w/h;const distance=Math.max(12.5,9.4/(2*Math.tan(35*Math.PI/360)*camera.aspect));camera.position.set(0,3.5,distance);camera.lookAt(0,1.45,0);camera.updateProjectionMatrix();projectButtons();kick();}
+            function theme(){const isDark=document.documentElement.classList.contains('dark');ambient.intensity=isDark?.65:.8;key.intensity=isDark?1.4:1.6;fill.intensity=isDark?.8:.7;renderer.toneMappingExposure=isDark?.9:1.02;kick();}
+            function render(now=0){frame=0;if(!active || contextLost || document.hidden)return;
                 const dt=Math.min((now-lastTime)/1000 || .016,.05);lastTime=now;
                 if(!overlayPaused){
                 world.rotation.y+=((interactive?pointerX*.075:0)-world.rotation.y)*.075;
                 world.rotation.x+=((interactive?pointerY*.028:0)-world.rotation.x)*.075;
-                monitor.rotation.y=-.27+(interactive?Math.sin(now*.0006)*.014:0);
+                monitor.rotation.y=-.12+(interactive?Math.sin(now*.0006)*.014:0);
                 servicesMascot.position.y=.1+(interactive&&servicesButton.matches(':hover,:focus-visible')?.055+Math.sin(now*.007)*.025:0);
                 stars.forEach((star,index)=>{star.position.y=(index===0?3.25:1.73)+(interactive?Math.sin(now*.0011+index*2)*.085:0);star.rotation.y=(index===0?-.1:.3)+(interactive?Math.sin(now*.0007+index)*.25:0);});
                 for(const pupil of pupils){pupil.mesh.position.x=pupil.x+(interactive?pointerX*.033:0);pupil.mesh.position.y=.115-(interactive?pointerY*.03:0);}
                 }
-                receipt.visible=printValue>.002;
-                if(receipt.visible){
-                    const speed=interactive?Math.min(1,Math.abs(printValue-previousPrintValue)/dt):0;
-                    for(let index=0;index<receiptPositions.count;index++){
-                        const row=receiptRows[index],length=2.13*printValue*row;
-                        receiptPositions.setY(index,-length);
-                        receiptPositions.setZ(index,.12*(1-Math.exp(-length*7))+.022*Math.sin(row*Math.PI)*speed*Math.sin(now*.012));
-                        // Reveal the printed area without stretching the lettering.
-                        receiptUVs.setY(index,1-row*printValue);
-                    }
-                    receiptPositions.needsUpdate=true;receiptUVs.needsUpdate=true;receiptGeometry.computeVertexNormals();
-                }
-                previousPrintValue=printValue;
                 projectButtons();renderer.render(scene,camera);if(interactive&&!overlayPaused)frame=requestAnimationFrame(render);
             }
-            function kick(){if(!frame && active && !document.hidden)frame=requestAnimationFrame(render);}
+            function kick(){if(!frame && active && !contextLost && !document.hidden)frame=requestAnimationFrame(render);}
             document.addEventListener('pointermove',event=>{if(!interactive||!active||overlayPaused||event.pointerType==='touch')return;pointerX=(event.clientX-innerWidth/2)/(innerWidth/2);pointerY=(event.clientY-innerHeight/2)/(innerHeight/2);kick();},{passive:true});
             document.addEventListener('pointerleave',()=>{pointerX=pointerY=0;kick();});
             document.addEventListener('visibilitychange',()=>{if(!document.hidden)kick();});
             window.addEventListener('resize',resize,{passive:true});
+            window.visualViewport?.addEventListener('resize',resize,{passive:true});
+            function watchPixelRatio(){const query=matchMedia(`(resolution: ${devicePixelRatio}dppx)`);query.addEventListener('change',()=>{resize();watchPixelRatio();},{once:true});}
+            watchPixelRatio();
             new ResizeObserver(resize).observe(host);
-            canvas.addEventListener('webglcontextlost',event=>{event.preventDefault();if(frame)cancelAnimationFrame(frame);frame=0;document.getElementById('main-portfolio-view').classList.remove('scene-ready');});
-            canvas.addEventListener('webglcontextrestored',()=>{document.getElementById('main-portfolio-view').classList.add('scene-ready');kick();});
-            window.deskExperience={setOverlay(enabled){overlayPaused=enabled;if(frame)cancelAnimationFrame(frame);frame=0;kick();},setPaper(value){printValue=Math.max(0,Math.min(1,value));kick();},setMotion(enabled){interactive=enabled;if(!enabled){pointerX=pointerY=0;world.rotation.set(0,0,0);if(frame)cancelAnimationFrame(frame);frame=0;}kick();},activate(enabled){active=enabled;printValue=previousPrintValue=0;if(!enabled&&frame){cancelAnimationFrame(frame);frame=0;}else kick();},theme,refreshText(){screenTex.dispose();screen.material.map=screenImage();kick();}};
+            canvas.addEventListener('webglcontextlost',event=>{event.preventDefault();contextLost=true;if(frame)cancelAnimationFrame(frame);frame=0;document.getElementById('main-portfolio-view').classList.remove('scene-ready');window.dispatchEvent(new Event('resize'));});
+            canvas.addEventListener('webglcontextrestored',()=>{contextLost=false;document.getElementById('main-portfolio-view').classList.add('scene-ready');resize();});
+            window.deskExperience={setOverlay(enabled){overlayPaused=enabled;if(frame)cancelAnimationFrame(frame);frame=0;kick();},setPaper(){},setMotion(enabled){interactive=enabled;if(!enabled){pointerX=pointerY=0;world.rotation.set(0,0,0);if(frame)cancelAnimationFrame(frame);frame=0;}kick();},activate(enabled){active=enabled;if(!enabled&&frame){cancelAnimationFrame(frame);frame=0;}else kick();},theme,refreshPolaroids,refreshText(){refreshDeskScreen();kick();}};
+            refreshPolaroids();
             resize();theme();document.getElementById('main-portfolio-view').classList.add('scene-ready');
             interactive = !document.body.classList.contains('motion-off');kick();
             // Draw again after the embedded fonts finish decoding.
@@ -4030,6 +3972,9 @@
             root.querySelector('#admin-modal').removeAttribute('open');root.querySelector('#project-lightbox').removeAttribute('open');
             root.querySelector('#admin-editor-view').hidden=true;root.querySelector('#admin-login-view').hidden=false;root.querySelector('#admin-preview-bar').hidden=true;
             root.querySelector('#main-portfolio-view').classList.remove('scene-ready');root.querySelector('#work-section').classList.remove('webgl-ready');
+            const screen=root.querySelector('#desk-screen-live');screen.replaceChildren();screen.removeAttribute('style');screen.removeAttribute('data-placed');
+            root.querySelector('#desk-stage').classList.remove('desk-boot');
+            for(const image of root.querySelectorAll('#fallback-screen-art,#fallback-polaroid-1,#fallback-polaroid-2'))image.removeAttribute('href');
             for(const view of root.querySelectorAll('.view-layer')){const home=view.id==='main-portfolio-view';view.classList.toggle('active',home);view.inert=!home;view.setAttribute('aria-hidden',String(!home));}
             for(const input of root.querySelectorAll('#admin-modal input')){input.removeAttribute('value');input.value='';}
             root.querySelector('#admin-form').replaceChildren();root.querySelector('#admin-user-label').textContent='';root.querySelector('#admin-login-error').hidden=true;root.querySelector('#admin-login-error').textContent='';
@@ -4052,6 +3997,7 @@
         initDB();
         setupDeskFallback();
         try { initCreativeDesk(); } catch (_) { document.getElementById('main-portfolio-view').classList.remove('scene-ready'); }
+        window.playDeskScreenTransition();
         if (!isInteractiveMode) { isInteractiveMode = true; window.toggleInteractiveMode(); }
         syncViews('main-portfolio-view', false);
         syncLampTheme();
