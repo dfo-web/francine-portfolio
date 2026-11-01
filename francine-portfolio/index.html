@@ -285,7 +285,7 @@
         .home-description { font:400 clamp(12px,1.65vh,16px)/1.5 Arial,sans-serif; margin:0 auto; max-width:530px; color:#655d58; }
         .dark .home-description { color:#cbc1c8; }
         .mobile-break { display:none; }
-        .home-availability { position:absolute; top:28px; left:32px; z-index:5; display:flex; align-items:center; gap:10px; font:500 11px Oswald,sans-serif; text-transform:uppercase; letter-spacing:.14em; }
+        .home-availability { position:absolute; bottom:25px; right:32px; z-index:5; display:flex; align-items:center; gap:10px; margin:0; font:500 11px Oswald,sans-serif; text-transform:uppercase; letter-spacing:.14em; }
         .home-availability > span { width:6px; height:6px; border-radius:50%; background:#977551; }
         .home-signature { position:absolute; top:56px; left:32px; z-index:5; font:italic 35px/1 "Instrument Serif",Georgia,serif; text-decoration:none; }
         .home-signature span { color:#ff6b4a; }
@@ -312,8 +312,6 @@
         #desk-work-hotspot { left:34%; top:21%; width:31%; height:39%; }
         #desk-about-hotspot { left:18%; top:59%; width:10%; height:18%; }
         #desk-resume-hotspot { left:28%; top:62%; width:46%; height:17%; }
-        .desk-caption { position:absolute; bottom:25px; right:32px; z-index:4; margin:0; color:#6a585f; font:400 13px "Instrument Serif",Georgia,serif; font-style:italic; }
-        .dark .desk-caption { color:#d7c7d0; }
         #main-portfolio-view .desk-nav { position:absolute; bottom:29px; left:32px; right:auto; padding:0; display:flex; flex-direction:column; align-items:flex-start; gap:4px; z-index:5; background:none; border:0; border-radius:0; box-shadow:none; color:inherit; text-shadow:none; filter:none; }
         #main-portfolio-view .desk-nav > a { display:block; font:400 18px/1.3 Arial,sans-serif; letter-spacing:0; text-transform:none; padding:7px 0; text-decoration:none; min-height:0; }
         #main-portfolio-view .desk-nav > a:hover { color:#a4361d; }
@@ -335,7 +333,7 @@
             #edit-hero-subtitle { font-size:11px; letter-spacing:.13em; margin-top:13px; }
             .home-description { font-size:12px; max-width:290px; }
             .mobile-break { display:block; }
-            .home-availability { top:23px; left:20px; font-size:9px; gap:7px; }
+            .home-availability { bottom:136px; right:20px; font-size:9px; gap:7px; }
             .home-signature { top:44px; left:20px; font-size:30px; }
 
             .desk-stage { top:28%; bottom:115px; width:600px; left:50%; transform:translateX(-50%); }
@@ -349,15 +347,17 @@
             #interactive-toggle { width:55px; height:26px; }
             #interactive-indicator { width:18px; height:18px; left:33px; }
             #interactive-text { font-size:11px; width:34px; }
-            .desk-caption { bottom:124px; right:0; width:100%; text-align:center; font-size:12px; }
         }
         @media (max-width:767px) and (max-height:700px) {
             #hero-type.home-intro { top:51px; }
             .home-hello { font-size:22px; }
             #edit-hero-name-1 { font-size:66px; }
             .desk-stage { top:27%; bottom:104px; }
-            .desk-caption { bottom:112px; }
+            .home-availability { bottom:128px; }
             #main-portfolio-view .desk-nav { bottom:10px; }
+        }
+        @media (max-width:767px) and (max-height:400px) {
+            .home-availability { bottom:25px; }
         }
         @media (min-width:768px) and (max-height:650px) {
             #hero-type.home-intro { top:12px; }
@@ -1034,7 +1034,6 @@
 
     <!-- HOME / A LITTLE CREATIVE WORKSTATION -->
     <main id="main-portfolio-view" class="view-layer active">
-        <div class="home-availability"><span></span>Open for full-time graveyard roles</div>
         <a class="home-signature" href="#about-view" aria-label="About Francine" onclick="window.openView('about-view'); return false;"><span id="nav-logo-default">fo<span>.</span></span><img id="nav-logo-img" alt="Portfolio logo" hidden></a>
 
         <section id="desk-hero" aria-label="Welcome to Francine’s creative desk">
@@ -1075,7 +1074,7 @@
                     <path d="M302 123q0-40 43-40h292q66 0 72 43v250q-5 37-47 43H342q-40 0-40-44z" fill="url(#case-coral)"/><rect x="322" y="108" width="347" height="281" rx="35" fill="#faedce"/><rect x="343" y="129" width="306" height="237" rx="24" fill="#302c33"/><rect x="354" y="140" width="284" height="216" rx="16" fill="#cdb8ef"/>
                     <rect x="371" y="176" width="250" height="145" rx="5" fill="#fffcf5"/><rect x="371" y="176" width="250" height="22" rx="5" fill="#f6eddf"/><circle cx="383" cy="187" r="3" fill="#ff6b4a"/><circle cx="393" cy="187" r="3" fill="#ffde59"/><circle cx="403" cy="187" r="3" fill="#9b5de5"/>
                     <text x="496" y="226" text-anchor="middle" font-size="12" font-family="Arial,sans-serif" fill="#726c64">HELLO THERE,</text><text x="496" y="252" text-anchor="middle" font-size="28" font-style="italic" font-family="Georgia,serif" fill="#242324">make yourself</text><text x="496" y="281" text-anchor="middle" font-size="28" font-style="italic" font-family="Georgia,serif" fill="#242324">at home.</text><text x="496" y="307" text-anchor="middle" font-size="12" font-family="Arial,sans-serif" fill="#8a331f">Explore selected work ↗</text>
-                    <path d="m305 96 65 6-8 57-65-9z" fill="#ffde59"/><path d="m652 311 46-3 6 55-46 7z" fill="#ffde59"/><circle cx="691" cy="160" r="12" fill="#9b5de5"/>
+                    <path d="m305 96 65 6-8 57-65-9z" fill="#ffde59"/><text x="333" y="121" text-anchor="middle" font-size="14" font-style="italic" font-family="Georgia,serif" fill="#5f4836">Poke<tspan x="333" dy="18">around.</tspan></text><path d="m652 311 46-3 6 55-46 7z" fill="#ffde59"/><text x="677" y="331" text-anchor="middle" font-size="11" font-family="Arial,sans-serif" fill="#5f4836">Poke<tspan x="677" dy="16">around.</tspan></text><circle cx="691" cy="160" r="12" fill="#9b5de5"/>
                     <rect x="195" y="402" width="75" height="96" rx="14" fill="#9b5de5"/><path d="M265 423q45-3 28 40-8 19-31 8" fill="none" stroke="#8b49cc" stroke-width="13"/><ellipse cx="232" cy="403" rx="35" ry="12" fill="#dcc2f4"/><ellipse cx="232" cy="403" rx="26" ry="7" fill="#594137"/><circle cx="219" cy="438" r="12" fill="#fffdf5"/><circle cx="246" cy="438" r="12" fill="#fffdf5"/><circle cx="222" cy="440" r="5" fill="#242324"/><circle cx="247" cy="440" r="5" fill="#242324"/><circle cx="236" cy="465" r="7" fill="#34233f"/>
                     <path d="m736 412 80-16 22 57-79 18z" fill="#ffde59"/><path d="m748 423 51-11m-48 24 36-8" stroke="#6c5533" stroke-width="3"/>
                     <path d="m741 283 13 31 31 12-31 12-13 31-13-31-31-12 31-12z" fill="#9b5de5"/><path d="m266 194 12 28 28 10-28 10-12 28-10-28-28-10 28-10z" fill="#ffde59"/>
@@ -1102,7 +1101,7 @@
                     <button id="desk-services-hotspot" type="button" class="scene-hotspot" aria-label="Services — play football with the desk mascot" aria-haspopup="dialog" aria-controls="services-game" aria-expanded="false" onclick="window.openServices(this)"><span>// services · play the cup ↗</span></button>
                 </div>
             </div>
-            <p id="desk-caption" class="desk-caption">Poke around. Make yourself at home.</p>
+            <p class="home-availability"><span></span>Open for full-time graveyard roles</p>
         </section>
         <nav aria-label="Main navigation" class="desk-nav">
             <div id="desk-logo" hidden>FO</div>
@@ -2737,9 +2736,9 @@
             for(const [x,y] of [[-1.82,-1.16],[1.72,-1.16]]){const screw=new THREE.Mesh(new THREE.SphereGeometry(.027,12,8),dark);add(screw,x,y,.95,monitor);}
             for(const [y,color] of [[.81,violet],[.10,yellow]]) {const dial=new THREE.Mesh(new THREE.CylinderGeometry(.18,.18,.12,32),color);dial.rotation.z=-Math.PI/2;add(dial,2.15,y,.18,monitor);}
             for(let i=0;i<7;i++){const vent=roundBox(.055,.60,.04,.02,dark);vent.rotation.y=Math.PI/2;add(vent,2.14,-.60,-.49+i*.085,monitor);}
-            const stickyTex=canvasTexture((ctx,w,h)=>{ctx.fillStyle='#ffdc66';ctx.fillRect(0,0,w,h);ctx.fillStyle='#5f4836';ctx.textAlign='center';ctx.font='italic 43px "Instrument Serif",Georgia';ctx.fillText('stay',w/2,76);ctx.fillText('curious.',w/2,130);},256,190);
+            const stickyTex=canvasTexture((ctx,w,h)=>{ctx.fillStyle='#ffdc66';ctx.fillRect(0,0,w,h);ctx.fillStyle='#5f4836';ctx.textAlign='center';ctx.font='italic 43px "Instrument Serif",Georgia';ctx.fillText('Poke',w/2,76);ctx.fillText('around.',w/2,130);},256,190);
             const sticky=textPlane(.77,.63,stickyTex);sticky.rotation.z=-.13;add(sticky,-1.69,1.29,1.105,monitor);sticky.castShadow=true;
-            const sideNote=canvasTexture((ctx,w,h)=>{ctx.fillStyle='#ffdf80';ctx.fillRect(0,0,w,h);ctx.fillStyle='#5f4836';ctx.textAlign='center';ctx.font='28px Arial';ctx.fillText('good ideas',w/2,75);ctx.fillText('take shape.',w/2,120);ctx.font='43px Georgia';ctx.fillText('✳',w/2,178);},256,225);
+            const sideNote=canvasTexture((ctx,w,h)=>{ctx.fillStyle='#ffdf80';ctx.fillRect(0,0,w,h);ctx.fillStyle='#5f4836';ctx.textAlign='center';ctx.font='28px Arial';ctx.fillText('Poke',w/2,75);ctx.fillText('around.',w/2,120);ctx.font='43px Georgia';ctx.fillText('✳',w/2,178);},256,225);
             const note=textPlane(.59,.74,sideNote);note.rotation.z=.13;add(note,1.78,-.93,1.14,monitor);
             const mug=new THREE.Group();mug.position.set(-3.03,.59,.42);mug.rotation.y=.1;world.add(mug);
             const mugBody=new THREE.Mesh(new THREE.CylinderGeometry(.47,.42,1.12,64),violet);mugBody.castShadow=true;mugBody.receiveShadow=true;mug.add(mugBody);
